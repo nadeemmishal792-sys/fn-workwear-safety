@@ -41,9 +41,78 @@ const scene=new T.Scene();scene.background=new T.Color(0x27312e);const camera=ne
 const group=new T.Group();scene.add(group);let activeType='coverall';const cloth=new T.MeshStandardMaterial({color:0x45534a,roughness:.88}),trim=new T.MeshStandardMaterial({color:0x222b26,roughness:.82}),seam=new T.MeshStandardMaterial({color:0x9ca99b,roughness:.9}),hi=new T.MeshStandardMaterial({color:0xd0e934,roughness:.65});
 function box(w,h,d,x,y,z,mat){const m=new T.Mesh(new T.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;group.add(m);return m;}
 function capsule(r,len,x,y,z,mat,rz=0){const m=new T.Mesh(new T.CapsuleGeometry(r,len,5,10),mat);m.position.set(x,y,z);m.rotation.z=rz;m.castShadow=true;group.add(m);return m;}
-function upper(type){const isVest=type==='vest',isShirt=type==='shirt';box(isVest?.66:.9,.92,.24,0,1.65,0,cloth);if(!isVest){capsule(.14,.68,-.62,1.68,0,cloth,.22);capsule(.14,.68,.62,1.68,0,cloth,-.22);box(.26,.08,.25,-.66,1.24,0,trim);box(.26,.08,.25,.66,1.24,0,trim);}box(.28,.12,.28,0,2.13,0,trim);box(.035,.88,.025,0,1.65,.14,seam);box(.25,.22,.035,-.24,1.83,.14,trim);box(.25,.22,.035,.24,1.83,.14,trim);if(!isShirt){box(.86,.07,.26,0,1.4,.02,hi);box(.86,.07,.26,0,1.25,.02,hi);}if(isVest){box(.08,.9,.035,-.3,1.65,.15,hi);box(.08,.9,.035,.3,1.65,.15,hi);}}
-function lower(){box(.34,.94,.23,-.22,.55,0,cloth);box(.34,.94,.23,.22,.55,0,cloth);box(.36,.12,.25,-.22,.12,.02,trim);box(.36,.12,.25,.22,.12,.02,trim);box(.34,.06,.24,-.22,.6,.13,hi);box(.34,.06,.24,.22,.6,.13,hi);}
-function build(type){group.clear();if(type==='trousers'){lower();box(.72,.1,.25,0,1.05,0,trim);}else{upper(type);if(type==='coverall'){lower();box(.88,.08,.26,0,1.3,.02,hi);box(.88,.07,.26,0,1.15,.02,hi);}}}
+function tapered(wTop,wBottom,h,x,y,z,mat,rz=0){const m=new T.Mesh(new T.CylinderGeometry(wTop,wBottom,h,28,1,false),mat);m.position.set(x,y,z);m.rotation.z=rz;m.castShadow=true;m.receiveShadow=true;group.add(m);return m;}
+function stitch(x1,y1,x2,y2,z=.145){const len=Math.hypot(x2-x1,y2-y1);const m=box(.009,len,.008,(x1+x2)/2,(y1+y2)/2,z,seam);m.rotation.z=-Math.atan2(x2-x1,y2-y1);return m;}
+function upper(type){
+ const vest=type==='vest', shirt=type==='shirt', jacket=type==='jacket';
+ // Shaped torso, shoulder yoke and side panels give the garment a recognisable silhouette.
+ tapered(.43,.48,.98,0,1.66,0,cloth);
+ box(.84,.22,.255,0,2.04,0,cloth);
+ if(!vest){
+   tapered(.135,.105,.68,-.57,1.64,0,cloth,.22);
+   tapered(.135,.105,.68,.57,1.64,0,cloth,-.22);
+   box(.23,.11,.24,-.65,1.25,0,trim);box(.23,.11,.24,.65,1.25,0,trim);
+   box(.18,.12,.23,-.57,1.34,.01,cloth);box(.18,.12,.23,.57,1.34,.01,cloth);
+ }
+ // Collar, centre fastening, storm flap and chest pockets.
+ box(.25,.13,.29,0,2.18,.015,trim);
+ box(.11,.32,.025,0,1.86,.148,trim);
+ box(.025,.83,.018,0,1.68,.165,seam);
+ box(.34,.045,.035,0,2.03,.16,trim);
+ for(const x of [-.235,.235]){
+   box(.27,.23,.035,x,1.83,.155,trim);
+   box(.29,.065,.045,x,1.96,.17,cloth);
+   box(.025,.18,.012,x,1.83,.18,seam);
+   box(.24,.018,.012,x,1.72,.18,seam);
+ }
+ // Waist shaping and articulated lower hem.
+ box(.78,.06,.27,0,1.22,.01,trim);
+ box(.88,.075,.27,0,1.13,.01,cloth);
+ if(!shirt){
+   box(.88,.065,.28,0,1.42,.01,hi);
+   box(.88,.055,.28,0,1.29,.01,hi);
+ }
+ // Shoulder yoke seams and sleeve panel lines.
+ stitch(-.39,2.02,-.12,1.91);stitch(.39,2.02,.12,1.91);
+ stitch(-.4,1.98,-.4,1.48);stitch(.4,1.98,.4,1.48);
+ if(vest){
+   box(.09,.88,.035,-.27,1.66,.17,hi);box(.09,.88,.035,.27,1.66,.17,hi);
+   box(.09,.08,.04,0,2.03,.17,hi);
+ }
+ if(jacket){
+   box(.78,.11,.28,0,1.05,.01,trim);
+   box(.31,.2,.035,-.22,1.54,.16,trim);box(.31,.2,.035,.22,1.54,.16,trim);
+ }
+}
+function lower(){
+ // Separate tapered legs with knee articulation, cargo storage and reinforced hems.
+ for(const x of [-.225,.225]){
+   tapered(.205,.145,.92,x,.58,0,cloth);
+   box(.34,.29,.035,x, .69,.145,trim);
+   box(.31,.065,.045,x,.85,.16,cloth);
+   box(.31,.025,.012,x,.53,.17,seam);
+   box(.31,.24,.025,x,.37,.15,trim);
+   box(.31,.055,.035,x,.24,.17,cloth);
+   box(.33,.075,.28,x,.09,.02,trim);
+   // Cargo pocket and flap.
+   box(.27,.23,.04,x,.94,.16,cloth);
+   box(.29,.07,.045,x,1.07,.18,trim);
+   box(.018,.18,.012,x-.12,.94,.19,seam);
+   box(.018,.18,.012,x+.12,.94,.19,seam);
+   // Knee reinforcement panel and hem seam.
+   box(.29,.19,.035,x,.59,.17,trim);
+   box(.25,.025,.012,x,.49,.19,seam);
+   box(.31,.055,.035,x,.19,.17,hi);
+ }
+}
+function build(type){
+ group.clear();
+ if(type==='trousers'){lower();box(.78,.12,.28,0,1.12,0,trim);}
+ else{
+   upper(type);
+   if(type==='coverall'){lower();box(.9,.07,.28,0,1.25,.015,hi);box(.9,.055,.28,0,1.36,.015,hi);}
+ }
+}
 build('coverall');
 const floor=new T.Mesh(new T.CircleGeometry(1.8,64),new T.MeshStandardMaterial({color:0x202925,roughness:1}));floor.rotation.x=-Math.PI/2;floor.position.y=-.22;floor.scale.set(1.25,1,1);scene.add(floor);
 let ty=0,tx=0,down=false,lx=0,ly=0;const resize=()=>{const w=shell.clientWidth,h=shell.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();};new ResizeObserver(resize).observe(shell);resize();shell.addEventListener('wheel',e=>{e.preventDefault();camera.position.z=Math.max(3.7,Math.min(7.2,camera.position.z+e.deltaY*.004));},{passive:false});shell.querySelectorAll('[data-zoom]').forEach(b=>b.addEventListener('click',()=>{camera.position.z=Math.max(3.7,Math.min(7.2,camera.position.z+(b.dataset.zoom==='in' ? -.35 : .35)));}));shell.addEventListener('pointerdown',e=>{down=true;lx=e.clientX;ly=e.clientY;shell.setPointerCapture(e.pointerId);});shell.addEventListener('pointermove',e=>{if(!down)return;ty+=(e.clientX-lx)*.012;tx=Math.max(-.25,Math.min(.25,tx+(e.clientY-ly)*.006));lx=e.clientX;ly=e.clientY;});shell.addEventListener('pointerup',()=>down=false);shell.addEventListener('pointercancel',()=>down=false);
