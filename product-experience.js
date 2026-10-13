@@ -54,7 +54,7 @@ document.querySelectorAll('.fn-product-photo,.fn-sketch,.fn-image-depth').forEac
 
 const stage=document.querySelector('.garment-wrap');
 if(stage){const old=stage.querySelector('.garment');if(old)old.style.display='none';const hint=stage.querySelector('.garment-hint');if(hint)hint.textContent='INTERACTIVE 3D COVERALL STUDY · DRAG TO ROTATE · CONCEPT ONLY';
-const shell=document.createElement('div');shell.className='fn-3d-shell';shell.innerHTML='<div class="fn-3d-caption">FN / COVERALL STUDY · 3D VIEW</div><div class="fn-3d-controls"><button type="button" data-view="front" class="active">Front</button><button type="button" data-view="back">Back</button><button type="button" data-garment="coverall" class="active">Coverall</button><button type="button" data-garment="vest">Vest</button><button type="button" data-garment="jacket">Jacket</button><button type="button" data-garment="trousers">Trousers</button><button type="button" data-garment="shirt">Shirt</button><button type="button" data-colour="lime">Hi-vis</button><button type="button" data-colour="charcoal">Charcoal</button><button type="button" data-zoom="in">Zoom +</button><button type="button" data-zoom="out">Zoom −</button></div>';stage.appendChild(shell);
+const shell=document.createElement('div');shell.className='fn-3d-shell';shell.innerHTML='<div class="fn-3d-caption">FN / COVERALL STUDY · 3D VIEW</div><div class="fn-3d-controls"><button type="button" data-view="front" class="active">Front</button><button type="button" data-view="back">Back</button><button type="button" data-view="side">Side</button><button type="button" data-view="reset">Reset</button><button type="button" data-garment="coverall" class="active">Coverall</button><button type="button" data-garment="vest">Vest</button><button type="button" data-garment="jacket">Jacket</button><button type="button" data-garment="trousers">Trousers</button><button type="button" data-garment="shirt">Shirt</button><button type="button" data-garment="welding">Welding</button><button type="button" data-colour="lime">Hi-vis</button><button type="button" data-colour="charcoal">Charcoal</button><button type="button" data-zoom="in">Zoom +</button><button type="button" data-zoom="out">Zoom −</button><button type="button" data-spin="toggle">Auto 360°</button></div>';stage.appendChild(shell);
 document.querySelectorAll('[data-open-garment]').forEach(btn=>btn.addEventListener('click',()=>{
  const type=btn.dataset.openGarment;
  const selector=shell.querySelector('[data-garment="'+type+'"]');
@@ -64,7 +64,17 @@ document.querySelectorAll('[data-open-garment]').forEach(btn=>btn.addEventListen
 import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js').then(T=>{
 const scene=new T.Scene();scene.background=new T.Color(0x27312e);const camera=new T.PerspectiveCamera(34,1,.1,100);camera.position.set(0,1.35,5.6);const renderer=new T.WebGLRenderer({antialias:true,alpha:false});renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));renderer.outputColorSpace=T.SRGBColorSpace;renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;shell.prepend(renderer.domElement);scene.add(new T.HemisphereLight(0xe5f0df,0x202821,2.1));const key=new T.DirectionalLight(0xffffff,3);key.position.set(3,5,5);key.castShadow=true;scene.add(key);const rim=new T.DirectionalLight(0xc8df36,1.8);rim.position.set(-4,2,-3);scene.add(rim);
 
-const group=new T.Group();scene.add(group);let activeType='coverall';const cloth=new T.MeshStandardMaterial({color:0x45534a,roughness:.88}),trim=new T.MeshStandardMaterial({color:0x222b26,roughness:.82}),seam=new T.MeshStandardMaterial({color:0x9ca99b,roughness:.9}),hi=new T.MeshStandardMaterial({color:0xd0e934,roughness:.65});
+const group=new T.Group();scene.add(group);let activeType='coverall';let autoSpin=false;
+ // Locally generated woven fabric: warp/weft detail, subtle colour grain and bump response.
+ const fabricCanvas=document.createElement('canvas');fabricCanvas.width=256;fabricCanvas.height=256;
+ const fctx=fabricCanvas.getContext('2d');fctx.fillStyle='#777';fctx.fillRect(0,0,256,256);
+ for(let y=0;y<256;y+=4){for(let x=0;x<256;x+=4){const n=105+Math.floor(Math.random()*48);fctx.fillStyle='rgb('+n+','+n+','+n+')';fctx.fillRect(x,y,2,2);}}
+ fctx.globalAlpha=.16;fctx.strokeStyle='#fff';fctx.lineWidth=1;
+ for(let i=0;i<256;i+=5){fctx.beginPath();fctx.moveTo(i,0);fctx.lineTo(i,256);fctx.stroke();fctx.beginPath();fctx.moveTo(0,i);fctx.lineTo(256,i);fctx.stroke();}
+ const fabricMap=new T.CanvasTexture(fabricCanvas);fabricMap.wrapS=fabricMap.wrapT=T.RepeatWrapping;fabricMap.repeat.set(3,4);fabricMap.colorSpace=T.SRGBColorSpace;
+ const bumpMap=new T.CanvasTexture(fabricCanvas);bumpMap.wrapS=bumpMap.wrapT=T.RepeatWrapping;bumpMap.repeat.set(3,4);
+ const cloth=new T.MeshStandardMaterial({color:0x45534a,map:fabricMap,bumpMap,bumpScale:.035,roughness:.94});
+ const trim=new T.MeshStandardMaterial({color:0x222b26,roughness:.9}),seam=new T.MeshStandardMaterial({color:0x9ca99b,roughness:1}),hi=new T.MeshStandardMaterial({color:0xd0e934,roughness:.72}),leather=new T.MeshStandardMaterial({color:0x6b3825,roughness:.83});
 function box(w,h,d,x,y,z,mat){const m=new T.Mesh(new T.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;group.add(m);return m;}
 function capsule(r,len,x,y,z,mat,rz=0){const m=new T.Mesh(new T.CapsuleGeometry(r,len,5,10),mat);m.position.set(x,y,z);m.rotation.z=rz;m.castShadow=true;group.add(m);return m;}
 function tapered(wTop,wBottom,h,x,y,z,mat,rz=0){const m=new T.Mesh(new T.CylinderGeometry(wTop,wBottom,h,28,1,false),mat);m.position.set(x,y,z);m.rotation.z=rz;m.castShadow=true;m.receiveShadow=true;group.add(m);return m;}
@@ -131,19 +141,32 @@ function lower(){
    box(.31,.055,.035,x,.19,.17,hi);
  }
 }
+function backDetails(type){
+ // Rear yoke, centre seam and pocket construction for a recognisable back elevation.
+ box(.7,.13,.035,0,2.01,-.15,trim);box(.018,.72,.014,0,1.65,-.17,seam);
+ for(const x of [-.22,.22]){box(.25,.2,.035,x,1.55,-.16,cloth);box(.27,.045,.04,x,1.66,-.18,trim);box(.015,.14,.012,x,1.55,-.19,seam);}
+ if(type==='vest'){box(.78,.09,.045,0,1.42,-.16,hi);box(.78,.09,.045,0,1.27,-.16,hi);}
+ if(type==='welding'){box(.76,.55,.045,0,1.62,-.17,leather);box(.8,.045,.05,0,1.9,-.18,trim);}
+}
 function build(type){
  group.clear();
  if(type==='trousers'){lower();box(.78,.12,.28,0,1.12,0,trim);}
- else{
-   upper(type);
+ else if(type==='welding'){
+   upper('jacket');backDetails('welding');
+   // Distinct leather apron and hot-work sleeve overlays; a concept, not certified PPE.
+   box(.62,.64,.055,0,1.48,.19,leather);box(.72,.08,.06,0,1.83,.22,trim);
+   for(const x of [-.57,.57]){box(.19,.58,.16,x,1.62,.01,leather);box(.22,.08,.17,x,1.3,.02,trim);}
+   lower();box(.48,.34,.05,-.22,.65,.19,leather);box(.48,.34,.05,.22,.65,.19,leather);
+ }else{
+   upper(type);backDetails(type);
    if(type==='coverall'){lower();box(.9,.07,.28,0,1.25,.015,hi);box(.9,.055,.28,0,1.36,.015,hi);}
  }
 }
 build('coverall');
 const floor=new T.Mesh(new T.CircleGeometry(1.8,64),new T.MeshStandardMaterial({color:0x202925,roughness:1}));floor.rotation.x=-Math.PI/2;floor.position.y=-.22;floor.scale.set(1.25,1,1);scene.add(floor);
-let ty=0,tx=0,down=false,lx=0,ly=0;const resize=()=>{const w=shell.clientWidth,h=shell.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();};new ResizeObserver(resize).observe(shell);resize();shell.addEventListener('wheel',e=>{e.preventDefault();camera.position.z=Math.max(3.7,Math.min(7.2,camera.position.z+e.deltaY*.004));},{passive:false});shell.querySelectorAll('[data-zoom]').forEach(b=>b.addEventListener('click',()=>{camera.position.z=Math.max(3.7,Math.min(7.2,camera.position.z+(b.dataset.zoom==='in' ? -.35 : .35)));}));shell.addEventListener('pointerdown',e=>{down=true;lx=e.clientX;ly=e.clientY;shell.setPointerCapture(e.pointerId);});shell.addEventListener('pointermove',e=>{if(!down)return;ty+=(e.clientX-lx)*.012;tx=Math.max(-.25,Math.min(.25,tx+(e.clientY-ly)*.006));lx=e.clientX;ly=e.clientY;});shell.addEventListener('pointerup',()=>down=false);shell.addEventListener('pointercancel',()=>down=false);
-shell.querySelectorAll('[data-garment]').forEach(b=>b.addEventListener('click',()=>{activeType=b.dataset.garment;build(activeType);shell.querySelectorAll('[data-garment]').forEach(x=>x.classList.toggle('active',x===b));}));shell.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>{ty=b.dataset.view==='back'?Math.PI:0;shell.querySelectorAll('[data-view]').forEach(x=>x.classList.toggle('active',x===b));}));shell.querySelectorAll('[data-colour]').forEach(b=>b.addEventListener('click',()=>{const lime=b.dataset.colour==='lime';cloth.color.setHex(lime?0x899a37:0x45534a);hi.color.setHex(lime?0xe5f43c:0x9ca99b);shell.querySelectorAll('[data-colour]').forEach(x=>x.classList.toggle('active',x===b));}));
-const draw=()=>{requestAnimationFrame(draw);group.rotation.y+=(ty-group.rotation.y)*.08;group.rotation.x+=(tx-group.rotation.x)*.08;renderer.render(scene,camera);};draw();
+let ty=0,tx=0,down=false,lx=0,ly=0;const resize=()=>{const w=shell.clientWidth,h=shell.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();};new ResizeObserver(resize).observe(shell);resize();shell.addEventListener('wheel',e=>{e.preventDefault();camera.position.z=Math.max(3.7,Math.min(7.2,camera.position.z+e.deltaY*.004));},{passive:false});shell.querySelectorAll('[data-zoom]').forEach(b=>b.addEventListener('click',()=>{camera.position.z=Math.max(3.7,Math.min(7.2,camera.position.z+(b.dataset.zoom==='in' ? -.35 : .35)));}));shell.querySelector('[data-spin]').addEventListener('click',e=>{autoSpin=!autoSpin;e.currentTarget.classList.toggle('active',autoSpin);e.currentTarget.textContent=autoSpin?'Stop 360°':'Auto 360°';});shell.addEventListener('pointerdown',e=>{down=true;lx=e.clientX;ly=e.clientY;shell.setPointerCapture(e.pointerId);});shell.addEventListener('pointermove',e=>{if(!down)return;ty+=(e.clientX-lx)*.012;tx=Math.max(-.25,Math.min(.25,tx+(e.clientY-ly)*.006));lx=e.clientX;ly=e.clientY;});shell.addEventListener('pointerup',()=>down=false);shell.addEventListener('pointercancel',()=>down=false);
+shell.querySelectorAll('[data-garment]').forEach(b=>b.addEventListener('click',()=>{activeType=b.dataset.garment;build(activeType);shell.querySelectorAll('[data-garment]').forEach(x=>x.classList.toggle('active',x===b));}));let viewX=0;shell.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>{const v=b.dataset.view;if(v==='front'){ty=0;tx=0;}if(v==='back'){ty=Math.PI;tx=0;}if(v==='side'){ty=Math.PI/2;tx=0;}if(v==='reset'){ty=0;tx=0;camera.position.set(0,1.35,5.6);}shell.querySelectorAll('[data-view]').forEach(x=>x.classList.toggle('active',x===b));}));shell.querySelectorAll('[data-colour]').forEach(b=>b.addEventListener('click',()=>{const lime=b.dataset.colour==='lime';cloth.color.setHex(lime?0x899a37:0x45534a);hi.color.setHex(lime?0xe5f43c:0x9ca99b);shell.querySelectorAll('[data-colour]').forEach(x=>x.classList.toggle('active',x===b));}));
+const draw=()=>{requestAnimationFrame(draw);if(autoSpin&&!down)ty+=.003;group.rotation.y+=(ty-group.rotation.y)*.08;group.rotation.x+=(tx-group.rotation.x)*.08;renderer.render(scene,camera);};draw();
 }).catch(()=>{shell.innerHTML='<div style="padding:55px 25px;color:#e5e9df;text-align:center;font-size:12px;line-height:1.8">Interactive 3D viewer unavailable in this browser. Please check the connection and reload.</div>';});
 }
 })();
