@@ -16,6 +16,7 @@ jobs:
           test -s product-experience.js
           grep -q 'product-experience.js' index.html
           node --check product-experience.js
+          node tests/showroom-smoke.mjs
       - name: Prepare static site
         run: |
           mkdir -p dist
