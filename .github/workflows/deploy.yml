@@ -26,7 +26,6 @@ jobs:
         with:
           path: ./dist
   deploy:
-    if: ${{ vars.PUBLISH_SITE == 'true' }}
     needs: build
     permissions:
       pages: write
