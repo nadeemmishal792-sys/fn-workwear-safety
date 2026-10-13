@@ -5,16 +5,16 @@ const js = readFileSync('product-experience.js', 'utf8');
 const html = readFileSync('index.html', 'utf8');
 
 for (const model of ['coverall', 'vest', 'jacket', 'trousers', 'shirt', 'welding']) {
-  assert.ok(js.includes("data-garment=\"" + model + "\""), 'missing viewer selector: ' + model);
-  assert.ok(js.includes("type==='\u0022" + model + "\u0022"), 'missing model branch: ' + model);
+  assert.ok(js.includes('data-garment="' + model + '"'), 'missing viewer selector: ' + model);
+  assert.ok(js.includes("type==='" + model + "'"), 'missing model construction branch: ' + model);
 }
 for (const view of ['front', 'back', 'side', 'reset']) {
   assert.ok(js.includes('data-view="' + view + '"'), 'missing camera view: ' + view);
 }
-assert.ok(js.includes('function sketch(kind,view=\'front\')'), 'missing three-elevation sketch generator');
+assert.ok(js.includes("function sketch(kind,view='front')"), 'missing three-elevation sketch generator');
 assert.ok(js.includes("sketch(sketchKind,'front')") && js.includes("sketch(sketchKind,'back')") && js.includes("sketch(sketchKind,'side')"), 'product cards must show all three elevations');
 assert.ok(js.includes('renderer.domElement.toDataURL'), 'product cards must use actual viewer renders when WebGL is available');
-assert.ok(js.includes('function folds(') || js.includes('function folds('), 'missing fabric fold detailing');
+assert.ok(js.includes('function folds('), 'missing fabric fold detailing');
 assert.ok(js.includes('bumpMap,bumpScale'), 'missing fabric surface texture');
 assert.ok(js.includes('data-spin="toggle"'), 'missing automatic rotation control');
 assert.ok(js.includes('DEDICATED 3D PRODUCT SHOWROOM'), 'product card must open the selected product in the showroom');
