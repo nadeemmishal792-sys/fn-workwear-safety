@@ -11,8 +11,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      - name: Validate website assets
+        run: |
+          test -s index.html
+          test -s product-experience.js
+          grep -q 'product-experience.js' index.html
+          node --check product-experience.js
       - name: Prepare static site
-        run: mkdir -p dist && cp index.html favicon.svg robots.txt sitemap.xml dist/
+        run: |
+          mkdir -p dist
+          cp index.html product-experience.js favicon.svg robots.txt sitemap.xml dist/
+          test -s dist/product-experience.js
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
