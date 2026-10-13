@@ -21,7 +21,17 @@ jobs:
         run: |
           mkdir -p dist
           cp index.html favicon.svg robots.txt sitemap.xml dist/
+          if [ -d assets ]; then cp -R assets dist/assets; fi
           test -s dist/index.html
+          test -s dist/assets/products/classic-work-polo.svg
+          test -s dist/assets/products/two-tone-work-polo.svg
+          test -s dist/assets/products/performance-polo.svg
+          test -s dist/assets/products/custom-team-polo.svg
+          test -s dist/assets/products/leather-welding-gloves.svg
+          test -s dist/assets/products/impact-resistant-gloves.svg
+          test -s dist/assets/products/heat-resistant-gloves.svg
+          test -s dist/assets/products/chemical-resistant-gloves.svg
+          test -s dist/assets/products/rain-suit-overtrousers.svg
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
