@@ -169,6 +169,43 @@ function backDetails(type){
 }
 function build(type){
  while(group.children.length){const old=group.children.pop();if(old.geometry)old.geometry.dispose();}
+function addHumanBase(type){
+ // A complete human-fit mannequin sits underneath every garment. Skin, head, hands and boots
+ // remain visible while the garment meshes are layered over the body for a worn-on-person view.
+ const skin=new T.MeshStandardMaterial({color:0x98765d,roughness:.88});
+ const skinLight=new T.MeshStandardMaterial({color:0xb58c70,roughness:.9});
+ const hair=new T.MeshStandardMaterial({color:0x25231f,roughness:1});
+ const base=new T.MeshStandardMaterial({color:0x303a35,roughness:.96});
+ const boot=new T.MeshStandardMaterial({color:0x171c19,roughness:.86});
+ const eye=new T.MeshStandardMaterial({color:0x171b1c,roughness:.5});
+ const sphere=(r,x,y,z,mat,sx=1,sy=1,sz=1)=>{const m=new T.Mesh(new T.SphereGeometry(r,24,18),mat);m.position.set(x,y,z);m.scale.set(sx,sy,sz);m.castShadow=true;group.add(m);return m;};
+ // Neck and head.
+ const neck=new T.Mesh(new T.CylinderGeometry(.085,.095,.19,24),skin);neck.position.set(0,2.19,0);neck.castShadow=true;group.add(neck);
+ sphere(.145,0,2.39,0,skin,1,1.18,.92);
+ sphere(.148,0,2.485,-.012,hair,1, .48,.94);
+ sphere(.032,-.145,2.39,0,skinLight,.65,1,1);sphere(.032,.145,2.39,0,skinLight,.65,1,1);
+ // Face is deliberately understated and visible from the front; rotation reveals the full head.
+ sphere(.012,-.052,2.405,.128,eye,.7,.7,.5);sphere(.012,.052,2.405,.128,eye,.7,.7,.5);
+ sphere(.018,0,2.365,.145,skinLight,.65,.8,.65);
+ // Neutral base torso, upper arms and forearms, slightly inside the garment shell.
+ tapered(.345,.39,.82,0,1.66,-.005,base);
+ capsule(.082,.48,-.51,1.66,0,skin,-.16);capsule(.082,.48,.51,1.66,0,skin,.16);
+ capsule(.073,.22,-.61,1.34,.005,skin,-.12);capsule(.073,.22,.61,1.34,.005,skin,.12);
+ sphere(.075,-.62,1.19,.012,skin,.82,1.12,.7);sphere(.075,.62,1.19,.012,skin,.82,1.12,.7);
+ // Hips, thighs and lower legs provide a continuous human silhouette under trousers/coveralls.
+ tapered(.31,.33,.27,0,1.13,0,base);
+ for(const x of [-.225,.225]){
+   capsule(.135,.48,x,.78,0,base);
+   capsule(.105,.46,x,.34,0,base);
+   sphere(.11,x,.075,.09,boot,1.45,.65,2.1);
+   box(.035,.018,.012,x,.035,.195,metal);
+ }
+ // Hands with simple fingers are visible below short sleeves or vest arm openings.
+ for(const x of [-.62,.62]){
+   for(let i=0;i<4;i++)capsule(.012,.065,x+(i-1.5)*.025,1.12,.035,skin,.04);
+ }
+}
+ addHumanBase(type);
  if(type==='trousers'){lower();box(.78,.12,.28,0,1.12,0,trim);box(.42,.08,.29,0,1.19,.01,trim);for(let x=-.3;x<=.3;x+=.15)box(.035,.11,.035,x,1.2,.02,metal);tube([[-.19,1.1,.17],[0,1.02,.19],[.19,1.1,.17]],.009,seam);}
  else if(type==='welding'){
    upper('jacket');backDetails('welding');
