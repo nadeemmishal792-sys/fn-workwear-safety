@@ -77,7 +77,8 @@ body:[
 {a:"L",us:"L",uk:"L",eu:"EU 52–54",asia:"XL",za:"L",northafrica:"EU 52–54",ch:"104–112",wa:"88–96",hi:"108–116"},
 {a:"XL",us:"XL",uk:"XL",eu:"EU 56–58",asia:"2XL",za:"XL",northafrica:"EU 56–58",ch:"112–120",wa:"96–104",hi:"116–124"},
 {a:"2XL",us:"2XL",uk:"2XL",eu:"EU 60–62",asia:"3XL",za:"2XL",northafrica:"EU 60–62",ch:"120–128",wa:"104–112",hi:"124–132"},
-{a:"3XL",us:"3XL",uk:"3XL",eu:"EU 64–66",asia:"4XL",za:"3XL",northafrica:"EU 64–66",ch:"128–136",wa:"112–120",hi:"132–140"}
+{a:"3XL",us:"3XL",uk:"3XL",eu:"EU 64–66",asia:"4XL",za:"3XL",northafrica:"EU 64–66",ch:"128–136",wa:"112–120",hi:"132–140"},
+{a:"4XL",us:"4XL",uk:"4XL",eu:"EU 68–70",asia:"5XL*",za:"4XL",northafrica:"EU 68–70",ch:"136–144",wa:"120–128",hi:"140–148"}
 ],
 glove:[
 {a:"XS",us:"6",uk:"6",eu:"6",asia:"S",za:"XS / 6",northafrica:"EU 6",ch:"15–17"},
@@ -85,7 +86,8 @@ glove:[
 {a:"M",us:"8",uk:"8",eu:"8",asia:"L",za:"M / 8",northafrica:"EU 8",ch:"19–21"},
 {a:"L",us:"9",uk:"9",eu:"9",asia:"XL",za:"L / 9",northafrica:"EU 9",ch:"21–23"},
 {a:"XL",us:"10",uk:"10",eu:"10",asia:"2XL",za:"XL / 10",northafrica:"EU 10",ch:"23–25"},
-{a:"2XL",us:"11",uk:"11",eu:"11",asia:"3XL",za:"2XL / 11",northafrica:"EU 11",ch:"25–27"}
+{a:"2XL",us:"11",uk:"11",eu:"11",asia:"3XL",za:"2XL / 11",northafrica:"EU 11",ch:"25–27"},
+{a:"3XL",us:"12",uk:"12",eu:"12",asia:"4XL*",za:"3XL / 12",northafrica:"EU 12",ch:"27–29"}
 ]};
 function renderSize(){const market=document.getElementById('marketSelect').value,type=document.getElementById('sizeType').value;const head=document.getElementById('sizeHead'),body=document.getElementById('sizeBody');const rows=sizeRows[type];const label={intl:"International / Alpha",us:"US",uk:"UK",eu:"EU",asia:"Asia*",za:"South Africa*",northafrica:"North Africa*"}[market];const valueKey=market==="intl"?"a":market;head.innerHTML=type==="body"?'<tr><th>Size</th><th>'+label+' label</th><th>Chest (cm)</th><th>Waist (cm)</th><th>Hip (cm)</th></tr>':'<tr><th>Alpha</th><th>'+label+' glove size</th><th>Hand circumference (cm)</th></tr>';body.innerHTML=rows.map(r=>type==="body"?'<tr><td>'+r.a+'</td><td>'+r[valueKey]+'</td><td>'+r.ch+'</td><td>'+r.wa+'</td><td>'+r.hi+'</td></tr>':'<tr><td>'+r.a+'</td><td>'+r[valueKey]+'</td><td>'+r.ch+'</td></tr>').join('');const note=document.getElementById("sizeNote");note.textContent=market==="za"?"South Africa reference: alpha labels are shown alongside body/hand measurements; South African retail and workwear labels can vary by supplier. Confirm the buyer’s required local size label and approved sample before production.":market==="northafrica"?"North Africa reference: EU-style labels are shown as an indicative starting point only. Sizing conventions vary across North African markets and suppliers; confirm the buyer’s country, required size label and approved sample before production.":"Indicative measurement guide only. Country labels and fit conventions vary by brand, gender, garment type and buyer specification. Glove fit is based on hand circumference; measure around the widest part of the palm, excluding the thumb. Confirm final FN production charts against actual garment measurements and fit samples.";}
 document.getElementById('marketSelect').addEventListener('change',renderSize);document.getElementById('sizeType').addEventListener('change',renderSize);renderSize();
