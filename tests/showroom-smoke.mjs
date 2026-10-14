@@ -46,7 +46,7 @@ assert.ok(html.includes("img.setAttribute('srcset',candidates.join(', '))"), 're
 assert.ok(html.includes("img.setAttribute('sizes','(max-width: 720px) 50vw, (max-width: 1050px) 33vw, 25vw')"), 'responsive image sizes missing');
 assert.ok(html.includes('cdn\\\\.shopify\\\\.com|\\\\/cdn\\\\/shop\\\\/'), 'responsive image enhancement must be restricted to known Shopify CDN URLs');
 for (const [index, card] of productCards.entries()) {
-  const image = card.match(/<img\\b[^>]*>/i)?.[0] || '';
+  const image = card.match(/<img\b[^>]*>/i)?.[0] || '';
   assert.ok(/loading="lazy"/i.test(image), 'product card ' + (index + 1) + ' should lazy-load below-the-fold imagery');
 }
 
