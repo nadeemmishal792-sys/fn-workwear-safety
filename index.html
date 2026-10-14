@@ -137,9 +137,17 @@
 .product-detail-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
 .product-detail-actions .btn{cursor:pointer}
 .product-card{cursor:pointer}
-@media(max-width:560px){.product-detail-overlay{padding:10px}.product-detail-panel{padding:26px 20px}}
+.product-detail-image-wrap{margin:18px 0 22px;background:#e9ebe3;border:1px solid #d9ddd4;padding:10px}
+.product-detail-image-button{display:block;width:100%;border:0;padding:0;background:transparent;cursor:zoom-in}
+.product-detail-image-button img{display:block;width:100%;height:min(42vh,390px);object-fit:contain;background:#f7f7f1}
+.product-detail-image-caption{margin:9px 2px 0;font-size:8px;line-height:1.6;letter-spacing:.08em;color:#69736c;text-transform:uppercase}
+.product-image-zoom{position:fixed;inset:0;z-index:10001;display:none;align-items:center;justify-content:center;padding:28px;background:rgba(7,11,9,.94);cursor:zoom-out}
+.product-image-zoom.open{display:flex}
+.product-image-zoom img{max-width:min(94vw,1400px);max-height:90vh;width:auto;height:auto;object-fit:contain;background:#f7f7f1;box-shadow:0 24px 90px rgba(0,0,0,.45)}
+.product-image-zoom-close{position:absolute;top:18px;right:22px;border:1px solid rgba(255,255,255,.45);background:rgba(10,15,12,.7);color:white;width:42px;height:42px;font-size:28px;line-height:1;cursor:pointer}
+@media(max-width:560px){.product-detail-overlay{padding:10px}.product-detail-panel{padding:26px 20px}.product-detail-image-wrap{padding:7px}.product-detail-image-button img{height:34vh}.product-image-zoom{padding:12px}.product-image-zoom-close{top:10px;right:10px}}
 </style>
-<div class="product-detail-overlay" id="productDetail" role="dialog" aria-modal="true" aria-labelledby="productDetailTitle"><div class="product-detail-panel"><button class="product-detail-close" id="closeProductDetail" aria-label="Close product details">×</button><span class="eyebrow">FN WORKWEAR & SAFETY / PRODUCT OVERVIEW</span><h2 id="productDetailTitle"></h2><p id="productDetailDescription"></p><div class="product-detail-points"><strong>What you can discuss with FN</strong><ul><li>Intended work environment, garment style and wearer requirements.</li><li>Fabric, material, colour, sizing and construction preferences.</li><li>Custom branding, labels, trims and private-label requirements.</li><li>Estimated quantity, sample expectations and destination market.</li></ul></div><p class="form-note">Final materials, protective performance, standards and specifications are confirmed against your brief and any required test evidence. Product images are visual references, not a claim that the pictured item is an FN-made product.</p><div class="product-detail-actions"><button class="btn btn-dark" id="productDetailEnquire" type="button">Enquire about this product ↗</button><button class="btn btn-light" id="productDetailClose2" type="button">Continue browsing</button></div></div></div><script>
+<div class="product-detail-overlay" id="productDetail" role="dialog" aria-modal="true" aria-labelledby="productDetailTitle"><div class="product-detail-panel"><button class="product-detail-close" id="closeProductDetail" aria-label="Close product details">×</button><span class="eyebrow">FN WORKWEAR & SAFETY / PRODUCT OVERVIEW</span><h2 id="productDetailTitle"></h2><p id="productDetailDescription"></p><figure class="product-detail-image-wrap" id="productDetailImageWrap" hidden><button class="product-detail-image-button" id="productDetailImageButton" type="button" aria-label="Enlarge product reference photograph"><img id="productDetailImage" alt=""></button><figcaption class="product-detail-image-caption">Illustrative reference photograph · 1 available view · Select image to enlarge</figcaption></figure><div class="product-detail-points"><strong>What you can discuss with FN</strong><ul><li>Intended work environment, garment style and wearer requirements.</li><li>Fabric, material, colour, sizing and construction preferences.</li><li>Custom branding, labels, trims and private-label requirements.</li><li>Estimated quantity, sample expectations and destination market.</li></ul></div><p class="form-note">Final materials, protective performance, standards and specifications are confirmed against your brief and any required test evidence. Product images are visual references, not a claim that the pictured item is an FN-made product.</p><div class="product-detail-actions"><button class="btn btn-dark" id="productDetailEnquire" type="button">Enquire about this product ↗</button><button class="btn btn-light" id="productDetailClose2" type="button">Continue browsing</button></div></div></div><div class="product-image-zoom" id="productImageZoom" role="dialog" aria-modal="true" aria-label="Enlarged product reference photograph"><button class="product-image-zoom-close" id="productImageZoomClose" type="button" aria-label="Close enlarged photograph">×</button><img id="productImageZoomSrc" alt=""></div><script>
 const sizeRows={
 body:[
 {a:"XS",us:"XS",uk:"XS",eu:"EU 42",asia:"S",za:"XS",northafrica:"EU 42",ch:"84–88",wa:"68–72",hi:"88–92"},
@@ -202,12 +210,27 @@ document.querySelectorAll('.product-card').forEach(card=>card.addEventListener('
  selectedProduct=title;
  document.getElementById('productDetailTitle').textContent=title;
  document.getElementById('productDetailDescription').textContent=category+' — '+description;
+ const sourceImage=card.querySelector('.product-image img');
+ const detailImage=document.getElementById('productDetailImage');
+ const imageWrap=document.getElementById('productDetailImageWrap');
+ if(sourceImage&&detailImage){detailImage.src=sourceImage.currentSrc||sourceImage.src;detailImage.alt=sourceImage.alt||title+' product reference photograph';imageWrap.hidden=false;}else{imageWrap.hidden=true;detailImage.removeAttribute('src');}
  productDetail.classList.add('open');document.body.style.overflow='hidden';
 }));
 document.getElementById('closeProductDetail').addEventListener('click',closeProductDetail);
 document.getElementById('productDetailClose2').addEventListener('click',closeProductDetail);
 productDetail.addEventListener('click',e=>{if(e.target===productDetail)closeProductDetail();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&productDetail.classList.contains('open'))closeProductDetail();});
+const productImageZoom=document.getElementById('productImageZoom');
+const productImageZoomSrc=document.getElementById('productImageZoomSrc');
+function closeProductImageZoom(){productImageZoom.classList.remove('open');productImageZoomSrc.removeAttribute('src');}
+document.getElementById('productDetailImageButton').addEventListener('click',()=>{
+ const image=document.getElementById('productDetailImage');
+ if(!image.src)return;
+ productImageZoomSrc.src=image.src;productImageZoomSrc.alt=image.alt;
+ productImageZoom.classList.add('open');
+});
+document.getElementById('productImageZoomClose').addEventListener('click',closeProductImageZoom);
+productImageZoom.addEventListener('click',event=>{if(event.target===productImageZoom||event.target===productImageZoomSrc)closeProductImageZoom();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(productImageZoom.classList.contains('open'))closeProductImageZoom();else if(productDetail.classList.contains('open'))closeProductDetail();}});
 document.getElementById('productDetailEnquire').addEventListener('click',()=>{
  const select=document.querySelector('#quoteForm select[name="product"]');
  if(select){const option=[...select.options].find(o=>o.text.trim().toLowerCase()===selectedProduct.toLowerCase());if(option)select.value=option.value;else select.value=selectedProduct;}
