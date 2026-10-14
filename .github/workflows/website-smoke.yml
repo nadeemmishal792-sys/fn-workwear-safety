@@ -19,3 +19,5 @@ jobs:
           node-version: 20
       - name: Run showroom smoke checks
         run: node tests/showroom-smoke.mjs
+      - name: Audit external product image URLs
+        run: node tests/image-url-audit.mjs
