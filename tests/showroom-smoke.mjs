@@ -55,4 +55,3 @@ for (const [index, card] of productCards.entries()) {
 }
 assert.ok(html.includes('Product images are visual references, not a claim that the pictured item is an FN-made product.'), 'reference-image disclosure missing');
 console.log('FN website smoke checks passed: catalogue, navigable reference gallery, keyboard controls, image alt text, responsive sections and enquiry flow.');
-console.log('FN website smoke checks passed: eight garment categories, six industry showrooms, responsive navigation, subtle visual effects and enquiry flow.');
