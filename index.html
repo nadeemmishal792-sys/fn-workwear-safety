@@ -303,11 +303,15 @@ document.getElementById('quoteForm').addEventListener('submit',e=>{e.preventDefa
 // their resize/format URL conventions are not interchangeable.
 document.querySelectorAll('.product-card img[src]').forEach(img=>{
  const raw=img.getAttribute('src')||'';
- if(!/(?:cdn\\.shopify\\.com|\\/cdn\\/shop\\/)/i.test(raw))return;
+ const shopifySource=/(?:cdn\.shopify\.com|\/cdn\/shop\/)/i.test(raw);
+ const bigCommerceMatch=raw.match(/^(https?:\/\/[^/]+\/s-[^/]+\/images\/stencil\/)\d+x\d+(\/.*)$/i);
+ if(!shopifySource&&!bigCommerceMatch)return;
  try{
-  const base=new URL(raw,document.baseURI);
   const candidates=[360,640,960].map(width=>{
-   const variant=new URL(base.href);
+   if(bigCommerceMatch){
+    return bigCommerceMatch[1]+width+'x'+width+bigCommerceMatch[2]+' '+width+'w';
+   }
+   const variant=new URL(raw,document.baseURI);
    variant.searchParams.set('width',String(width));
    return variant.href+' '+width+'w';
   });
