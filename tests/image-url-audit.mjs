@@ -2,9 +2,9 @@ import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
 
 const html = readFileSync('index.html', 'utf8');
-const urls = [...html.matchAll(/<img\\b[^>]*?\\bsrc=["']([^"']+)["'][^>]*>/gi)]
+const urls = [...html.matchAll(/<img\b[^>]*?\bsrc=["']([^"']+)["'][^>]*>/gi)]
   .map(match => match[1])
-  .filter(url => /^https?:\\/\\//i.test(url));
+  .filter(url => /^https?:\/\//i.test(url));
 const uniqueUrls = [...new Set(urls)];
 assert.ok(uniqueUrls.length > 0, 'no external product image URLs found');
 
