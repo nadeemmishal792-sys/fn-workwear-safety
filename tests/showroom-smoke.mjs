@@ -40,6 +40,16 @@ assert.ok(html.includes('property="og:site_name" content="FN Workwear & Safety"'
 assert.ok(html.includes('"@type": "Organization"'), 'organization structured data missing');
 assert.ok(html.includes('"addressCountry": "PK"'), 'structured business location missing');
 assert.ok(html.includes('prefers-reduced-motion:reduce'), 'reduced-motion accessibility support missing');
+assert.ok(html.includes("document.querySelectorAll('.product-card img[src]')"), 'responsive product-image enhancement missing');
+assert.ok(html.includes('searchParams.set(\'width\',String(width))'), 'Shopify width variants missing');
+assert.ok(html.includes("img.setAttribute('srcset',candidates.join(', '))"), 'responsive srcset assignment missing');
+assert.ok(html.includes("img.setAttribute('sizes','(max-width: 720px) 50vw, (max-width: 1050px) 33vw, 25vw')"), 'responsive image sizes missing');
+assert.ok(html.includes('cdn\\\\.shopify\\\\.com|\\\\/cdn\\\\/shop\\\\/'), 'responsive image enhancement must be restricted to known Shopify CDN URLs');
+for (const [index, card] of productCards.entries()) {
+  const image = card.match(/<img\\b[^>]*>/i)?.[0] || '';
+  assert.ok(/loading="lazy"/i.test(image), 'product card ' + (index + 1) + ' should lazy-load below-the-fold imagery');
+}
+
 assert.ok(!html.includes('product-experience.js'), 'legacy 3D viewer must not be loaded');
 assert.ok(!html.includes('id="garment"'), 'legacy 3D garment stage must not be present');
 
