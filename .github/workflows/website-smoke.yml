@@ -23,3 +23,27 @@ jobs:
         run: node tests/image-url-audit.mjs
       - name: Report repeated product image references
         run: node tests/image-duplicate-audit.mjs
+      - name: Install Chromium browser test dependency
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Start local website server
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/fn-site.log 2>&1 &
+          for attempt in {1..20}; do
+            if curl --silent --fail http://127.0.0.1:4173/ > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/fn-site.log
+          exit 1
+      - name: Test product viewer on desktop and mobile
+        run: |
+          mkdir -p artifacts
+          node tests/product-viewer-browser.mjs
+      - name: Upload desktop and mobile screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: product-viewer-desktop-mobile-screenshots
+          path: artifacts/*.png
+          if-no-files-found: ignore
