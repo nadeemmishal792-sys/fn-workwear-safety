@@ -34,6 +34,11 @@ for (const industry of [
   assert.ok(html.includes(industry), 'missing industry showroom: ' + industry);
 }
 assert.ok(html.includes('id="quoteForm"') && html.includes('mailto:fnworkwear@gmail.com'), 'enquiry email flow missing');
+assert.ok(html.includes('name="robots" content="index,follow,max-image-preview:large"'), 'search indexing metadata missing');
+assert.ok(html.includes('name="twitter:card" content="summary_large_image"'), 'social card metadata missing');
+assert.ok(html.includes('property="og:site_name" content="FN Workwear & Safety"'), 'Open Graph site identity missing');
+assert.ok(html.includes('"@type": "Organization"'), 'organization structured data missing');
+assert.ok(html.includes('"addressCountry": "PK"'), 'structured business location missing');
 assert.ok(html.includes('prefers-reduced-motion:reduce'), 'reduced-motion accessibility support missing');
 assert.ok(!html.includes('product-experience.js'), 'legacy 3D viewer must not be loaded');
 assert.ok(!html.includes('id="garment"'), 'legacy 3D garment stage must not be present');
