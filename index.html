@@ -141,13 +141,14 @@
 .product-detail-image-button{display:block;width:100%;border:0;padding:0;background:transparent;cursor:zoom-in}
 .product-detail-image-button img{display:block;width:100%;height:min(42vh,390px);object-fit:contain;background:#f7f7f1}
 .product-detail-image-caption{margin:9px 2px 0;font-size:8px;line-height:1.6;letter-spacing:.08em;color:#69736c;text-transform:uppercase}
+.product-reference-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:10px 0 20px}.product-reference-nav button{border:1px solid #cbd0c6;background:#f7f7f1;color:var(--ink);padding:11px 14px;font-size:8px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}.product-reference-nav button:hover{background:var(--lime);border-color:var(--lime)}.product-reference-count{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:#69736c;text-align:center}
 .product-image-zoom{position:fixed;inset:0;z-index:10001;display:none;align-items:center;justify-content:center;padding:28px;background:rgba(7,11,9,.94);cursor:zoom-out}
 .product-image-zoom.open{display:flex}
 .product-image-zoom img{max-width:min(94vw,1400px);max-height:90vh;width:auto;height:auto;object-fit:contain;touch-action:pinch-zoom;background:#f7f7f1;box-shadow:0 24px 90px rgba(0,0,0,.45)}
 .product-image-zoom-close{position:absolute;top:18px;right:22px;border:1px solid rgba(255,255,255,.45);background:rgba(10,15,12,.7);color:white;width:42px;height:42px;font-size:28px;line-height:1;cursor:pointer}
 @media(max-width:560px){.product-detail-overlay{padding:10px}.product-detail-panel{padding:26px 20px}.product-detail-image-wrap{padding:7px}.product-detail-image-button img{height:34vh}.product-image-zoom{padding:12px}.product-image-zoom-close{top:10px;right:10px}}
 </style>
-<div class="product-detail-overlay" id="productDetail" role="dialog" aria-modal="true" aria-labelledby="productDetailTitle"><div class="product-detail-panel"><button class="product-detail-close" id="closeProductDetail" aria-label="Close product details">×</button><span class="eyebrow">FN WORKWEAR & SAFETY / PRODUCT OVERVIEW</span><h2 id="productDetailTitle"></h2><p id="productDetailDescription"></p><figure class="product-detail-image-wrap" id="productDetailImageWrap" hidden><button class="product-detail-image-button" id="productDetailImageButton" type="button" aria-label="Enlarge product reference photograph"><img decoding="async" id="productDetailImage" alt=""></button><figcaption class="product-detail-image-caption">Illustrative reference photograph · 1 available view · Select image to enlarge</figcaption></figure><div class="product-detail-points"><strong>What you can discuss with FN</strong><ul><li>Intended work environment, garment style and wearer requirements.</li><li>Fabric, material, colour, sizing and construction preferences.</li><li>Custom branding, labels, trims and private-label requirements.</li><li>Estimated quantity, sample expectations and destination market.</li></ul></div><p class="form-note">Final materials, protective performance, standards and specifications are confirmed against your brief and any required test evidence. Product images are visual references, not a claim that the pictured item is an FN-made product.</p><div class="product-detail-actions"><button class="btn btn-dark" id="productDetailEnquire" type="button">Enquire about this product ↗</button><button class="btn btn-light" id="productDetailClose2" type="button">Continue browsing</button></div></div></div><div class="product-image-zoom" id="productImageZoom" role="dialog" aria-modal="true" aria-label="Enlarged product reference photograph"><button class="product-image-zoom-close" id="productImageZoomClose" type="button" aria-label="Close enlarged photograph">×</button><img decoding="async" id="productImageZoomSrc" alt=""></div><script>
+<div class="product-detail-overlay" id="productDetail" role="dialog" aria-modal="true" aria-labelledby="productDetailTitle"><div class="product-detail-panel"><button class="product-detail-close" id="closeProductDetail" aria-label="Close product details">×</button><span class="eyebrow">FN WORKWEAR & SAFETY / PRODUCT OVERVIEW</span><h2 id="productDetailTitle"></h2><p id="productDetailDescription"></p><figure class="product-detail-image-wrap" id="productDetailImageWrap" hidden><button class="product-detail-image-button" id="productDetailImageButton" type="button" aria-label="Enlarge product reference photograph"><img decoding="async" id="productDetailImage" alt=""></button><figcaption class="product-detail-image-caption">Illustrative reference photograph · one supplied view for this item · select image to enlarge</figcaption></figure><div class="product-reference-nav" aria-label="Browse product reference images"><button id="productReferencePrev" type="button" aria-label="Previous product reference">← Previous</button><span class="product-reference-count" id="productReferenceCount" aria-live="polite">Reference 1</span><button id="productReferenceNext" type="button" aria-label="Next product reference">Next →</button></div><div class="product-detail-points"><strong>What you can discuss with FN</strong><ul><li>Intended work environment, garment style and wearer requirements.</li><li>Fabric, material, colour, sizing and construction preferences.</li><li>Custom branding, labels, trims and private-label requirements.</li><li>Estimated quantity, sample expectations and destination market.</li></ul></div><p class="form-note">Final materials, protective performance, standards and specifications are confirmed against your brief and any required test evidence. Product images are visual references, not a claim that the pictured item is an FN-made product.</p><div class="product-detail-actions"><button class="btn btn-dark" id="productDetailEnquire" type="button">Enquire about this product ↗</button><button class="btn btn-light" id="productDetailClose2" type="button">Continue browsing</button></div></div></div><div class="product-image-zoom" id="productImageZoom" role="dialog" aria-modal="true" aria-label="Enlarged product reference photograph"><button class="product-image-zoom-close" id="productImageZoomClose" type="button" aria-label="Close enlarged photograph">×</button><img decoding="async" id="productImageZoomSrc" alt=""></div><script>
 const sizeRows={
 body:[
 {a:"XS",us:"XS",uk:"XS",eu:"EU 42",asia:"S",za:"XS",northafrica:"EU 42",ch:"84–88",wa:"68–72",hi:"88–92"},
@@ -202,9 +203,13 @@ document.getElementById('year').textContent=new Date().getFullYear();
 const productDetail=document.getElementById('productDetail');
 let selectedProduct='';
 let activeProductCard=null;
+const productCards=[...document.querySelectorAll('.product-card')];
+let activeProductIndex=-1;
 function closeProductDetail(restoreFocus=true){productDetail.classList.remove('open');document.body.style.overflow='';if(restoreFocus&&activeProductCard){activeProductCard.focus();}}
-document.querySelectorAll('.product-card').forEach(card=>card.addEventListener('click',event=>{
- event.preventDefault();
+function showProductReference(index,focusClose=false){
+ if(!productCards.length)return;
+ activeProductIndex=(index+productCards.length)%productCards.length;
+ const card=productCards[activeProductIndex];
  activeProductCard=card;
  const title=card.querySelector('h3')?.textContent?.trim()||'Workwear product';
  const category=card.querySelector('.product-info small')?.textContent?.trim()||'Product range';
@@ -216,9 +221,18 @@ document.querySelectorAll('.product-card').forEach(card=>card.addEventListener('
  const detailImage=document.getElementById('productDetailImage');
  const imageWrap=document.getElementById('productDetailImageWrap');
  if(sourceImage&&detailImage){detailImage.src=sourceImage.currentSrc||sourceImage.src;detailImage.alt=sourceImage.alt||title+' product reference photograph';imageWrap.hidden=false;}else{imageWrap.hidden=true;detailImage.removeAttribute('src');}
+ document.getElementById('productReferenceCount').textContent='Reference '+(activeProductIndex+1)+' of '+productCards.length;
+ document.getElementById('productReferencePrev').disabled=productCards.length<2;
+ document.getElementById('productReferenceNext').disabled=productCards.length<2;
+ if(focusClose)document.getElementById('closeProductDetail').focus();
+}
+productCards.forEach((card,index)=>card.addEventListener('click',event=>{
+ event.preventDefault();
+ showProductReference(index,true);
  productDetail.classList.add('open');document.body.style.overflow='hidden';
- document.getElementById('closeProductDetail').focus();
 }));
+document.getElementById('productReferencePrev').addEventListener('click',()=>showProductReference(activeProductIndex-1));
+document.getElementById('productReferenceNext').addEventListener('click',()=>showProductReference(activeProductIndex+1));
 document.getElementById('closeProductDetail').addEventListener('click',closeProductDetail);
 document.getElementById('productDetailClose2').addEventListener('click',closeProductDetail);
 productDetail.addEventListener('click',e=>{if(e.target===productDetail)closeProductDetail();});
@@ -236,6 +250,7 @@ document.getElementById('productImageZoomClose').addEventListener('click',closeP
 productImageZoom.addEventListener('click',event=>{if(event.target===productImageZoom||event.target===productImageZoomSrc)closeProductImageZoom();});
 document.addEventListener('keydown',e=>{
  if(e.key==='Escape'){if(productImageZoom.classList.contains('open'))closeProductImageZoom();else if(productDetail.classList.contains('open'))closeProductDetail();return;}
+ if(productDetail.classList.contains('open')&&!productImageZoom.classList.contains('open')&&(e.key==='ArrowLeft'||e.key==='ArrowRight')){e.preventDefault();showProductReference(activeProductIndex+(e.key==='ArrowRight'?1:-1));return;}
  if(e.key==='Tab'&&productImageZoom.classList.contains('open')){e.preventDefault();document.getElementById('productImageZoomClose').focus();return;}
  if(e.key==='Tab'&&productDetail.classList.contains('open')){
   const focusable=[...productDetail.querySelectorAll('button:not([disabled]),a[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])')].filter(el=>!el.closest('[hidden]'));
