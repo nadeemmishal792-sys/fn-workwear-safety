@@ -1,55 +1,36 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" role="img" aria-label="Abstract three-dimensional industrial forms in graphite, steel and safety lime">
-<defs>
- <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#222a2a"/><stop offset=".55" stop-color="#111819"/><stop offset="1" stop-color="#080d0e"/></linearGradient>
- <linearGradient id="steel" x2="1" y2="1"><stop stop-color="#aeb9b1"/><stop offset=".35" stop-color="#59645f"/><stop offset=".72" stop-color="#293330"/><stop offset="1" stop-color="#111817"/></linearGradient>
- <linearGradient id="lime" x2="1" y2="1"><stop stop-color="#e6f77a"/><stop offset=".45" stop-color="#c8df36"/><stop offset="1" stop-color="#6f8218"/></linearGradient>
- <linearGradient id="orange" x2="1" y2="1"><stop stop-color="#ffb16a"/><stop offset="1" stop-color="#c95a1e"/></linearGradient>
- <linearGradient id="fabric" x2=".9" y2="1"><stop stop-color="#66716b"/><stop offset=".25" stop-color="#252e2b"/><stop offset=".7" stop-color="#111817"/><stop offset="1" stop-color="#3b4640"/></linearGradient>
- <radialGradient id="glow"><stop stop-color="#c8df36" stop-opacity=".25"/><stop offset="1" stop-color="#c8df36" stop-opacity="0"/></radialGradient>
- <filter id="shadow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="34"/></filter>
- <filter id="soft"><feGaussianBlur stdDeviation="12"/></filter>
- <pattern id="weave" width="18" height="18" patternUnits="userSpaceOnUse"><path d="M0 4H18M0 13H18" stroke="#a9b5ad" stroke-opacity=".12" stroke-width="2"/><path d="M4 0V18M13 0V18" stroke="#080d0e" stroke-opacity=".3" stroke-width="2"/></pattern>
-</defs>
-<rect width="1920" height="1080" fill="url(#bg)"/>
-<ellipse cx="1370" cy="520" rx="580" ry="470" fill="url(#glow)"/>
-<g opacity=".22" stroke="#8d9a91" fill="none"><path d="M900 0V1080M1100 0V1080M1300 0V1080M1500 0V1080M1700 0V1080"/><path d="M780 180H1920M780 380H1920M780 580H1920M780 780H1920"/></g>
-<ellipse cx="1430" cy="900" rx="490" ry="80" fill="#000" opacity=".55" filter="url(#shadow)"/>
-<!-- suspended folded technical textile -->
-<path d="M1120 260C1270 110 1510 125 1660 250C1760 335 1710 450 1570 485C1460 512 1430 625 1545 690C1640 745 1610 830 1495 850C1330 880 1160 780 1125 650C1085 500 990 390 1120 260Z" fill="url(#fabric)" stroke="#7e8b82" stroke-opacity=".42" stroke-width="3"/>
-<path d="M1120 260C1270 110 1510 125 1660 250C1760 335 1710 450 1570 485C1460 512 1430 625 1545 690C1640 745 1610 830 1495 850C1330 880 1160 780 1125 650C1085 500 990 390 1120 260Z" fill="url(#weave)" opacity=".7"/>
-<path d="M1115 268C1290 165 1435 185 1570 285C1660 352 1620 430 1510 470C1370 520 1360 640 1500 725" fill="none" stroke="#c2ccc3" stroke-opacity=".35" stroke-width="7"/>
-<path d="M1160 330C1310 240 1430 250 1535 330" fill="none" stroke="#e2e9df" stroke-opacity=".16" stroke-width="2"/>
-<!-- floating beveled industrial slab -->
-<g transform="translate(1325 160) rotate(-14)">
- <path d="M0 95L250 0L390 82L137 181Z" fill="#a5b0a7"/>
- <path d="M137 181L390 82V315L137 414Z" fill="#222c29"/>
- <path d="M0 95L137 181V414L0 326Z" fill="#56625c"/>
- <path d="M0 95L250 0L390 82L137 181Z" fill="url(#steel)" opacity=".88"/>
- <path d="M0 326L137 414L390 315" fill="none" stroke="#c8df36" stroke-width="5" opacity=".75"/>
- <path d="M30 116L250 33L350 91L132 172Z" fill="none" stroke="#eef2e9" stroke-opacity=".25" stroke-width="3"/>
-</g>
-<!-- precision safety ring -->
-<g transform="translate(1570 620) rotate(18)">
- <ellipse rx="205" ry="82" fill="none" stroke="#080d0e" stroke-width="56" opacity=".7" filter="url(#soft)"/>
- <ellipse rx="205" ry="82" fill="none" stroke="url(#lime)" stroke-width="34"/>
- <ellipse rx="205" ry="82" fill="none" stroke="#f0f5dd" stroke-opacity=".55" stroke-width="3"/>
- <path d="M-205 0A205 82 0 0 0 205 0" fill="none" stroke="#61711b" stroke-width="10" opacity=".8"/>
-</g>
-<!-- floating orange detail -->
-<g transform="translate(1080 760) rotate(-24)">
- <path d="M0 0L150 -42L214 2L62 48Z" fill="url(#orange)"/>
- <path d="M62 48L214 2V84L62 130Z" fill="#8f3b16"/>
- <path d="M0 0L62 48V130L0 82Z" fill="#d46a2b"/>
-</g>
-<g transform="translate(1770 220) rotate(28)" opacity=".8">
- <path d="M0 0L120 -30L185 8L65 40Z" fill="url(#lime)"/>
- <path d="M65 40L185 8V88L65 120Z" fill="#64761b"/>
- <path d="M0 0L65 40V120L0 80Z" fill="#879d24"/>
-</g>
-<!-- foreground steel weave platform -->
-<path d="M930 930L1470 760L1920 930V1080H930Z" fill="#151d1b" opacity=".88"/>
-<path d="M930 930L1470 760L1920 930" fill="none" stroke="#7c8980" stroke-opacity=".45" stroke-width="3"/>
-<path d="M1050 980L1500 830M1190 1030L1640 880M1360 1080L1800 930" stroke="#a7b4a9" stroke-opacity=".14" stroke-width="3"/>
-<path d="M1430 940L1920 790" stroke="#c8df36" stroke-opacity=".55" stroke-width="5"/>
-<rect width="1920" height="1080" fill="url(#bg)" opacity=".08"/>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Original industrial worksite photograph with subtle cinematic motion">
+  <defs>
+    <linearGradient id="shade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#081011" stop-opacity=".38"/>
+      <stop offset=".58" stop-color="#081011" stop-opacity=".04"/>
+      <stop offset="1" stop-color="#081011" stop-opacity=".16"/>
+    </linearGradient>
+    <radialGradient id="light" cx="78%" cy="38%" r="58%">
+      <stop offset="0" stop-color="#d6ed70" stop-opacity=".18"/>
+      <stop offset=".55" stop-color="#c8df36" stop-opacity=".045"/>
+      <stop offset="1" stop-color="#c8df36" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sweep" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".48" stop-color="#e4f4a0" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+      <animate attributeName="x1" values="-1;1;-1" dur="18s" repeatCount="indefinite"/>
+      <animate attributeName="x2" values="0;2;0" dur="18s" repeatCount="indefinite"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="#17201e"/>
+  <g transform-origin="960px 540px">
+    <image x="-90" y="-55" width="2100" height="1180" preserveAspectRatio="xMidYMid slice"
+      href="https://thecreativeconcept.org/assets/images/workwear-showcase.webp"
+      xlink:href="https://thecreativeconcept.org/assets/images/workwear-showcase.webp"/>
+    <animateTransform attributeName="transform" type="scale" values="1;1.065;1.035;1" dur="30s" repeatCount="indefinite"/>
+    <animateTransform attributeName="transform" type="translate" values="0 0;-18 9;10 -7;0 0" dur="36s" repeatCount="indefinite" additive="sum"/>
+  </g>
+  <rect width="1920" height="1080" fill="url(#shade)"/>
+  <rect width="1920" height="1080" fill="url(#light)">
+    <animate attributeName="opacity" values=".55;1;.7;.55" dur="13s" repeatCount="indefinite"/>
+  </rect>
+  <rect x="-1920" y="0" width="1920" height="1080" fill="url(#sweep)" opacity=".45">
+    <animate attributeName="x" values="-1920;1920" dur="22s" repeatCount="indefinite"/>
+  </rect>
 </svg>
