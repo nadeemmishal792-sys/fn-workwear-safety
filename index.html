@@ -368,3 +368,11 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
 }
 </script>
 </body></html>
+
+/* Visible homepage hero motion: stronger image drift plus a soft moving light sweep. */
+.hero-media{overflow:hidden}
+.hero-media img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 44%;transform-origin:center center;animation:fnHeroVisibleMotion 18s ease-in-out infinite alternate!important;will-change:transform}
+.hero-media:after{content:"";position:absolute;inset:-35% -60%;pointer-events:none;background:linear-gradient(108deg,transparent 38%,rgba(218,236,145,.10) 48%,rgba(255,255,255,.16) 50%,rgba(218,236,145,.08) 52%,transparent 62%);transform:translateX(-45%);animation:fnHeroLightSweep 11s ease-in-out infinite}
+@keyframes fnHeroVisibleMotion{0%{transform:scale(1.015) translate3d(0,0,0)}50%{transform:scale(1.105) translate3d(-1.2%,.45%,0)}100%{transform:scale(1.055) translate3d(.9%,-.35%,0)}}
+@keyframes fnHeroLightSweep{0%{transform:translateX(-45%);opacity:0}18%{opacity:.65}82%{opacity:.65}100%{transform:translateX(45%);opacity:0}}
+@media(prefers-reduced-motion:reduce){.hero-media img,.hero-media:after{animation:none!important}}
