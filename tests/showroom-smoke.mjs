@@ -68,5 +68,13 @@ for (const [index, card] of productCards.entries()) {
 for (const [index, card] of productCards.entries()) {
   assert.ok(/<img\b[^>]*\balt="[^"]+"/i.test(card), 'product card ' + (index + 1) + ' needs descriptive image alt text');
 }
+for (const genericAlt of [
+  'Cargo Work Pants visual reference',
+  'Classic Bib Overalls visual reference',
+  'Protective work gloves reference',
+  'Cut resistant glove reference'
+]) {
+  assert.ok(!html.includes('alt="' + genericAlt + '"'), 'generic image alt text should be replaced: ' + genericAlt);
+}
 assert.ok(html.includes('Product images are visual references, not a claim that the pictured item is an FN-made product.'), 'reference-image disclosure missing');
 console.log('FN website smoke checks passed: catalogue, navigable reference gallery, keyboard controls, image alt text, responsive sections and enquiry flow.');
