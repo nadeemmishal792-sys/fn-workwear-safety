@@ -49,7 +49,10 @@ async function worker() {
 }
 await Promise.all(Array.from({ length: 6 }, worker));
 for (const item of results) console.log(JSON.stringify(item));
-const counts = Object.groupBy(results, item => item.result);
-console.log('Image URL audit:', Object.fromEntries(Object.entries(counts).map(([key, value]) => [key, value.length])));
+const counts = results.reduce((summary, item) => {
+  summary[item.result] = (summary[item.result] || 0) + 1;
+  return summary;
+}, {});
+console.log('Image URL audit:', counts);
 const definiteFailures = results.filter(item => ['broken', 'not-image'].includes(item.result));
 assert.equal(definiteFailures.length, 0, 'one or more product image URLs are definitely broken or return non-image content');
