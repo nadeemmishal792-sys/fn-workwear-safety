@@ -145,6 +145,6 @@ The current repository's product pages do not contain the named JPG inventory in
 
 ## Remaining verification limits
 
-- Automated source-level smoke checks cover the responsive image enhancement and existing catalogue interactions.
+- Automated source-level smoke checks cover the responsive image enhancement and existing catalogue interactions. GitHub Actions passed on commit `a5cc7f3fc78acc78a87a46a3eb98e2cdefcdfc29`.
 - Manual desktop/mobile browser checks, visual colour review, and live network inspection still need to be completed in a real browser. Do not mark them complete based only on source inspection.
 - Some external image providers may block hotlinking, change URLs, or serve different sizes over time. Recheck image availability and usage permissions before public launch.
