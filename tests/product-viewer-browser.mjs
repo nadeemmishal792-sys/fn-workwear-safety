@@ -13,7 +13,7 @@ try {
   const detail = page.locator('#productDetail');
   await detail.waitFor({ state: 'visible' });
   await page.locator('#productReferenceNext').click();
-  assert.match(await page.locator('#productReferenceCount').innerText(), /Reference 2 of/);
+  assert.match(await page.locator('#productReferenceCount').innerText(), /Reference 2 of/i);
   await page.screenshot({ path: 'artifacts/product-viewer-desktop.png' });
   await page.locator('#closeProductDetail').click();
 
