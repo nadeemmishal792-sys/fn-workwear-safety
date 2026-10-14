@@ -42,9 +42,10 @@ assert.ok(html.includes('"addressCountry": "PK"'), 'structured business location
 assert.ok(html.includes('prefers-reduced-motion:reduce'), 'reduced-motion accessibility support missing');
 assert.ok(html.includes("document.querySelectorAll('.product-card img[src]')"), 'responsive product-image enhancement missing');
 assert.ok(html.includes('searchParams.set(\'width\',String(width))'), 'Shopify width variants missing');
+assert.ok(html.includes("bigCommerceMatch[1]+width+'x'+width+bigCommerceMatch[2]"), 'BigCommerce stencil width variants missing');
 assert.ok(html.includes("img.setAttribute('srcset',candidates.join(', '))"), 'responsive srcset assignment missing');
 assert.ok(html.includes("img.setAttribute('sizes','(max-width: 720px) 50vw, (max-width: 1050px) 33vw, 25vw')"), 'responsive image sizes missing');
-assert.ok(html.includes('cdn\\\\.shopify\\\\.com|\\\\/cdn\\\\/shop\\\\/'), 'responsive image enhancement must be restricted to known Shopify CDN URLs');
+assert.ok(html.includes(String.raw\`cdn\.shopify\.com\`) && html.includes('bigCommerceMatch=raw.match'), 'responsive image enhancement must use explicit supported CDN transformations only');
 for (const [index, card] of productCards.entries()) {
   const image = card.match(/<img\b[^>]*>/i)?.[0] || '';
   assert.ok(/loading="lazy"/i.test(image), 'product card ' + (index + 1) + ' should lazy-load below-the-fold imagery');
