@@ -45,12 +45,7 @@ assert.ok(html.includes('searchParams.set(\'width\',String(width))'), 'Shopify w
 assert.ok(html.includes("bigCommerceMatch[1]+width+'x'+width+bigCommerceMatch[2]"), 'BigCommerce stencil width variants missing');
 assert.ok(html.includes("img.setAttribute('srcset',candidates.join(', '))"), 'responsive srcset assignment missing');
 assert.ok(html.includes("img.setAttribute('sizes','(max-width: 720px) 50vw, (max-width: 1050px) 33vw, 25vw')"), 'responsive image sizes missing');
-assert.ok(html.includes(String.raw\`cdn\.shopify\.com\`) && html.includes('bigCommerceMatch=raw.match'), 'responsive image enhancement must use explicit supported CDN transformations only');
-for (const [index, card] of productCards.entries()) {
-  const image = card.match(/<img\b[^>]*>/i)?.[0] || '';
-  assert.ok(/loading="lazy"/i.test(image), 'product card ' + (index + 1) + ' should lazy-load below-the-fold imagery');
-}
-
+assert.ok(html.includes('cdn\\.shopify\\.com') && html.includes('bigCommerceMatch=raw.match'), 'responsive image enhancement must use explicit supported CDN transformations only');
 assert.ok(!html.includes('product-experience.js'), 'legacy 3D viewer must not be loaded');
 assert.ok(!html.includes('id="garment"'), 'legacy 3D garment stage must not be present');
 
@@ -66,6 +61,10 @@ assert.ok(html.includes("e.key==='ArrowLeft'||e.key==='ArrowRight'"), 'left/righ
 assert.ok(html.includes('one supplied view for this item'), 'gallery must not imply multi-angle imagery where none exists');
 const productCards = [...html.matchAll(/<a class="product-card reveal"[\s\S]*?<\/a>/g)].map(match => match[0]);
 assert.equal(productCards.length, productCardCount, 'product card extraction mismatch');
+for (const [index, card] of productCards.entries()) {
+  const image = card.match(/<img\b[^>]*>/i)?.[0] || '';
+  assert.ok(/loading="lazy"/i.test(image), 'product card ' + (index + 1) + ' should lazy-load below-the-fold imagery');
+}
 for (const [index, card] of productCards.entries()) {
   assert.ok(/<img\b[^>]*\balt="[^"]+"/i.test(card), 'product card ' + (index + 1) + ' needs descriptive image alt text');
 }
