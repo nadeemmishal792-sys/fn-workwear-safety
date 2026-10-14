@@ -132,3 +132,19 @@ Before any new photographs replace reference imagery on the public site, FN must
 ## Current website limitation
 
 The current repository's product pages do not contain the named JPG inventory in the supplied inspection report. That report's file paths and per-product dimensions were not verifiable against the repository. The current product showroom has 71 product cards and externally hosted reference images. New genuine multi-view galleries should be populated only after FN supplies and approves the matching image files. Missing angles must remain unavailable rather than being fabricated.
+
+## Current web image delivery implementation (development branch)
+
+- Product-card images are lazy-loaded below the fold and decoded asynchronously.
+- Product images hosted on Shopify's image CDN receive responsive srcset candidates at 360, 640 and 960 pixels, with matching sizes values. The browser can select an appropriate derivative for the current layout.
+- Shopify's image CDN negotiates modern image formats such as WebP/AVIF when supported by the requesting browser. This is CDN-side delivery, not a locally generated archive of WebP/AVIF files.
+- Other third-party image hosts are intentionally not given fabricated resize or format parameters. Their URL conventions and format support differ; applying Shopify parameters to them could break images.
+- The hero image retains high fetch priority. Product-card images remain lazy-loaded.
+- The current product detail viewer displays the one supplied reference image for each card. It does not claim that browsing to another catalogue item reveals the back, side or construction detail of the same garment.
+- A genuine multi-view gallery for a particular garment can only be assembled from independently verified images of that same garment/model. Where those views cannot be verified, the gallery remains a single-view reference rather than showing invented angles.
+
+## Remaining verification limits
+
+- Automated source-level smoke checks cover the responsive image enhancement and existing catalogue interactions.
+- Manual desktop/mobile browser checks, visual colour review, and live network inspection still need to be completed in a real browser. Do not mark them complete based only on source inspection.
+- Some external image providers may block hotlinking, change URLs, or serve different sizes over time. Recheck image availability and usage permissions before public launch.
