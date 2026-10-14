@@ -25,7 +25,7 @@ async function check(url) {
       });
     }
     const type = response.headers.get('content-type') || '';
-    if ([403, 429].includes(response.status)) return { url, status: response.status, result: 'host-restricted' };
+    if ([202, 403, 429].includes(response.status)) return { url, status: response.status, type, result: 'host-restricted' };
     if (response.status >= 500 || response.status === 404 || response.status === 410) {
       return { url, status: response.status, result: 'broken' };
     }
