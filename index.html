@@ -95,6 +95,25 @@
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
  .reveal{opacity:1;transform:none;filter:none}
 }
+
+/* Full-screen product carousel: same hero frame, palette and typography. */
+.hero-media{overflow:hidden;background:#111819}
+.hero-slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity 1.15s ease,visibility 1.15s ease}
+.hero-slide.is-active{opacity:1;visibility:visible;z-index:0}
+.hero-slide img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 44%;filter:brightness(.86) saturate(.82);transform:scale(1.035);will-change:transform}
+.hero-slide.is-active img{animation:fnHeroSlideDrift 8s ease-out both}
+.hero-slide:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,13,14,.26),transparent 72%);pointer-events:none}
+.hero-controls{position:absolute;z-index:4;right:max(44px,calc((100vw - var(--max))/2));bottom:27px;display:flex;align-items:center;gap:12px}
+.hero-arrow{width:34px;height:34px;border:1px solid rgba(255,255,255,.42);background:rgba(13,18,19,.28);color:#fff;font-size:17px;cursor:pointer;backdrop-filter:blur(8px);transition:background .25s,border-color .25s}
+.hero-arrow:hover,.hero-arrow:focus-visible{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+.hero-dots{display:flex;align-items:center;gap:7px}
+.hero-dot{width:7px;height:7px;padding:0;border:1px solid rgba(255,255,255,.8);border-radius:50%;background:transparent;cursor:pointer;transition:width .3s,background .3s,border-radius .3s}
+.hero-dot.is-active{width:24px;border-radius:8px;background:var(--lime);border-color:var(--lime)}
+.hero-meta{pointer-events:none}
+@keyframes fnHeroSlideDrift{from{transform:scale(1.035) translate3d(0,0,0)}to{transform:scale(1.13) translate3d(-.8%,.25%,0)}}
+@media(max-width:720px){.hero-controls{right:19px;bottom:52px;gap:8px}.hero-arrow{width:30px;height:30px}.hero-dots{gap:6px}.hero-dot{width:6px;height:6px}.hero-dot.is-active{width:19px}.hero-slide img{object-position:58% center}}
+@media(prefers-reduced-motion:reduce){.hero-slide,.hero-slide.is-active img{transition:none!important;animation:none!important}.hero-slide img{transform:none}}
+
 </style>
 </head>
 <body>
@@ -109,7 +128,24 @@
 <nav class="mobile-menu" id="mobileMenu"><strong>GARMENTS</strong><a href="#coveralls">Coveralls & boiler suits ↗</a><a href="#trousers">Work trousers & cargo pants ↗</a><a href="#bib-overalls">Bib overalls & dungarees ↗</a><a href="#shirts">Work shirts & polos ↗</a><a href="#hi-vis">Safety vests & hi-vis clothing ↗</a><a href="#specialist-garments">FR, anti-static & specialist wear ↗</a><a href="#rainwear">Rainwear & thermal wear ↗</a><strong>JACKETS</strong><a href="#jackets">Industrial work jackets ↗</a><a href="#parka-jackets">Parka jackets & winter parkas ↗</a><a href="#parka-jackets">Waterproof & hi-vis parkas ↗</a><a href="#gloves">Gloves ↗</a><a href="#size-guide">International size guide ↗</a><a href="#industries">Industries ↗</a><a href="#approach">Manufacturing ↗</a><a href="#contact">Contact ↗</a></nav>
 </div></header>
 <main>
-<section class="hero" id="home"><div class="hero-media"><img decoding="async" src="https://thecreativeconcept.org/assets/images/workwear-showcase.webp" alt="Industrial workwear and safety apparel at a worksite" fetchpriority="high"></div><div class="wrap hero-inner"><span class="eyebrow">WORKWEAR. SAFETY. PURPOSE.</span><h1>MADE FOR THE<br><em>WORK</em> AHEAD.</h1><p class="hero-copy">Workwear and safety apparel developed around the demands of your working world. Explore garment families, compare practical details and start your next product brief.</p><div class="hero-actions"><a class="btn btn-lime" href="#products">Explore our collection ↗</a><a class="hero-link" href="#about">GET TO KNOW FN &nbsp; ↘</a></div></div><div class="wrap hero-meta"><span>ENGINEERED FOR WORK. DESIGNED FOR PROTECTION.</span><span><b>01</b> — PRODUCT COLLECTION &nbsp; ↓</span></div></section>
+<section class="hero" id="home"><div class="hero-media" id="heroCarousel" aria-label="FN Workwear product showcase">
+ <div class="hero-slide is-active" data-label="WORKWEAR COLLECTION"><img decoding="async" src="https://thecreativeconcept.org/assets/images/workwear-showcase.webp" alt="Industrial workwear and safety apparel at a worksite" fetchpriority="high"></div>
+ <div class="hero-slide" data-label="COVERALLS & BOILER SUITS"><img decoding="async" src="https://milansafety.com/cdn/shop/products/1.jpg?v=1680766672&width=1920" alt="Industrial work coverall garment" loading="lazy"></div>
+ <div class="hero-slide" data-label="HIGH-VISIBILITY APPAREL"><img decoding="async" src="https://image.made-in-china.com/2f0j00awFoGOUJSKrS/Reflective-Safety-Vest-Yellow-Work-Vest-with-Multi-Pockets-for-Enhanced-Visibility.webp" alt="High visibility safety vest" loading="lazy"></div>
+ <div class="hero-slide" data-label="WORK JACKETS"><img decoding="async" src="https://epik.us.com/cdn/shop/files/Epik_Agile_Outfit_Work_Hi_Vis_Jackets_2.jpg?v=1674163537&width=1920" alt="High visibility work jacket" loading="lazy"></div>
+ <div class="hero-slide" data-label="INSULATED PARKAS"><img decoding="async" src="assets/products/fn-insulated-utility-parka.jpg" alt="FN insulated utility parka jacket" loading="lazy"></div>
+ <div class="hero-controls" aria-label="Product showcase controls">
+  <button class="hero-arrow" type="button" id="heroPrev" aria-label="Previous product image">←</button>
+  <div class="hero-dots" role="group" aria-label="Choose product image">
+   <button class="hero-dot is-active" type="button" aria-label="Show image 1" aria-current="true"></button>
+   <button class="hero-dot" type="button" aria-label="Show image 2"></button>
+   <button class="hero-dot" type="button" aria-label="Show image 3"></button>
+   <button class="hero-dot" type="button" aria-label="Show image 4"></button>
+   <button class="hero-dot" type="button" aria-label="Show image 5"></button>
+  </div>
+  <button class="hero-arrow" type="button" id="heroNext" aria-label="Next product image">→</button>
+ </div>
+</div><div class="wrap hero-inner"><span class="eyebrow">WORKWEAR. SAFETY. PURPOSE.</span><h1>MADE FOR THE<br><em>WORK</em> AHEAD.</h1><p class="hero-copy">Workwear and safety apparel developed around the demands of your working world. Explore garment families, compare practical details and start your next product brief.</p><div class="hero-actions"><a class="btn btn-lime" href="#products">Explore our collection ↗</a><a class="hero-link" href="#about">GET TO KNOW FN &nbsp; ↘</a></div></div><div class="wrap hero-meta"><span>ENGINEERED FOR WORK. DESIGNED FOR PROTECTION.</span><span><b>01</b> — PRODUCT COLLECTION &nbsp; ↓</span></div></section>
 <section class="section" id="about"><div class="wrap intro-grid reveal"><div><span class="eyebrow">01 / THE FN APPROACH</span><h2 class="headline">THE RIGHT GEAR<br>CHANGES <em>EVERYTHING.</em></h2></div><div><p class="lead">People do their best work when their kit is made for the job.</p><p class="body-copy">FN Workwear & Safety is a Sialkot-based workwear brand focused on developing practical garment ranges around customer requirements. From everyday industrial clothing to visibility-led garments and specialist workwear concepts, every enquiry starts with understanding the wearer and the work.</p><a class="text-link" href="#approach">DISCOVER OUR APPROACH ↗</a></div></div></section>
 <section class="section product-section" id="products"><div class="wrap"><div class="section-head reveal"><div><span class="eyebrow">02 / THE PRODUCT COLLECTION</span><h2 class="headline">EVERY GARMENT.<br>ONE <em>STANDARD.</em></h2><p class="section-intro">A structured workwear showroom covering coveralls and boiler suits, work shirts, polo shirts, high-visibility vests, industrial trousers, cargo trousers, bib overalls, uniforms, welding apparel, flame-resistant and anti-static workwear.</p><p class="image-reference-note">Product photographs are illustrative third-party references, not claims of FN-owned production. Final garment designs, fabrics, colours, trims, branding and specifications are confirmed to each buyer brief; any safety standard is stated only when verified for the specific garment.</p></div><a class="text-link" href="#contact">DISCUSS A CUSTOM RANGE ↗</a></div>
 <div class="product-grid">
@@ -368,6 +404,37 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
   });
  });
 }
+
+// Accessible homepage product carousel: auto-advances, with manual controls and reduced-motion support.
+(()=>{
+ const carousel=document.getElementById('heroCarousel');
+ if(!carousel)return;
+ const slides=[...carousel.querySelectorAll('.hero-slide')];
+ const dots=[...carousel.querySelectorAll('.hero-dot')];
+ const label=document.querySelector('.hero-meta span:last-child');
+ const originalMeta=label?.innerHTML||'';
+ let current=0,timer=null;
+ const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const delay=6500;
+ function show(index){
+  current=(index+slides.length)%slides.length;
+  slides.forEach((slide,i)=>{const active=i===current;slide.classList.toggle('is-active',active);slide.setAttribute('aria-hidden',String(!active));});
+  dots.forEach((dot,i)=>{const active=i===current;dot.classList.toggle('is-active',active);if(active)dot.setAttribute('aria-current','true');else dot.removeAttribute('aria-current');});
+  if(label)label.innerHTML='<b>'+String(current+1).padStart(2,'0')+'</b> — '+slides[current].dataset.label+' &nbsp; ↓';
+ }
+ function stop(){if(timer){clearInterval(timer);timer=null;}}
+ function start(){stop();if(!reduced&&!document.hidden)timer=setInterval(()=>show(current+1),delay);}
+ document.getElementById('heroPrev')?.addEventListener('click',()=>{show(current-1);start();});
+ document.getElementById('heroNext')?.addEventListener('click',()=>{show(current+1);start();});
+ dots.forEach((dot,i)=>dot.addEventListener('click',()=>{show(i);start();}));
+ carousel.addEventListener('mouseenter',stop);
+ carousel.addEventListener('mouseleave',start);
+ carousel.addEventListener('focusin',stop);
+ carousel.addEventListener('focusout',start);
+ document.addEventListener('visibilitychange',()=>document.hidden?stop():start());
+ show(0);start();
+})();
+
 </script>
 </body></html>
 
