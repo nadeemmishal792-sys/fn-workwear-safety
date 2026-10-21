@@ -100,9 +100,9 @@
 .hero-media{overflow:hidden;background:#111819}
 .hero-slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity 1.15s ease,visibility 1.15s ease}
 .hero-slide.is-active{opacity:1;visibility:visible;z-index:0}
-.hero-slide img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 44%;filter:brightness(.86) saturate(.82);transform:scale(1.035);will-change:transform}
-.hero-slide.is-active img{animation:fnHeroSlideDrift 8s ease-out both}
-.hero-slide:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,13,14,.26),transparent 72%);pointer-events:none}
+.hero-slide img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 44%;filter:brightness(.98) saturate(.98) contrast(1.02);transform:scale(1.005);will-change:transform}
+.hero-slide.is-active img{animation:fnHeroSlideDrift 7s ease-out both}
+.hero-slide:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,13,14,.14),transparent 76%);pointer-events:none}
 .hero-controls{position:absolute;z-index:4;right:max(44px,calc((100vw - var(--max))/2));bottom:27px;display:flex;align-items:center;gap:12px}
 .hero-arrow{width:34px;height:34px;border:1px solid rgba(255,255,255,.42);background:rgba(13,18,19,.28);color:#fff;font-size:17px;cursor:pointer;backdrop-filter:blur(8px);transition:background .25s,border-color .25s}
 .hero-arrow:hover,.hero-arrow:focus-visible{background:var(--lime);border-color:var(--lime);color:var(--ink)}
@@ -110,7 +110,7 @@
 .hero-dot{width:7px;height:7px;padding:0;border:1px solid rgba(255,255,255,.8);border-radius:50%;background:transparent;cursor:pointer;transition:width .3s,background .3s,border-radius .3s}
 .hero-dot.is-active{width:24px;border-radius:8px;background:var(--lime);border-color:var(--lime)}
 .hero-meta{pointer-events:none}
-@keyframes fnHeroSlideDrift{from{transform:scale(1.035) translate3d(0,0,0)}to{transform:scale(1.13) translate3d(-.8%,.25%,0)}}
+@keyframes fnHeroSlideDrift{from{transform:scale(1.005) translate3d(0,0,0)}to{transform:scale(1.045) translate3d(-.35%,.12%,0)}}
 @media(max-width:720px){.hero-controls{right:19px;bottom:52px;gap:8px}.hero-arrow{width:30px;height:30px}.hero-dots{gap:6px}.hero-dot{width:6px;height:6px}.hero-dot.is-active{width:19px}.hero-slide img{object-position:58% center}}
 @media(prefers-reduced-motion:reduce){.hero-slide,.hero-slide.is-active img{transition:none!important;animation:none!important}.hero-slide img{transform:none}}
 
@@ -415,7 +415,7 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
  const originalMeta=label?.innerHTML||'';
  let current=0,timer=null;
  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- const delay=6500;
+ const delay=6000;
  function show(index){
   current=(index+slides.length)%slides.length;
   slides.forEach((slide,i)=>{const active=i===current;slide.classList.toggle('is-active',active);slide.setAttribute('aria-hidden',String(!active));});
@@ -431,6 +431,15 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
  carousel.addEventListener('mouseleave',start);
  carousel.addEventListener('focusin',stop);
  carousel.addEventListener('focusout',start);
+ // Let mobile visitors swipe between product photographs as well as use the arrows.
+ let touchStartX=0;
+ carousel.addEventListener('touchstart',event=>{touchStartX=event.changedTouches[0]?.clientX||0;stop();},{passive:true});
+ carousel.addEventListener('touchend',event=>{
+  const touchEndX=event.changedTouches[0]?.clientX||0;
+  const distance=touchEndX-touchStartX;
+  if(Math.abs(distance)>45)show(current+(distance<0?1:-1));
+  start();
+ },{passive:true});
  document.addEventListener('visibilitychange',()=>document.hidden?stop():start());
  show(0);start();
 })();
