@@ -115,6 +115,116 @@
 @media(max-width:720px){.hero-controls{right:19px;bottom:52px;gap:8px}.hero-arrow{width:30px;height:30px}.hero-dots{gap:6px}.hero-dot{width:6px;height:6px}.hero-dot.is-active{width:19px}.hero-slide img{object-position:58% center}}
 @media(prefers-reduced-motion:reduce){.hero-slide,.hero-slide.is-active img{transition:none!important;animation:none!important}.hero-slide img{transform:none}}
 
+
+/* FN 2026: editorial split-hero — product photography stays in its own frame,
+   with copy on a clean surface rather than overlaid on the image. */
+.hero{
+ display:grid;
+ grid-template-columns:minmax(330px,.78fr) minmax(0,1.22fr);
+ grid-template-rows:minmax(0,1fr);
+ align-items:stretch;
+ gap:clamp(24px,4vw,64px);
+ height:min(760px,calc(100svh - 116px));
+ min-height:640px;
+ padding:30px max(44px,calc((100vw - var(--max))/2));
+ background:var(--paper);
+ color:var(--ink);
+ isolation:isolate;
+}
+.hero:before,.hero:after{display:none}
+.hero-media{
+ position:relative;
+ inset:auto;
+ z-index:1;
+ grid-column:2;
+ grid-row:1;
+ min-width:0;
+ min-height:0;
+ height:100%;
+ overflow:hidden;
+ background:#d9ded4;
+ border-radius:2px;
+ box-shadow:0 22px 54px rgba(18,27,23,.13);
+}
+.hero-slide:after{background:linear-gradient(0deg,rgba(8,13,14,.20),transparent 30%)}
+.hero-slide img{object-position:center center;filter:none}
+.hero-slide.is-active img{animation:fnHeroSlideDrift 8s ease-out both}
+.hero-inner{
+ grid-column:1;
+ grid-row:1;
+ order:0;
+ position:relative;
+ z-index:2;
+ align-self:center;
+ height:auto;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ padding:0 0 55px;
+ max-width:520px;
+}
+.hero .eyebrow{color:#788b1e}
+.hero .eyebrow:before{background:var(--lime2)}
+.hero h1{
+ color:var(--ink);
+ font:900 clamp(48px,5.4vw,76px)/.98 Manrope;
+ letter-spacing:-.075em;
+ max-width:510px;
+ margin:25px 0 22px;
+}
+.hero h1 em{color:#899c20}
+.hero-copy{max-width:430px;color:#606a63;font-size:14px;line-height:1.9}
+.hero-actions{gap:22px;margin-top:27px;flex-wrap:wrap}
+.hero-link{color:var(--ink)}
+.hero-meta{
+ position:absolute;
+ left:max(44px,calc((100vw - var(--max))/2));
+ right:auto;
+ bottom:28px;
+ width:min(390px,calc(42% - 40px));
+ color:#707974;
+ font-size:8px;
+ letter-spacing:.13em;
+ line-height:1.7;
+}
+.hero-meta span:last-child{display:none}
+.hero-controls{
+ right:max(58px,calc((100vw - var(--max))/2 + 16px));
+ bottom:48px;
+}
+.hero-arrow{background:rgba(13,18,19,.58)}
+.hero-dot{border-color:rgba(255,255,255,.92)}
+.hero-slide{background:#dfe3da}
+@media(max-width:1050px){
+ .hero{grid-template-columns:minmax(280px,.82fr) minmax(0,1.18fr);gap:28px;padding:26px 27px;min-height:590px}
+ .hero h1{font-size:clamp(45px,5.8vw,64px)}
+ .hero-meta{left:27px;width:36%}
+ .hero-controls{right:42px}
+}
+@media(max-width:720px){
+ .hero{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  height:auto;
+  min-height:0;
+  max-height:none;
+  padding:38px 19px 62px;
+ }
+ .hero-inner{order:0;max-width:none;padding:0}
+ .hero h1{font-size:clamp(43px,11.5vw,61px);margin:17px 0 13px;max-width:430px}
+ .hero-copy{font-size:12px;line-height:1.75;max-width:470px}
+ .hero-actions{margin-top:18px;gap:16px}
+ .hero-media{order:1;position:relative;inset:auto;width:100%;height:clamp(260px,72vw,390px);min-height:260px;flex:none}
+ .hero-controls{right:31px;bottom:82px;gap:7px}
+ .hero-arrow{width:31px;height:31px}
+ .hero-meta{left:19px;bottom:20px;width:calc(100% - 38px);font-size:7px}
+ .hero-meta span:last-child{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+ .hero-slide.is-active img{animation:none!important;transform:none!important}
+}
+
 </style>
 </head>
 <body>
@@ -177,7 +287,7 @@
  </div>
  <button class="hero-arrow" type="button" id="heroNext" aria-label="Next product image">→</button>
 </div>
-<div class="wrap hero-inner"><span class="eyebrow">WORKWEAR. SAFETY. PURPOSE.</span><h1>MADE FOR THE<br><em>WORK</em> AHEAD.</h1><p class="hero-copy">Workwear and safety apparel developed around the demands of your working world. Explore garment families, compare practical details and start your next product brief.</p><div class="hero-actions"><a class="btn btn-lime" href="#products">Explore our collection ↗</a><a class="hero-link" href="#about">GET TO KNOW FN &nbsp; ↘</a></div></div><div class="wrap hero-meta"><span>ENGINEERED FOR WORK. DESIGNED FOR PROTECTION.</span><span><b>01</b> — PRODUCT COLLECTION &nbsp; ↓</span></div></section>
+<div class="wrap hero-inner"><span class="eyebrow">FN WORKWEAR &amp; SAFETY / SIALKOT, PAKISTAN</span><h1>WORKWEAR BUILT FOR THE <em>WORK AHEAD.</em></h1><p class="hero-copy">Practical workwear and safety apparel for demanding industries. Explore garment collections, specialist protection and custom product options — presented with clarity, not clutter.</p><div class="hero-actions"><a class="btn btn-lime" href="#products">Explore our collection ↗</a><a class="hero-link" href="#about">GET TO KNOW FN &nbsp; ↘</a></div></div><div class="wrap hero-meta"><span>ENGINEERED FOR WORK. DESIGNED FOR PROTECTION.</span><span><b>01</b> — PRODUCT COLLECTION &nbsp; ↓</span></div></section>
 <section class="section" id="about"><div class="wrap intro-grid reveal"><div><span class="eyebrow">01 / THE FN APPROACH</span><h2 class="headline">THE RIGHT GEAR<br>CHANGES <em>EVERYTHING.</em></h2></div><div><p class="lead">People do their best work when their kit is made for the job.</p><p class="body-copy">FN Workwear & Safety is a Sialkot-based workwear brand focused on developing practical garment ranges around customer requirements. From everyday industrial clothing to visibility-led garments and specialist workwear concepts, every enquiry starts with understanding the wearer and the work.</p><a class="text-link" href="#approach">DISCOVER OUR APPROACH ↗</a></div></div></section>
 <section class="section product-section" id="products"><div class="wrap"><div class="section-head reveal"><div><span class="eyebrow">02 / THE PRODUCT COLLECTION</span><h2 class="headline">EVERY GARMENT.<br>ONE <em>STANDARD.</em></h2><p class="section-intro">A structured workwear showroom covering coveralls and boiler suits, work shirts, polo shirts, high-visibility vests, industrial trousers, cargo trousers, bib overalls, uniforms, welding apparel, flame-resistant and anti-static workwear.</p><p class="image-reference-note">Product photographs are illustrative third-party references, not claims of FN-owned production. Final garment designs, fabrics, colours, trims, branding and specifications are confirmed to each buyer brief; any safety standard is stated only when verified for the specific garment.</p></div><a class="text-link" href="#contact">DISCUSS A CUSTOM RANGE ↗</a></div>
 <div class="product-grid">
@@ -479,10 +589,3 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
 </script>
 </body></html>
 
-/* Visible homepage hero motion: stronger image drift plus a soft moving light sweep. */
-.hero-media{overflow:hidden}
-.hero-media img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 44%;transform-origin:center center;animation:fnHeroVisibleMotion 18s ease-in-out infinite alternate!important;will-change:transform}
-.hero-media:after{content:"";position:absolute;inset:-35% -60%;pointer-events:none;background:linear-gradient(108deg,transparent 38%,rgba(218,236,145,.10) 48%,rgba(255,255,255,.16) 50%,rgba(218,236,145,.08) 52%,transparent 62%);transform:translateX(-45%);animation:fnHeroLightSweep 11s ease-in-out infinite}
-@keyframes fnHeroVisibleMotion{0%{transform:scale(1.015) translate3d(0,0,0)}50%{transform:scale(1.105) translate3d(-1.2%,.45%,0)}100%{transform:scale(1.055) translate3d(.9%,-.35%,0)}}
-@keyframes fnHeroLightSweep{0%{transform:translateX(-45%);opacity:0}18%{opacity:.65}82%{opacity:.65}100%{transform:translateX(45%);opacity:0}}
-@media(prefers-reduced-motion:reduce){.hero-media img,.hero-media:after{animation:none!important}}
