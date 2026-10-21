@@ -103,13 +103,14 @@
 .hero-slide img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 44%;filter:brightness(.98) saturate(.98) contrast(1.02);transform:scale(1.005);will-change:transform}
 .hero-slide.is-active img{animation:fnHeroSlideDrift 7s ease-out both}
 .hero-slide:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,13,14,.14),transparent 76%);pointer-events:none}
-.hero-controls{position:absolute;z-index:4;right:max(44px,calc((100vw - var(--max))/2));bottom:27px;display:flex;align-items:center;gap:12px}
+.hero-controls{position:absolute;z-index:5;right:max(44px,calc((100vw - var(--max))/2));bottom:27px;display:flex;align-items:center;gap:12px;pointer-events:auto}
 .hero-arrow{width:34px;height:34px;border:1px solid rgba(255,255,255,.42);background:rgba(13,18,19,.28);color:#fff;font-size:17px;cursor:pointer;backdrop-filter:blur(8px);transition:background .25s,border-color .25s}
 .hero-arrow:hover,.hero-arrow:focus-visible{background:var(--lime);border-color:var(--lime);color:var(--ink)}
 .hero-dots{display:flex;align-items:center;gap:7px}
 .hero-dot{width:7px;height:7px;padding:0;border:1px solid rgba(255,255,255,.8);border-radius:50%;background:transparent;cursor:pointer;transition:width .3s,background .3s,border-radius .3s}
 .hero-dot.is-active{width:24px;border-radius:8px;background:var(--lime);border-color:var(--lime)}
 .hero-meta{pointer-events:none}
+.hero-controls,.hero-controls *{pointer-events:auto}
 @keyframes fnHeroSlideDrift{from{transform:scale(1.005) translate3d(0,0,0)}to{transform:scale(1.045) translate3d(-.35%,.12%,0)}}
 @media(max-width:720px){.hero-controls{right:19px;bottom:52px;gap:8px}.hero-arrow{width:30px;height:30px}.hero-dots{gap:6px}.hero-dot{width:6px;height:6px}.hero-dot.is-active{width:19px}.hero-slide img{object-position:58% center}}
 @media(prefers-reduced-motion:reduce){.hero-slide,.hero-slide.is-active img{transition:none!important;animation:none!important}.hero-slide img{transform:none}}
@@ -134,18 +135,19 @@
  <div class="hero-slide" data-label="HIGH-VISIBILITY APPAREL"><img decoding="async" src="https://image.made-in-china.com/2f0j00awFoGOUJSKrS/Reflective-Safety-Vest-Yellow-Work-Vest-with-Multi-Pockets-for-Enhanced-Visibility.webp" alt="High visibility safety vest" loading="lazy"></div>
  <div class="hero-slide" data-label="WORK JACKETS"><img decoding="async" src="https://epik.us.com/cdn/shop/files/Epik_Agile_Outfit_Work_Hi_Vis_Jackets_2.jpg?v=1674163537&width=1920" alt="High visibility work jacket" loading="lazy"></div>
  <div class="hero-slide" data-label="INSULATED PARKAS"><img decoding="async" src="assets/products/fn-insulated-utility-parka.jpg" alt="FN insulated utility parka jacket" loading="lazy"></div>
- <div class="hero-controls" aria-label="Product showcase controls">
-  <button class="hero-arrow" type="button" id="heroPrev" aria-label="Previous product image">←</button>
-  <div class="hero-dots" role="group" aria-label="Choose product image">
-   <button class="hero-dot is-active" type="button" aria-label="Show image 1" aria-current="true"></button>
-   <button class="hero-dot" type="button" aria-label="Show image 2"></button>
-   <button class="hero-dot" type="button" aria-label="Show image 3"></button>
-   <button class="hero-dot" type="button" aria-label="Show image 4"></button>
-   <button class="hero-dot" type="button" aria-label="Show image 5"></button>
-  </div>
-  <button class="hero-arrow" type="button" id="heroNext" aria-label="Next product image">→</button>
+</div>
+<div class="hero-controls" aria-label="Product showcase controls">
+ <button class="hero-arrow" type="button" id="heroPrev" aria-label="Previous product image">←</button>
+ <div class="hero-dots" role="group" aria-label="Choose product image">
+  <button class="hero-dot is-active" type="button" aria-label="Show image 1" aria-current="true"></button>
+  <button class="hero-dot" type="button" aria-label="Show image 2"></button>
+  <button class="hero-dot" type="button" aria-label="Show image 3"></button>
+  <button class="hero-dot" type="button" aria-label="Show image 4"></button>
+  <button class="hero-dot" type="button" aria-label="Show image 5"></button>
  </div>
-</div><div class="wrap hero-inner"><span class="eyebrow">WORKWEAR. SAFETY. PURPOSE.</span><h1>MADE FOR THE<br><em>WORK</em> AHEAD.</h1><p class="hero-copy">Workwear and safety apparel developed around the demands of your working world. Explore garment families, compare practical details and start your next product brief.</p><div class="hero-actions"><a class="btn btn-lime" href="#products">Explore our collection ↗</a><a class="hero-link" href="#about">GET TO KNOW FN &nbsp; ↘</a></div></div><div class="wrap hero-meta"><span>ENGINEERED FOR WORK. DESIGNED FOR PROTECTION.</span><span><b>01</b> — PRODUCT COLLECTION &nbsp; ↓</span></div></section>
+ <button class="hero-arrow" type="button" id="heroNext" aria-label="Next product image">→</button>
+</div>
+<div class="wrap hero-inner"><span class="eyebrow">WORKWEAR. SAFETY. PURPOSE.</span><h1>MADE FOR THE<br><em>WORK</em> AHEAD.</h1><p class="hero-copy">Workwear and safety apparel developed around the demands of your working world. Explore garment families, compare practical details and start your next product brief.</p><div class="hero-actions"><a class="btn btn-lime" href="#products">Explore our collection ↗</a><a class="hero-link" href="#about">GET TO KNOW FN &nbsp; ↘</a></div></div><div class="wrap hero-meta"><span>ENGINEERED FOR WORK. DESIGNED FOR PROTECTION.</span><span><b>01</b> — PRODUCT COLLECTION &nbsp; ↓</span></div></section>
 <section class="section" id="about"><div class="wrap intro-grid reveal"><div><span class="eyebrow">01 / THE FN APPROACH</span><h2 class="headline">THE RIGHT GEAR<br>CHANGES <em>EVERYTHING.</em></h2></div><div><p class="lead">People do their best work when their kit is made for the job.</p><p class="body-copy">FN Workwear & Safety is a Sialkot-based workwear brand focused on developing practical garment ranges around customer requirements. From everyday industrial clothing to visibility-led garments and specialist workwear concepts, every enquiry starts with understanding the wearer and the work.</p><a class="text-link" href="#approach">DISCOVER OUR APPROACH ↗</a></div></div></section>
 <section class="section product-section" id="products"><div class="wrap"><div class="section-head reveal"><div><span class="eyebrow">02 / THE PRODUCT COLLECTION</span><h2 class="headline">EVERY GARMENT.<br>ONE <em>STANDARD.</em></h2><p class="section-intro">A structured workwear showroom covering coveralls and boiler suits, work shirts, polo shirts, high-visibility vests, industrial trousers, cargo trousers, bib overalls, uniforms, welding apparel, flame-resistant and anti-static workwear.</p><p class="image-reference-note">Product photographs are illustrative third-party references, not claims of FN-owned production. Final garment designs, fabrics, colours, trims, branding and specifications are confirmed to each buyer brief; any safety standard is stated only when verified for the specific garment.</p></div><a class="text-link" href="#contact">DISCUSS A CUSTOM RANGE ↗</a></div>
 <div class="product-grid">
@@ -410,7 +412,7 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
  const carousel=document.getElementById('heroCarousel');
  if(!carousel)return;
  const slides=[...carousel.querySelectorAll('.hero-slide')];
- const dots=[...carousel.querySelectorAll('.hero-dot')];
+ const dots=[...document.querySelectorAll('.hero-controls .hero-dot')];
  const label=document.querySelector('.hero-meta span:last-child');
  const originalMeta=label?.innerHTML||'';
  let current=0,timer=null;
