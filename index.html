@@ -225,6 +225,46 @@
  .hero-slide.is-active img{animation:none!important;transform:none!important}
 }
 
+
+/* Premium homepage finishing pass — restrained refinements, same FN identity and page structure. */
+.hero{grid-template-columns:minmax(300px,.76fr) minmax(0,1.24fr);gap:clamp(28px,4.4vw,70px);min-height:620px}
+.hero h1{font-size:clamp(45px,5.05vw,69px);line-height:1.015;letter-spacing:-.078em;max-width:490px;margin:22px 0 19px}
+.hero-copy{max-width:420px;font-size:13px;line-height:1.82}
+.hero-slide img{object-position:50% 43%}
+.hero-slide:first-child img{object-position:50% 39%}
+.hero-media{box-shadow:0 26px 64px rgba(18,27,23,.16)}
+.hero-controls{right:max(58px,calc((100vw - var(--max))/2 + 16px));bottom:34px;gap:10px;padding:9px 11px;background:rgba(13,18,19,.78);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(12px)}
+.hero-dots{gap:6px;max-width:min(190px,32vw);overflow:hidden}
+.hero-dot{width:5px;height:5px;border:0;background:rgba(255,255,255,.48)}
+.hero-dot.is-active{width:22px;height:5px;background:var(--lime);border-radius:5px}
+.hero-arrow{width:30px;height:30px;border-color:rgba(255,255,255,.24);background:rgba(255,255,255,.07);font-size:15px}
+.hero-arrow:hover,.hero-arrow:focus-visible{background:var(--lime);color:var(--ink);border-color:var(--lime)}
+.navlinks{gap:clamp(15px,2.15vw,30px)}
+.navlinks a{font-size:9px;letter-spacing:.095em;transition:color .2s ease}
+.navlinks a:hover,.navlinks a:focus-visible{color:#788b1e}
+.btn-lime{box-shadow:0 7px 18px rgba(169,195,33,.15)}
+.btn-lime:hover{box-shadow:0 11px 24px rgba(169,195,33,.23)}
+.hero-link{position:relative;padding-bottom:5px}
+.hero-link:after{content:"";position:absolute;left:0;right:100%;bottom:0;height:1px;background:var(--lime2);transition:right .25s ease}
+.hero-link:hover:after,.hero-link:focus-visible:after{right:0}
+@media(max-width:1050px){
+ .hero{grid-template-columns:minmax(260px,.84fr) minmax(0,1.16fr);gap:24px}
+ .hero h1{font-size:clamp(43px,5.2vw,61px)}
+ .hero-controls{right:42px}
+}
+@media(max-width:720px){
+ .hero{gap:18px;padding:34px 19px 62px}
+ .hero h1{font-size:clamp(42px,10.8vw,58px);line-height:1.02;margin:16px 0 12px}
+ .hero-copy{font-size:12px;line-height:1.75}
+ .hero-media{height:clamp(270px,76vw,410px)}
+ .hero-controls{right:27px;bottom:82px;padding:7px 8px;gap:7px;max-width:calc(100% - 54px)}
+ .hero-dots{max-width:min(150px,29vw)}
+ .hero-arrow{width:29px;height:29px}
+}
+@media(prefers-reduced-motion:reduce){
+ .hero-link:after{transition:none}
+}
+
 </style>
 </head>
 <body>
@@ -240,7 +280,7 @@
 </div></header>
 <main>
 <section class="hero" id="home"><div class="hero-media" id="heroCarousel" aria-label="FN Workwear product showcase">
- <div class="hero-slide is-active" data-label="WORKWEAR COLLECTION"><img decoding="async" src="https://www.tricorp.com/Admin/Public/GetImage.ashx?Compression=80&amp;Crop=7&amp;Format=png&amp;Image=%2FFiles%2FImages%2FContentpagina%2FOver+ons%2FKennisbank%2FKennisbank-2020V-1.png&amp;Quality=90&amp;Width=1000" alt="Two models in coordinated high-visibility workwear" fetchpriority="high"></div>
+ <div class="hero-slide is-active" data-label="WORKWEAR COLLECTION"><img decoding="async" loading="eager" fetchpriority="high" src="https://www.tricorp.com/Admin/Public/GetImage.ashx?Compression=80&amp;Crop=7&amp;Format=png&amp;Image=%2FFiles%2FImages%2FContentpagina%2FOver+ons%2FKennisbank%2FKennisbank-2020V-1.png&amp;Quality=90&amp;Width=1600" alt="Two models presenting coordinated high-visibility workwear in a professional campaign photograph" width="1600" height="1100"></div>
  <div class="hero-slide" data-label="COVERALLS &amp; BOILER SUITS"><img decoding="async" src="https://www.workwear.co.uk/user/products/large/fristads-hi-vis-yellownavy-work-coveralls-class-3-8026-plu-v1.jpg" alt="Fristads high-visibility work coveralls" loading="lazy"></div>
  <div class="hero-slide" data-label="WORK JACKETS"><img decoding="async" src="https://api.workfashion.com/uploads/Energie_Bild3_494_Kopie_3f9afeffb2.jpg" alt="Two models wearing high-visibility work jackets and trousers" loading="lazy"></div>
  <div class="hero-slide" data-label="INSULATED PARKAS"><img decoding="async" src="https://mediacdn6.cottongroup.org/v-639057362706465200/7e/78/f88b-119c-44bf-81f9-5ce913fdac8d/0-98349-44502-532_532_modelfront_jakke_2025.jpg" alt="High-visibility insulated winter parka" loading="lazy"></div>
@@ -287,7 +327,7 @@
  </div>
  <button class="hero-arrow" type="button" id="heroNext" aria-label="Next product image">→</button>
 </div>
-<div class="wrap hero-inner"><span class="eyebrow">FN WORKWEAR &amp; SAFETY / SIALKOT, PAKISTAN</span><h1>WORKWEAR BUILT FOR THE <em>WORK AHEAD.</em></h1><p class="hero-copy">Practical workwear and safety apparel for demanding industries. Explore garment collections, specialist protection and custom product options — presented with clarity, not clutter.</p><div class="hero-actions"><a class="btn btn-lime" href="#products">Explore our collection ↗</a><a class="hero-link" href="#about">GET TO KNOW FN &nbsp; ↘</a></div></div><div class="wrap hero-meta"><span>ENGINEERED FOR WORK. DESIGNED FOR PROTECTION.</span><span><b>01</b> — PRODUCT COLLECTION &nbsp; ↓</span></div></section>
+<div class="wrap hero-inner"><span class="eyebrow">FN WORKWEAR &amp; SAFETY / SIALKOT, PAKISTAN</span><h1>WORKWEAR BUILT FOR THE <em>WORK AHEAD.</em></h1><p class="hero-copy">Sialkot-based workwear development and garment manufacturing for international buyers. Explore practical industrial clothing, high-visibility ranges and specialist apparel — shaped around your product brief.</p><div class="hero-actions"><a class="btn btn-lime" href="#products">Explore our collection ↗</a><a class="hero-link" href="#about">GET TO KNOW FN &nbsp; ↘</a></div></div><div class="wrap hero-meta"><span>ENGINEERED FOR WORK. DESIGNED FOR PROTECTION.</span><span><b>01</b> — PRODUCT COLLECTION &nbsp; ↓</span></div></section>
 <section class="section" id="about"><div class="wrap intro-grid reveal"><div><span class="eyebrow">01 / THE FN APPROACH</span><h2 class="headline">THE RIGHT GEAR<br>CHANGES <em>EVERYTHING.</em></h2></div><div><p class="lead">People do their best work when their kit is made for the job.</p><p class="body-copy">FN Workwear & Safety is a Sialkot-based workwear brand focused on developing practical garment ranges around customer requirements. From everyday industrial clothing to visibility-led garments and specialist workwear concepts, every enquiry starts with understanding the wearer and the work.</p><a class="text-link" href="#approach">DISCOVER OUR APPROACH ↗</a></div></div></section>
 <section class="section product-section" id="products"><div class="wrap"><div class="section-head reveal"><div><span class="eyebrow">02 / THE PRODUCT COLLECTION</span><h2 class="headline">EVERY GARMENT.<br>ONE <em>STANDARD.</em></h2><p class="section-intro">A structured workwear showroom covering coveralls and boiler suits, work shirts, polo shirts, high-visibility vests, industrial trousers, cargo trousers, bib overalls, uniforms, welding apparel, flame-resistant and anti-static workwear.</p><p class="image-reference-note">Product photographs are illustrative third-party references, not claims of FN-owned production. Final garment designs, fabrics, colours, trims, branding and specifications are confirmed to each buyer brief; any safety standard is stated only when verified for the specific garment.</p></div><a class="text-link" href="#contact">DISCUSS A CUSTOM RANGE ↗</a></div>
 <div class="product-grid">
