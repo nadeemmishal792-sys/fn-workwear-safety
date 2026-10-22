@@ -312,6 +312,19 @@
 .response-process b{color:#82942a;margin-right:8px}
 @media(max-width:720px){.international-form{padding:23px 18px}.international-form .form-row{grid-template-columns:1fr;gap:0}.file-upload-panel{padding:13px}.response-process{margin-top:22px}}
 
+
+/* Mobile navigation refresh: structured catalogue tiles, no repeated arrow glyphs. */
+@media(max-width:720px){
+ .mobile-menu{max-height:calc(100svh - 92px);overflow-y:auto;overscroll-behavior:contain;padding:18px 19px 22px;background:#f3f2ec;border-top:1px solid #d9ddd4;box-shadow:0 18px 32px rgba(13,18,19,.13)}
+ .mobile-menu-group{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:0 0 19px}
+ .mobile-menu-group strong{grid-column:1/-1;padding:4px 0 7px;margin:0 0 2px;color:#727d70;font-size:9px;font-weight:800;letter-spacing:.19em;border-bottom:1px solid #d9ddd4}
+ .mobile-menu-group a{position:relative;display:flex;align-items:center;justify-content:flex-start;min-height:58px;padding:12px 13px;border:1px solid #dfe2d9;border-radius:3px;background:#fbfaf6;color:#202625;font-size:11px;font-weight:700;line-height:1.35;letter-spacing:-.01em;transition:background .2s,border-color .2s,transform .2s}
+ .mobile-menu-group a:before{content:"";width:3px;align-self:stretch;flex:0 0 3px;margin-right:10px;background:#c8df36;border-radius:2px}
+ .mobile-menu-group a:after{content:none!important}
+ .mobile-menu-group a:active{background:#e9ece1;border-color:#b7c77a;transform:scale(.985)}
+ .mobile-menu-secondary{padding-top:2px;margin-bottom:0}
+}
+@media(max-width:360px){.mobile-menu{padding-left:14px;padding-right:14px}.mobile-menu-group{gap:7px}.mobile-menu-group a{font-size:10px;padding:10px;min-height:56px}}
 </style>
 </head>
 <body>
@@ -323,7 +336,7 @@
 <div class="nav-dropdown"><a href="#jackets" class="nav-trigger" aria-haspopup="true" aria-expanded="false">Jackets <span>⌄</span></a><div class="nav-dropdown-menu"><a href="#jackets">Industrial work jackets</a><a href="#parka-jackets">Parka jackets</a><a href="#parka-jackets">Waterproof parkas</a><a href="#parka-jackets">Hi-vis parkas</a><a href="#parka-jackets">Insulated winter parkas</a><a href="#parka-jackets">Softshell & fleece</a></div></div>
 <a href="#gloves">Gloves</a><a href="#size-guide">Size guide</a><a href="#industries">Industries</a><a href="#approach">Manufacturing</a><a href="#contact">Contact</a></nav>
 <a class="btn btn-dark" href="#contact">Request a quote <span>↗</span></a><button class="menu" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
-<nav class="mobile-menu" id="mobileMenu"><strong>GARMENTS</strong><a href="#coveralls">Coveralls & boiler suits ↗</a><a href="#trousers">Work trousers & cargo pants ↗</a><a href="#bib-overalls">Bib overalls & dungarees ↗</a><a href="#shirts">Work shirts & polos ↗</a><a href="#hi-vis">Safety vests & hi-vis clothing ↗</a><a href="#specialist-garments">FR, anti-static & specialist wear ↗</a><a href="#rainwear">Rainwear & thermal wear ↗</a><strong>JACKETS</strong><a href="#jackets">Industrial work jackets ↗</a><a href="#parka-jackets">Parka jackets & winter parkas ↗</a><a href="#parka-jackets">Waterproof & hi-vis parkas ↗</a><a href="#gloves">Gloves ↗</a><a href="#size-guide">International size guide ↗</a><a href="#industries">Industries ↗</a><a href="#approach">Manufacturing ↗</a><a href="#contact">Contact ↗</a></nav>
+<nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation"><div class="mobile-menu-group"><strong>GARMENTS</strong><a href="#coveralls">Coveralls & boiler suits</a><a href="#trousers">Work trousers & cargo pants</a><a href="#bib-overalls">Bib overalls & dungarees</a><a href="#shirts">Work shirts & polos</a><a href="#hi-vis">Safety vests & hi-vis clothing</a><a href="#specialist-garments">FR, anti-static & specialist wear</a><a href="#rainwear">Rainwear & thermal wear</a></div><div class="mobile-menu-group"><strong>JACKETS & PROTECTION</strong><a href="#jackets">Industrial work jackets</a><a href="#parka-jackets">Parka jackets & winter parkas</a><a href="#parka-jackets">Waterproof & hi-vis parkas</a><a href="#gloves">Gloves</a></div><div class="mobile-menu-group mobile-menu-secondary"><strong>EXPLORE FN</strong><a href="#size-guide">International size guide</a><a href="#industries">Industries</a><a href="#approach">Manufacturing</a><a href="#contact">Contact</a></div></nav>
 </div></header>
 <main>
 <section class="hero" id="home"><div class="hero-media" id="heroCarousel" aria-label="FN Workwear campaign photography">
