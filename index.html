@@ -910,8 +910,8 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
  ];
  const title=document.getElementById('fnCinemaTitle'),copy=document.getElementById('fnCinemaText'),kicker=document.getElementById('fnCinemaKicker'),count=document.getElementById('fnCinemaCount'),progress=document.getElementById('fnCinemaProgress'),status=document.getElementById('fn3dStatus'),tabs=[...root.querySelectorAll('[data-stage]')],play=document.getElementById('fnCinemaPlay');
  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
- let index=0,playing=!reduced,elapsed=0,last=0,raf=0,renderer,scene,camera,rollers=[],fabric=[],boxes=[],stationGroups=[];
- let cutHead=null,sewingNeedle=null,pressPlaten=null,finishIron=null,laserMaterial=null,scanner=null,cameraAim=null,cameraDestination=null,isVisible=false,wasPlayingBeforeHidden=false;
+ let index=0,playing=!reduced,elapsed=0,last=0,raf=0,renderer,scene,camera,rollers=[],rolls=[],fabric=[],boxes=[],stationGroups=[];
+ let cutHead=null,sewingNeedle=null,pressPlaten=null,finishIron=null,laserMaterial=null,scanner=null,cameraAim=null,cameraTargetAim=null,cameraDestination=null,isVisible=false,wasPlayingBeforeHidden=false;
  const THREE=window.THREE;
  function mat(color,rough=.72,metal=0){return new THREE.MeshStandardMaterial({color,roughness:rough,metalness:metal});}
  function addBox(parent,w,h,d,x,y,z,m){const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);parent.add(o);return o;}
@@ -920,9 +920,9 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
   if(!THREE){canvas.insertAdjacentHTML('afterend','<p style="padding:24px;color:#fff">The 3D experience could not load. Please refresh the page or check your connection.</p>');return false;}
   renderer=new THREE.WebGLRenderer({canvas,antialias:window.innerWidth>720,alpha:true,powerPreference:'low-power'});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,window.innerWidth<700?1.15:1.5));renderer.setSize(canvas.clientWidth,canvas.clientHeight,false);renderer.outputColorSpace=THREE.SRGBColorSpace;
   scene=new THREE.Scene();scene.fog=new THREE.Fog(0x111918,15,36);
-  camera=new THREE.PerspectiveCamera(38,canvas.clientWidth/canvas.clientHeight,.1,100);camera.position.set(-10.5,5.3,9.8);cameraAim=new THREE.Vector3(-10.5,1.05,0);cameraDestination=new THREE.Vector3(-10.5,5.3,9.8);
+  camera=new THREE.PerspectiveCamera(38,canvas.clientWidth/canvas.clientHeight,.1,100);camera.position.set(-10.5,5.3,9.8);cameraAim=new THREE.Vector3(-10.5,1.05,0);cameraTargetAim=new THREE.Vector3(-10.5,1.05,0);cameraDestination=new THREE.Vector3(-10.5,5.3,9.8);
   scene.add(new THREE.HemisphereLight(0xcbd8d2,0x202723,2.1));
-  const key=new THREE.DirectionalLight(0xfff1d7,3.1);key.position.set(-3,9,7);key.castShadow=true;key.shadow.mapSize.set(1024,1024);scene.add(key);
+  const key=new THREE.DirectionalLight(0xfff1d7,3.1);key.position.set(-3,9,7);scene.add(key);
   const rim=new THREE.PointLight(0xc8df36,22,16);rim.position.set(0,4,-3);scene.add(rim);
   const floor=mat(0x1a2421),steel=mat(0x66736d,.35,.7),dark=mat(0x202a27,.42,.55),lime=mat(0xc8df36,.38,.2),cloth=mat(0x354c43,.92),hi=mat(0xd0df39,.5),silver=mat(0xd7ddd7,.28,.72),cardboard=mat(0x9b8059);
   addBox(scene,34,.25,12,0,-.35,0,floor);
@@ -932,7 +932,7 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
   for(let x=-15.5;x<=15.5;x+=.75){const roller=addCylinder(scene,.12,.12,2,x,.35,0,steel,Math.PI/2);rollers.push(roller);}
   addBox(scene,32,.08,2.3,0,.57,0,mat(0x303a35));
   // Fabric rolls at the entry station.
-  for(let z=-.55;z<=.55;z+=1.1){const roll=addCylinder(scene,.34,.34,2.4,-13,.95,z,cloth,Math.PI/2);addCylinder(scene,.12,.12,2.48,-13,.95,z,silver,Math.PI/2);fabric.push(roll);}
+  for(let z=-.55;z<=.55;z+=1.1){const roll=addCylinder(scene,.34,.34,2.4,-13,.95,z,cloth,Math.PI/2);addCylinder(scene,.12,.12,2.48,-13,.95,z,silver,Math.PI/2);rolls.push(roll);}
   // Cutting table, gantry and a moving laser head.
   const cut=new THREE.Group();cut.position.x=-10.5;scene.add(cut);stationGroups.push(cut);
   addBox(cut,3.8,.35,3.2,0,1.25,0,steel);for(let x of [-1.55,1.55])for(let z of [-1.2,1.2])addBox(cut,.16,1.25,.16,x,.55,z,dark);
@@ -961,11 +961,12 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
   return true;
  }
  function setStage(n){index=(n+6)%6;const s=stages[index];title.textContent=s.title;copy.textContent=s.text;kicker.textContent=String(index+1).padStart(2,'0')+' — '+s.k;count.textContent=String(index+1).padStart(2,'0')+' / 06';status.textContent='CAMERA '+String(index+1).padStart(2,'0')+' / 06';tabs.forEach((b,i)=>{b.classList.toggle('is-active',i===index);if(i===index)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');});elapsed=0;progress.style.width='0%';}
- function renderStatic(){if(!renderer||!camera)return;const x=[-10.5,-4.2,1.5,6.8,12.3,16.7][index];camera.position.set(x,5.3,9.8);camera.lookAt(x,1.05,0);renderer.render(scene,camera);}
+ function renderStatic(){if(!renderer||!camera)return;const x=[-10.5,-4.2,1.5,6.8,12.3,16.7][index];camera.position.set(x,5.3,9.8);cameraAim.set(x,1.05,0);cameraTargetAim.set(x,1.05,0);camera.lookAt(cameraAim);renderer.render(scene,camera);}
  function animate(t){raf=requestAnimationFrame(animate);const time=t*.001,dt=last?Math.min((t-last)/1000,.05):0;last=t;
   if(playing){elapsed+=dt*1000;progress.style.width=Math.min(100,elapsed/9000*100)+'%';if(elapsed>=9000)setStage(index+1);}
   if(!renderer)return;
   rollers.forEach((r,i)=>r.rotation.x=time*1.8+(i%2)*.1);
+  rolls.forEach((r,i)=>r.rotation.x=time*.5+(i%2)*.08);
   fabric.forEach((f,i)=>{f.position.x=-14+((time*.75+i*1.65)%29);f.rotation.z=Math.sin(time+i)*.025;});
   if(cutHead)cutHead.position.x=-1.2+Math.sin(time*2.4)*1.15;
   if(sewingNeedle)sewingNeedle.position.y=1.72+Math.abs(Math.sin(time*11))*.34;
@@ -975,19 +976,19 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
   if(scanner)scanner.position.x=-1+((time*.7)%2);
   boxes.forEach((b,i)=>b.position.y=.85+Math.sin(time*1.4+i)*.025);
   const targetX=[-10.5,-4.2,1.5,6.8,12.3,16.7][index];
-  cameraDestination.set(targetX,5.3,9.8);cameraAim.set(targetX,1.05,0);
-  camera.position.lerp(cameraDestination,.045);camera.lookAt(cameraAim);
+  cameraDestination.set(targetX,5.3,9.8);cameraTargetAim.set(targetX,1.05,0);
+  camera.position.lerp(cameraDestination,.045);cameraAim.lerp(cameraTargetAim,.045);camera.lookAt(cameraAim);
   renderer.render(scene,camera);
  }
  function resize(){if(!renderer)return;const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
  function updatePlayButton(){play.textContent=playing?'Ⅱ':'▶';play.setAttribute('aria-label',playing?'Pause automatic production tour':'Play automatic production tour');play.setAttribute('aria-pressed',String(playing));}
- function pause(){playing=false;last=0;updatePlayButton();}
+ function pause(){playing=false;last=0;cancelAnimationFrame(raf);raf=0;renderStatic();updatePlayButton();}
  function start(){if(reduced||document.hidden)return;playing=true;last=0;updatePlayButton();if(isVisible&&!raf)raf=requestAnimationFrame(animate);}
- function choose(n){setStage(n);if(reduced)renderStatic();else if(playing)start();}
+ function choose(n){setStage(n);if(reduced||!playing)renderStatic();else start();}
  tabs.forEach(b=>b.addEventListener('click',()=>choose(Number(b.dataset.stage))));
  document.getElementById('fnCinemaPrev').addEventListener('click',()=>choose(index-1));document.getElementById('fnCinemaNext').addEventListener('click',()=>choose(index+1));play.addEventListener('click',()=>playing?pause():start());
  document.addEventListener('visibilitychange',()=>{if(document.hidden){wasPlayingBeforeHidden=playing;pause();}else if(wasPlayingBeforeHidden){wasPlayingBeforeHidden=false;start();}});
- if(build()){setStage(0);window.addEventListener('resize',()=>{resize();if(reduced)renderStatic();});const observer=new IntersectionObserver(es=>{isVisible=es[0].isIntersecting;if(isVisible){if(reduced)renderStatic();else if(!raf)raf=requestAnimationFrame(animate);}else{cancelAnimationFrame(raf);raf=0;}}, {threshold:.02});observer.observe(root);if(reduced){pause();renderStatic();}else start();}
+ if(build()){setStage(0);window.addEventListener('resize',()=>{resize();if(reduced)renderStatic();});const observer=new IntersectionObserver(es=>{isVisible=es[0].isIntersecting;if(isVisible){if(reduced)renderStatic();else if(playing&&!raf)raf=requestAnimationFrame(animate);}else{cancelAnimationFrame(raf);raf=0;}}, {threshold:.02});observer.observe(root);if(reduced){pause();renderStatic();}else start();}
 })();
 </script>
 </body></html>
