@@ -390,19 +390,19 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--lime2);outline-offs
 .fn-cinema-caption small{font-size:9px;letter-spacing:.2em;color:var(--lime);font-weight:900}
 .fn-cinema-caption h3{font:900 clamp(38px,6vw,76px)/.98 Manrope;letter-spacing:-.07em;margin:15px 0}
 .fn-cinema-caption p{font-size:13px;line-height:1.85;color:#e1e5de;max-width:520px;margin:0}
-.fn-cinema-controls{position:absolute;right:28px;bottom:34px;display:flex;gap:8px}
+.fn-cinema-controls{display:none!important}
 .fn-cinema-controls button{width:43px;height:43px;border:1px solid rgba(255,255,255,.55);background:rgba(10,15,15,.38);color:white;font-size:19px;cursor:pointer;backdrop-filter:blur(8px);transition:background .2s,color .2s}
 .fn-cinema-controls button:hover{background:var(--lime);color:var(--ink);border-color:var(--lime)}
 .fn-cinema-progress{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(255,255,255,.22)}
 .fn-cinema-progress span{display:block;width:0;height:100%;background:var(--lime);transition:width .12s linear}
 .fn-cinema-steps{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));background:#171e1f}
-.fn-cinema-steps button{min-height:82px;padding:17px 12px;border:0;border-right:1px solid #303838;background:transparent;color:#aeb7af;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:9px;transition:background .25s,color .25s}
-.fn-cinema-steps button:last-child{border-right:0}
-.fn-cinema-steps button b{font-size:9px;letter-spacing:.14em;color:#89948c}
-.fn-cinema-steps button span{font-size:10px;line-height:1.4;font-weight:800}
-.fn-cinema-steps button:hover,.fn-cinema-steps button.is-active{background:#26302d;color:#fff}
+.fn-cinema-steps>span{min-height:82px;padding:17px 12px;border:0;border-right:1px solid #303838;background:transparent;color:#aeb7af;text-align:left;display:flex;flex-direction:column;gap:9px;transition:background .25s,color .25s}
+.fn-cinema-steps>span:last-child{border-right:0}
+.fn-cinema-steps>span b{font-size:9px;letter-spacing:.14em;color:#89948c}
+.fn-cinema-steps>span span{font-size:10px;line-height:1.4;font-weight:800}
+.fn-cinema-steps>span.is-active{background:#26302d;color:#fff}
 .fn-cinema-steps button.is-active b{color:var(--lime)}
-@media(max-width:760px){.fn-cinema-visual{height:540px}.fn-cinema-top{left:18px;right:18px;top:18px;font-size:8px}.fn-cinema-caption{left:22px;right:20px;bottom:88px}.fn-cinema-caption h3{font-size:43px}.fn-cinema-caption p{font-size:12px}.fn-cinema-controls{right:17px;bottom:25px}.fn-cinema-controls button{width:39px;height:39px}.fn-cinema-steps{grid-template-columns:repeat(3,minmax(0,1fr))}.fn-cinema-steps button{min-height:70px;padding:12px 10px;border-bottom:1px solid #303838}.fn-cinema-steps button:nth-child(3){border-right:0}}
+@media(max-width:760px){.fn-cinema-visual{height:540px}.fn-cinema-top{left:18px;right:18px;top:18px;font-size:8px}.fn-cinema-caption{left:22px;right:20px;bottom:88px}.fn-cinema-caption h3{font-size:43px}.fn-cinema-caption p{font-size:12px}.fn-cinema-controls{right:17px;bottom:25px}.fn-cinema-controls button{width:39px;height:39px}.fn-cinema-steps{grid-template-columns:repeat(3,minmax(0,1fr))}.fn-cinema-steps>span{min-height:70px;padding:12px 10px;border-bottom:1px solid #303838}.fn-cinema-steps>span:nth-child(3){border-right:0}}
 @media(max-width:390px){.fn-cinema-visual{height:500px}.fn-cinema-caption h3{font-size:36px}.fn-cinema-steps button span{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.fn-cinema-image,.fn-cinema-steps button,.fn-cinema-controls button{transition:none!important}.fn-cinema-image{transform:none!important}}
 
@@ -415,7 +415,7 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--lime2);outline-offs
 @media(max-width:640px){.fn-3d-hud{left:16px;right:16px;top:20px;font-size:6px}.fn-3d-caption{left:18px;right:18px;bottom:76px}.fn-3d-caption h3{font-size:clamp(32px,9vw,48px)}.fn-3d-caption p{font-size:11px;line-height:1.65}.fn-3d-stage{height:540px}}
 @media(prefers-reduced-motion:reduce){.fn-3d-tour *{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 .fn-3d-stage{height:clamp(470px,56vw,690px);position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 48%,#27332f 0%,#151e1d 55%,#0a1011 100%)}
-#fnFactoryCanvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
+#fnFactoryCanvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}.fn-3d-stage.is-fallback{background:radial-gradient(ellipse at 50% 45%,#34483e 0%,#17211e 48%,#0a1011 100%)}.fn-3d-stage.is-fallback:before{content:'';position:absolute;inset:0;opacity:.5;background:repeating-linear-gradient(90deg,transparent 0 8%,rgba(200,223,54,.12) 8.2% 8.35%,transparent 8.6% 16%);animation:fnFactoryFallback 14s linear infinite}.fn-3d-stage.is-fallback:after{content:'FN  /  AUTOMATED PRODUCTION JOURNEY';position:absolute;right:28px;bottom:28px;color:rgba(200,223,54,.72);font-size:9px;letter-spacing:.2em}@keyframes fnFactoryFallback{to{transform:translateX(16%)}}.fn-3d-stage.is-fallback #fnFactoryCanvas{display:none}
 .fn-3d-vignette{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(7,12,13,.8),transparent 45%,rgba(7,12,13,.12)),linear-gradient(0deg,rgba(7,12,13,.8),transparent 65%);z-index:1}
 .fn-3d-stage .fn-cinema-top{z-index:2}
 .fn-3d-caption{position:absolute;z-index:2;left:clamp(22px,5vw,66px);bottom:clamp(70px,8vw,100px);max-width:560px;pointer-events:none}
@@ -625,7 +625,7 @@ document.getElementById('marketSelect').addEventListener('change',renderSize);do
 <div class="wrap">
  <div class="fn-journey-head reveal">
   <div><span class="eyebrow">07 / THE GARMENT JOURNEY</span><h2 class="headline">FROM RAW FABRIC<br>TO <em>READY WORKWEAR.</em></h2></div>
-  <p class="fn-journey-copy">Move through an interactive 3D production floor. Follow fabric as it is prepared, assembled, detailed, checked, finished and packed.</p>
+  <p class="fn-journey-copy">An always-on animated production journey: follow fabric as it is cut, assembled, branded, inspected, finished and packed.</p>
  </div>
  <div class="fn-cinema fn-3d-tour" id="fnCinema">
   <div class="fn-3d-stage" id="fn3dStage">
@@ -634,16 +634,16 @@ document.getElementById('marketSelect').addEventListener('change',renderSize);do
    <div class="fn-cinema-top"><span>FN / PRODUCTION FLOOR — 3D EXPERIENCE</span><span id="fnCinemaCount">01 / 06</span></div>
    <div class="fn-3d-caption" aria-live="polite"><small id="fnCinemaKicker">01 — MATERIAL PREPARATION</small><h3 id="fnCinemaTitle">Fabric &amp; cutting</h3><p id="fnCinemaText">Fabric rolls feed into a precision cutting station. Panels are prepared to the agreed garment specification.</p></div>
    <div class="fn-3d-hud"><span><i></i> LIVE SCENE RENDER</span><span id="fn3dStatus">CAMERA 01 / 06</span></div>
-   <div class="fn-cinema-controls"><button type="button" id="fnCinemaPrev" aria-label="Previous stage">←</button><button type="button" id="fnCinemaPlay" aria-label="Pause animation" aria-pressed="true">Ⅱ</button><button type="button" id="fnCinemaNext" aria-label="Next stage">→</button></div>
+   
    <div class="fn-cinema-progress"><span id="fnCinemaProgress"></span></div>
   </div>
   <div class="fn-cinema-steps" role="group" aria-label="Choose production stage">
-   <button class="is-active" type="button" data-stage="0" aria-current="step"><b>01</b><span>Fabric &amp; cutting</span></button>
-   <button type="button" data-stage="1"><b>02</b><span>Stitching &amp; construction</span></button>
-   <button type="button" data-stage="2"><b>03</b><span>Trims &amp; branding</span></button>
-   <button type="button" data-stage="3"><b>04</b><span>Quality inspection</span></button>
-   <button type="button" data-stage="4"><b>05</b><span>Pressing &amp; finishing</span></button>
-   <button type="button" data-stage="5"><b>06</b><span>Packing &amp; dispatch</span></button>
+   <span class="is-active" data-stage="0" aria-current="step"><b>01</b><span>Fabric &amp; cutting</span></span>
+   <span data-stage="1"><b>02</b><span>Stitching &amp; construction</span></span>
+   <span data-stage="2"><b>03</b><span>Trims &amp; branding</span></span>
+   <span data-stage="3"><b>04</b><span>Quality inspection</span></span>
+   <span data-stage="4"><b>05</b><span>Pressing &amp; finishing</span></span>
+   <span data-stage="5"><b>06</b><span>Packing &amp; dispatch</span></span>
   </div>
  </div>
  <div class="fn-factory-trust"><div><span class="eyebrow">YOUR REQUIREMENTS COME FIRST</span><h3>Every order starts with <em>your brief.</em></h3><p>Product, fabric, colour, sizing, branding and packing details are discussed and confirmed before an order moves forward.</p></div><a class="btn btn-lime" href="#contact">DISCUSS YOUR PROJECT <span aria-hidden="true">↗</span></a></div>
@@ -919,9 +919,9 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
  function addCylinder(parent,r1,r2,h,x,y,z,m,rotZ=0){const o=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,32),m);o.position.set(x,y,z);o.rotation.z=rotZ;parent.add(o);return o;}
  function build(){
   if(!THREE){canvas.insertAdjacentHTML('afterend','<p style="padding:24px;color:#fff">The 3D experience could not load. Please refresh the page or check your connection.</p>');return false;}
-  renderer=new THREE.WebGLRenderer({canvas,antialias:window.innerWidth>720,alpha:true,powerPreference:'low-power'});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,window.innerWidth<700?1.15:1.5));renderer.setSize(canvas.clientWidth,canvas.clientHeight,false);renderer.outputColorSpace=THREE.SRGBColorSpace;
+  renderer=new THREE.WebGLRenderer({canvas,antialias:window.innerWidth>720,alpha:true,powerPreference:'low-power'});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,window.innerWidth<700?1:1.35));const initialW=Math.max(canvas.parentElement.clientWidth,320),initialH=Math.max(canvas.parentElement.clientHeight,440);renderer.setSize(initialW,initialH,false);renderer.outputColorSpace=THREE.SRGBColorSpace;
   scene=new THREE.Scene();scene.fog=new THREE.Fog(0x111918,15,36);
-  camera=new THREE.PerspectiveCamera(38,canvas.clientWidth/canvas.clientHeight,.1,100);camera.position.set(-10.5,5.3,9.8);cameraAim=new THREE.Vector3(-10.5,1.05,0);cameraTargetAim=new THREE.Vector3(-10.5,1.05,0);cameraDestination=new THREE.Vector3(-10.5,5.3,9.8);
+  camera=new THREE.PerspectiveCamera(38,Math.max(canvas.parentElement.clientWidth,320)/Math.max(canvas.parentElement.clientHeight,440),.1,100);camera.position.set(-10.5,5.3,9.8);cameraAim=new THREE.Vector3(-10.5,1.05,0);cameraTargetAim=new THREE.Vector3(-10.5,1.05,0);cameraDestination=new THREE.Vector3(-10.5,5.3,9.8);
   scene.add(new THREE.HemisphereLight(0xcbd8d2,0x202723,2.1));
   const key=new THREE.DirectionalLight(0xfff1d7,3.1);key.position.set(-3,9,7);scene.add(key);
   const rim=new THREE.PointLight(0xc8df36,22,16);rim.position.set(0,4,-3);scene.add(rim);
@@ -981,7 +981,7 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
   const ease=1-Math.exp(-4.5*dt);camera.position.lerp(cameraDestination,ease);cameraAim.lerp(cameraTargetAim,ease);camera.lookAt(cameraAim);
   renderer.render(scene,camera);
  }
- function resize(){if(!renderer)return;const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+ function resize(){if(!renderer)return;const w=canvas.parentElement.clientWidth,h=canvas.parentElement.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
  function updatePlayButton(){play.textContent=playing?'Ⅱ':'▶';play.setAttribute('aria-label',playing?'Pause automatic production tour':'Play automatic production tour');play.setAttribute('aria-pressed',String(playing));}
  function pause(){playing=false;last=0;cancelAnimationFrame(raf);raf=0;renderStatic();updatePlayButton();}
  function start(){if(reduced||document.hidden)return;playing=true;last=0;updatePlayButton();if(isVisible&&!raf)raf=requestAnimationFrame(animate);}
