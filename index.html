@@ -430,6 +430,21 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--lime2);outline-offs
 @media(max-width:760px){.fn-3d-stage{height:560px}.fn-3d-caption{left:20px;right:18px;bottom:88px}.fn-3d-caption h3{font-size:40px}.fn-3d-hud{left:18px;right:18px;top:54px;font-size:6px}.fn-3d-stage .fn-cinema-top{left:18px;right:18px;top:17px}.fn-3d-stage .fn-cinema-controls{right:16px;bottom:24px}}
 @media(prefers-reduced-motion:reduce){.fn-3d-stage *{scroll-behavior:auto}}
 
+
+/* FN hero 3D product study — integrated into the existing charcoal / lime identity. */
+.fn-hero-3d{position:absolute;z-index:3;right:18px;bottom:18px;width:min(39%,360px);height:70%;min-height:300px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;border:1px solid rgba(210,224,157,.25);background:linear-gradient(145deg,rgba(22,30,27,.94),rgba(9,15,14,.88));box-shadow:0 18px 48px rgba(0,0,0,.28);isolation:isolate}
+.fn-hero-3d:before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 50% 45%,rgba(191,214,49,.13),transparent 60%),linear-gradient(120deg,transparent 48%,rgba(255,255,255,.035) 49%,transparent 50%)}
+.fn-hero-3d-head,.fn-hero-3d-foot{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:13px 15px;color:#e7ebdf;font-size:8px;font-weight:800;letter-spacing:.16em}
+.fn-hero-3d-head span:last-child{color:#c8df36}
+.fn-hero-3d canvas{position:absolute;inset:32px 0 38px;width:100%;height:calc(100% - 70px);display:block}
+.fn-hero-3d-foot{align-items:end}
+.fn-hero-3d-foot span{color:#d6e84a}
+.fn-hero-3d-foot small{font-size:7px;color:#aab4a9;letter-spacing:.12em}
+.fn-hero-3d-orbit{position:absolute;left:50%;top:52%;width:68%;aspect-ratio:1;border:1px solid rgba(200,223,54,.14);border-radius:50%;transform:translate(-50%,-50%) rotateX(68deg);pointer-events:none}
+@media(max-width:1050px) and (min-width:721px){.fn-hero-3d{width:40%;height:63%;min-height:270px;right:12px;bottom:12px}}
+@media(max-width:720px){.fn-hero-3d{right:10px;bottom:10px;width:43%;height:66%;min-height:190px;max-height:270px}.fn-hero-3d-head,.fn-hero-3d-foot{padding:9px 8px;font-size:6px}.fn-hero-3d-foot small{font-size:5px}.fn-hero-3d canvas{inset:25px 0 29px;height:calc(100% - 54px)}}
+@media(prefers-reduced-motion:reduce){.fn-hero-3d canvas{animation:none}}
+
 </style>
 </head>
 <body>
@@ -451,6 +466,12 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--lime2);outline-offs
  <div class="hero-slide" data-label="JACKETS &amp; OUTERWEAR"><img decoding="async" loading="lazy" src="https://www.bauhof-online.de/fileadmin/_processed_/b/7/csm_25-11-20-Kuebler_Reflectiq_wg-db_web_s.jpg_f655eb19f1.webp" alt="Three workers wearing coordinated yellow and navy high-visibility jackets and trousers" ></div>
  <div class="hero-slide" data-label="SAFETY APPAREL"><img decoding="async" loading="lazy" src="https://fkworkwear.co.uk/cdn/shop/collections/Leo_0778-1-HR-copy-1.webp?v=1763759454" alt="Two workers modelling lime and orange high-visibility coveralls" ></div>
  <div class="hero-slide" data-label="PROTECTIVE WORKWEAR"><img decoding="async" loading="lazy" src="https://nitras.com/assets/7572_neon_yellow_7014_neon_yellow_7413_grey_6730_7014_neon_orange_7571_neon_orange_7413_lime_8905_hoch.jpg" alt="Models wearing fluorescent yellow and orange industrial protective clothing" ></div>
+</div>
+<div class="fn-hero-3d" aria-label="Interactive three-dimensional workwear concept">
+ <div class="fn-hero-3d-head"><span>FN / PRODUCT STUDY</span><span>01 — 03</span></div>
+ <canvas id="fnHero3D" aria-label="Rotating three-dimensional high-visibility work jacket concept"></canvas>
+ <div class="fn-hero-3d-foot"><span>HI-VIS WORK JACKET</span><small>DESIGN CONCEPT</small></div>
+ <span class="fn-hero-3d-orbit" aria-hidden="true"></span>
 </div>
 <div class="hero-controls" aria-label="Workwear campaign controls">
  <button class="hero-arrow" type="button" id="heroPrev" aria-label="Previous image">PREV</button>
@@ -992,5 +1013,48 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
  if(built){setStage(0);window.addEventListener('resize',()=>{resize();if(reduced)renderStatic();});const observer=new IntersectionObserver(es=>{isVisible=es[0].isIntersecting;if(isVisible){if(reduced)renderStatic();else if(playing&&!raf)raf=requestAnimationFrame(animate);}else{cancelAnimationFrame(raf);raf=0;}}, {threshold:.02});observer.observe(root);if(reduced){pause();renderStatic();}else start();}
 })();
 </script>
+
+<script>
+(()=> {
+ const canvas=document.getElementById('fnHero3D');
+ if(!canvas||!window.THREE)return;
+ try{
+  const T=window.THREE,host=canvas.parentElement;
+  const renderer=new T.WebGLRenderer({canvas,alpha:true,antialias:innerWidth>720,powerPreference:'low-power'});
+  renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.35));
+  renderer.outputColorSpace=T.SRGBColorSpace;
+  const scene=new T.Scene();
+  const camera=new T.PerspectiveCamera(34,1,.1,100);camera.position.set(0,.15,7.8);
+  const group=new T.Group();scene.add(group);
+  const fabric=new T.MeshStandardMaterial({color:0x263c35,roughness:.8});
+  const lime=new T.MeshStandardMaterial({color:0xc8df36,roughness:.55,metalness:.05});
+  const dark=new T.MeshStandardMaterial({color:0x17211e,roughness:.8});
+  const seam=new T.MeshStandardMaterial({color:0x8e9b8b,roughness:.9});
+  const shape=new T.Shape();
+  shape.moveTo(-1.05,1.45);shape.lineTo(-.48,1.72);shape.lineTo(-.2,1.52);shape.lineTo(.2,1.52);shape.lineTo(.48,1.72);shape.lineTo(1.05,1.45);shape.lineTo(.83,.72);shape.lineTo(.72,.62);shape.lineTo(.72,-1.5);shape.lineTo(-.72,-1.5);shape.lineTo(-.72,.62);shape.lineTo(-.83,.72);shape.closePath();
+  const body=new T.Mesh(new T.ExtrudeGeometry(shape,{depth:.28,bevelEnabled:true,bevelSegments:2,steps:1,bevelSize:.045,bevelThickness:.045}),fabric);body.position.z=-.14;group.add(body);
+  const sleeveGeo=new T.CapsuleGeometry(.22,.92,5,10);
+  const left=new T.Mesh(sleeveGeo,fabric);left.position.set(-.91,.72,0);left.rotation.z=.25;group.add(left);
+  const right=new T.Mesh(sleeveGeo,fabric);right.position.set(.91,.72,0);right.rotation.z=-.25;group.add(right);
+  const bandGeo=new T.BoxGeometry(1.62,.13,.34);
+  for(const y of [.28,-.02]){const b=new T.Mesh(bandGeo,lime);b.position.set(0,y,.02);group.add(b);}
+  for(const x of [-.43,.43]){const p=new T.Mesh(new T.BoxGeometry(.43,.46,.035),dark);p.position.set(x,.48,.19);group.add(p);const flap=new T.Mesh(new T.BoxGeometry(.45,.09,.045),seam);flap.position.set(x,.7,.2);group.add(flap);}
+  const zip=new T.Mesh(new T.BoxGeometry(.025,2.42,.035),lime);zip.position.set(0,.02,.19);group.add(zip);
+  const collar=new T.Mesh(new T.ConeGeometry(.36,.35,4),dark);collar.position.set(0,1.55,.12);collar.rotation.y=Math.PI/4;group.add(collar);
+  const hem=new T.Mesh(new T.BoxGeometry(1.4,.07,.31),dark);hem.position.set(0,-1.43,.01);group.add(hem);
+  scene.add(new T.HemisphereLight(0xe5f0d5,0x26352f,2.1));
+  const key=new T.DirectionalLight(0xffffff,2.2);key.position.set(3,4,6);scene.add(key);
+  const rim=new T.PointLight(0xc8df36,1.7,12);rim.position.set(-3,1,3);scene.add(rim);
+  const resize=()=>{const w=Math.max(1,host.clientWidth),h=Math.max(1,host.clientHeight-70);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();};
+  resize();let raf=0,visible=true,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,last=0;
+  const draw=t=>{if(!visible)return;const dt=Math.min((t-last)/1000,.05);last=t;if(!reduce)group.rotation.y=Math.sin(t*.00042)*.27;group.rotation.x=-.045;renderer.render(scene,camera);raf=requestAnimationFrame(draw);};
+  const obs=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(visible&&!raf){last=performance.now();raf=requestAnimationFrame(draw)}else if(!visible&&raf){cancelAnimationFrame(raf);raf=0}});obs.observe(host);
+  document.addEventListener('visibilitychange',()=>{if(document.hidden&&raf){cancelAnimationFrame(raf);raf=0}else if(!document.hidden&&visible&&!raf){last=performance.now();raf=requestAnimationFrame(draw)}});
+  if(!reduce){last=performance.now();raf=requestAnimationFrame(draw)}else renderer.render(scene,camera);
+  addEventListener('resize',resize,{passive:true});
+ }catch(e){canvas.parentElement.classList.add('fn-hero-3d-static');}
+})();
+</script>
+
 </body></html>
 
