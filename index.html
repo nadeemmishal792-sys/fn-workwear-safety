@@ -890,7 +890,7 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
 (()=>{const btn=document.getElementById('fnJourneyEnquire');if(!btn)return;btn.addEventListener('click',()=>{const product=document.getElementById('fnJourneyProduct')?.value||'Workwear';const fabric=document.getElementById('fnJourneyFabric')?.value||'Discuss with FN';const type=document.getElementById('fnJourneyType')?.value||'Custom development';const select=document.querySelector('#quoteForm select[name="product"]');if(select){const match=[...select.options].find(o=>o.text.toLowerCase().includes(product.toLowerCase()));select.value=match?match.value:product;}const details=document.querySelector('#quoteForm textarea[name="details"]');if(details)details.value='Garment: '+product+'\\nFabric direction: '+fabric+'\\nProject type: '+type+'\\nPlease discuss specification, sizes, branding, sample and quotation.';document.getElementById('contact')?.scrollIntoView({behavior:'smooth'});});})();
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r160/three.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r160/three.min.js"></script>
 <script>
 (()=> {
  const root=document.getElementById('fnCinema'),canvas=document.getElementById('fnFactoryCanvas');if(!root||!canvas)return;
