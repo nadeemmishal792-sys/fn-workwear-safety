@@ -931,7 +931,7 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
   addBox(cut,3.8,.35,3.2,0,1.25,0,steel);for(let x of [-1.55,1.55])for(let z of [-1.2,1.2])addBox(cut,.16,1.25,.16,x,.55,z,dark);
   addBox(cut,3.5,.16,.16,0,2.7,-1.35,steel);addBox(cut,.16,1.55,.16,-1.65,1.95,-1.35,steel);addBox(cut,.16,1.55,.16,1.65,1.95,-1.35,steel);
   const head=addBox(cut,.45,.35,.42,-1.2,2.48,-1.35,lime);needles.push(head);
-  const laser=addBox(cut,.035,.018,2.4,0,1.48,0,mat(0xc8df36,.2,.1));scanLights.push(laser);
+  const laserMat=new THREE.MeshStandardMaterial({color:0xc8df36,emissive:0xc8df36,emissiveIntensity:1.4,roughness:.25,transparent:true,opacity:.55});const laser=addBox(cut,.035,.018,2.4,0,1.48,0,laserMat);scanLights.push(laser);
   // Sewing machine body, arm, needle and foot pedal.
   const sew=new THREE.Group();sew.position.x=-4.2;scene.add(sew);stationGroups.push(sew);
   addBox(sew,3.1,.25,2.4,0,1.05,0,dark);addBox(sew,.35,1.65,.55,-.75,1.9,-.25,steel);addBox(sew,1.9,.48,.55,.05,2.55,-.25,silver);addBox(sew,.75,.28,.55,.8,2.25,-.25,steel);addBox(sew,.1,.65,.1,1.05,1.85,-.25,lime);addBox(sew,.8,.12,.5,.2,.6,1.1,dark);
