@@ -982,5 +982,60 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
 
 
 
+
+<style id="fn-photo-journey-ux">
+/* Photo-led production journey: restrained, editorial and responsive */
+#fnCinema .fn-motion-scene{background:#101718;isolation:isolate}
+#fnCinema .fn-motion-scene:before{content:"";position:absolute;inset:0;z-index:0;background-image:var(--fn-stage-image);background-size:cover;background-position:center;filter:saturate(.72);transform:scale(1.035);transition:opacity .55s ease,transform 8s ease}
+#fnCinema .fn-motion-scene:after{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(90deg,rgba(5,10,10,.88) 0%,rgba(5,10,10,.62) 44%,rgba(5,10,10,.08) 100%),linear-gradient(0deg,rgba(5,10,10,.7),transparent 58%)}
+#fnCinema .fn-motion-grid,#fnCinema .fn-motion-glow,#fnCinema .fn-motion-beam,#fnCinema .fn-motion-orbit,#fnCinema .fn-motion-conveyor,#fnCinema .fn-motion-scan{display:none!important}
+#fnCinema .fn-motion-top,#fnCinema .fn-motion-stations,#fnCinema .fn-motion-caption,#fnCinema .fn-motion-footer,#fnCinema .fn-motion-progress{z-index:2}
+#fnCinema .fn-motion-caption{max-width:650px;left:clamp(24px,6vw,76px);bottom:clamp(88px,10vw,118px)}
+#fnCinema .fn-motion-caption h3{font:900 clamp(38px,6vw,76px)/.98 Manrope;letter-spacing:-.065em;max-width:620px;text-wrap:balance}
+#fnCinema .fn-motion-caption p{max-width:460px;font-size:13px;line-height:1.8}
+#fnCinema .fn-motion-stations{position:absolute;z-index:2;right:clamp(18px,4vw,48px);top:50%;transform:translateY(-50%);display:grid;gap:9px;width:132px}
+#fnCinema .fn-motion-stations span{display:flex;align-items:center;gap:10px;padding:10px 11px;background:rgba(8,14,13,.45);border:1px solid rgba(255,255,255,.17);backdrop-filter:blur(8px);color:#cbd2ca;transition:background .25s,border-color .25s,transform .25s}
+#fnCinema .fn-motion-stations span b{font-size:9px;color:#c8df36}
+#fnCinema .fn-motion-stations span i{font-style:normal;font-size:8px;letter-spacing:.1em;font-weight:800}
+#fnCinema .fn-motion-stations span.is-active{background:rgba(200,223,54,.16);border-color:#c8df36;transform:translateX(-5px);color:#fff}
+#fnCinema .fn-motion-footer{left:clamp(24px,4vw,52px);right:clamp(24px,4vw,52px)}
+#fnCinema .fn-motion-progress{height:3px;background:rgba(255,255,255,.24)}
+#fnCinema .fn-motion-progress span{display:block;height:100%;width:0;background:#c8df36;transition:width .1s linear}
+#fnCinema .fn-cinema-steps>span{cursor:pointer}
+#fnCinema .fn-cinema-steps>span:focus-visible{outline:2px solid #c8df36;outline-offset:-3px}
+#fnCinema .fn-cinema-steps>span.is-active{box-shadow:inset 0 -3px #c8df36}
+@media(max-width:760px){
+ #fnCinema .fn-motion-scene{height:590px;min-height:590px}
+ #fnCinema .fn-motion-scene:before{background-position:58% center}
+ #fnCinema .fn-motion-caption{left:22px;right:22px;bottom:105px}
+ #fnCinema .fn-motion-caption h3{font-size:clamp(38px,10vw,54px);max-width:420px}
+ #fnCinema .fn-motion-caption p{font-size:11px;max-width:390px}
+ #fnCinema .fn-motion-stations{top:auto;bottom:18px;left:20px;right:20px;width:auto;transform:none;display:flex;gap:5px}
+ #fnCinema .fn-motion-stations span{flex:1;justify-content:center;padding:9px 3px;gap:4px;min-width:0}
+ #fnCinema .fn-motion-stations span i{font-size:7px}
+ #fnCinema .fn-motion-footer{display:none}
+}
+@media(max-width:390px){#fnCinema .fn-motion-scene{height:560px;min-height:560px}#fnCinema .fn-motion-stations span{flex-direction:column;gap:3px}}
+@media(prefers-reduced-motion:reduce){#fnCinema .fn-motion-scene:before{transition:none;transform:none}#fnCinema .fn-motion-progress span{transition:none}}
+</style>
+<script id="fn-photo-journey-controller">
+(()=>{const root=document.getElementById('fnCinema');if(!root)return;
+const scene=root.querySelector('.fn-motion-scene'),title=document.getElementById('fnCinemaTitle'),copy=document.getElementById('fnCinemaText'),kicker=document.getElementById('fnCinemaKicker'),count=document.getElementById('fnCinemaCount'),progress=document.getElementById('fnCinemaProgress'),tabs=[...root.querySelectorAll('[data-stage]')],stations=[...root.querySelectorAll('.fn-motion-stations span')];
+const stages=[
+{title:'Fabric & cutting',k:'MATERIAL PREPARATION',text:'Fabric is checked, laid and cut into accurate garment panels before assembly.',image:'https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?auto=format&fit=crop&w=2000&q=85',pos:'center'},
+{title:'Stitching & construction',k:'GARMENT ASSEMBLY',text:'Industrial sewing brings panels, pockets and seams together to build the garment.',image:'https://images.unsplash.com/photo-1604881988758-f76ad2f7aac1?auto=format&fit=crop&w=2000&q=85',pos:'center'},
+{title:'Trims & branding',k:'APPLICATION & DETAIL',text:'Labels, closures, reflective details and agreed branding give each garment its identity.',image:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=2000&q=85',pos:'center'},
+{title:'Quality inspection',k:'QUALITY CONTROL',text:'Measurements, stitching, construction and finishing are reviewed against the agreed specification.',image:'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=2000&q=85',pos:'center'},
+{title:'Pressing & finishing',k:'FINAL PRESENTATION',text:'Garments are pressed, loose threads removed and each piece prepared for presentation.',image:'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=2000&q=85',pos:'center'},
+{title:'Packing & dispatch',k:'ORDER PREPARATION',text:'Finished garments are folded, labelled and packed to the buyer’s agreed requirements.',image:'https://images.unsplash.com/photo-1607082349566-187342175e2f?auto=format&fit=crop&w=2000&q=85',pos:'center'}
+];
+let index=0,elapsed=0,last=0,raf=0,visible=true;const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function show(n){index=(n+6)%6;const s=stages[index];scene.style.setProperty('--fn-stage-image','url("'+s.image+'")');scene.style.setProperty('--fn-stage-position',s.pos);scene.style.setProperty('background-position',s.pos);title.textContent=s.title;copy.textContent=s.text;kicker.textContent=String(index+1).padStart(2,'0')+' — '+s.k;count.textContent=String(index+1).padStart(2,'0')+' / 06';tabs.forEach((el,i)=>{el.classList.toggle('is-active',i===index);el.setAttribute('aria-current',i===index?'step':'false')});stations.forEach((el,i)=>el.classList.toggle('is-active',i===index));elapsed=0;progress.style.width='0%';}
+function frame(t){if(!visible||document.hidden){raf=0;return}const dt=last?Math.min(t-last,80):16;last=t;if(!reduced){elapsed+=dt;progress.style.width=Math.min(100,elapsed/8500*100)+'%';if(elapsed>=8500)show(index+1)}raf=requestAnimationFrame(frame)}
+function start(){if(reduced||raf||!visible||document.hidden)return;last=0;raf=requestAnimationFrame(frame)}
+tabs.forEach((el,i)=>{el.setAttribute('tabindex','0');el.setAttribute('role','button');el.addEventListener('click',()=>{show(i);start()});el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show(i);start()}})});
+show(0);start();if('IntersectionObserver'in window){const io=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(visible)start();else{cancelAnimationFrame(raf);raf=0;last=0}},{threshold:.05});io.observe(root)}document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0;last=0}else start()});
+})();
+</script>
 </body></html>
 
