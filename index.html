@@ -437,6 +437,23 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--lime2);outline-offs
 @keyframes fnGridDrift{to{background-position:0 108px,108px 0}}@keyframes fnGlowPulse{to{transform:scale(1.22);opacity:.65}}@keyframes fnBeamSweep{0%,15%{left:-30%}75%,100%{left:120%}}@keyframes fnOrbitSpin{to{transform:translate(-50%,-50%) rotate(418deg)}}@keyframes fnBeltMove{to{background-position:54px 0}}@keyframes fnRollerMove{to{transform:translateX(17px)}}@keyframes fnGarmentTravel{0%{left:8%;opacity:0;transform:translateY(12px) scale(.75)}10%{opacity:1}85%{opacity:.8}100%{left:88%;opacity:0;transform:translateY(-10px) scale(.75)}}@keyframes fnScanPulse{0%,100%{opacity:.3;transform:rotate(18deg) scaleY(.7)}50%{opacity:1;transform:rotate(18deg) scaleY(1.1)}}@keyframes fnDotPulse{50%{opacity:.35;box-shadow:0 0 2px #c8df36}}
 @media(max-width:760px){.fn-motion-scene{height:590px;min-height:590px}.fn-motion-top{top:18px;font-size:8px}.fn-motion-stations{top:18%;grid-template-columns:repeat(3,1fr);gap:5px}.fn-motion-stations span{padding:7px 6px;gap:4px}.fn-motion-stations i{font-size:7px}.fn-motion-conveyor{left:25%;top:48%;width:100%;height:24%;transform:translate(-10%,-20%) perspective(700px) rotateX(55deg) rotateZ(-12deg)}.fn-motion-garment{width:78px;height:100px}.fn-motion-orbit{width:78vw;height:78vw;left:60%;top:48%}.orbit-b{width:58vw;height:58vw}.fn-motion-caption{left:22px;right:20px;bottom:75px}.fn-motion-caption h3{font-size:42px}.fn-motion-caption p{font-size:12px;line-height:1.65}.fn-motion-footer{bottom:18px;font-size:7px}.fn-motion-tour .fn-cinema-steps{grid-template-columns:repeat(3,minmax(0,1fr))}.fn-motion-tour .fn-cinema-steps>span{min-height:68px;padding:12px 10px}}@media(max-width:390px){.fn-motion-scene{height:560px;min-height:560px}.fn-motion-caption h3{font-size:36px}.fn-motion-footer span:last-child{display:none}}@media(prefers-reduced-motion:reduce){.fn-motion-grid,.fn-motion-glow,.fn-motion-beam,.orbit-b,.fn-motion-belt,.fn-motion-rollers:before,.fn-motion-garment,.fn-motion-scan,.fn-motion-footer i{animation:none!important}.fn-motion-progress span{transition:none}}
 </style>
+<style>
+/* Photographic manufacturing background: remove illustrative shapes */
+.fn-motion-scene{background:#101718!important}
+.fn-motion-scene:before{content:"";position:absolute;inset:-3%;z-index:0;background-image:linear-gradient(90deg,rgba(5,12,12,.82) 0%,rgba(5,12,12,.53) 48%,rgba(5,12,12,.2) 100%),url("https://images.unsplash.com/photo-1742203098540-cbdb278b0732?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=85&w=2400");background-size:cover;background-position:center 48%;animation:fnPhotoDrift 28s ease-in-out infinite alternate;transform-origin:center}
+.fn-motion-scene:after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(4,10,10,.28),transparent 35%,rgba(4,10,10,.64)),linear-gradient(110deg,transparent 35%,rgba(200,223,54,.08) 52%,transparent 68%);background-size:100% 100%,220% 100%;animation:fnPhotoLight 12s ease-in-out infinite}
+.fn-motion-grid,.fn-motion-glow,.fn-motion-beam,.fn-motion-orbit,.fn-motion-conveyor,.fn-motion-scan{display:none!important}
+.fn-motion-top,.fn-motion-stations,.fn-motion-caption,.fn-motion-footer,.fn-motion-progress{z-index:3!important}
+.fn-motion-stations span{background:rgba(9,17,16,.32);backdrop-filter:blur(5px);text-shadow:0 1px 8px #000}
+.fn-motion-caption{padding:20px 24px;background:linear-gradient(90deg,rgba(5,12,12,.78),rgba(5,12,12,.08));backdrop-filter:blur(2px);border-left:2px solid #c8df36}
+.fn-motion-caption h3{color:#fff;text-shadow:0 3px 24px #000}
+.fn-motion-caption p{color:#f0f3ef;text-shadow:0 2px 12px #000}
+.fn-motion-top,.fn-motion-footer{ text-shadow:0 2px 10px #000}
+@keyframes fnPhotoDrift{0%{transform:scale(1.02) translate3d(0,0,0)}100%{transform:scale(1.12) translate3d(-1.2%,.5%,0)}}
+@keyframes fnPhotoLight{0%,100%{background-position:0 0,-130% 0}50%{background-position:0 0,130% 0}}
+@media(max-width:760px){.fn-motion-scene:before{background-position:54% center}.fn-motion-caption{padding:14px 15px;left:16px;right:16px}.fn-motion-stations span{background:rgba(5,12,12,.52)}}
+@media(prefers-reduced-motion:reduce){.fn-motion-scene:before,.fn-motion-scene:after{animation:none!important}}
+</style>
 </head>
 <body>
 <div class="topline"><div class="wrap"><span><strong>SIALKOT, PAKISTAN</strong>  /  WORKWEAR & SAFETY APPAREL</span><span>ENGINEERED FOR WORK. DESIGNED FOR PROTECTION.</span></div></div>
