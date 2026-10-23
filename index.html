@@ -338,6 +338,40 @@
 .product-reference-nav button{min-height:42px;padding:0 15px;border:1px solid #aab39f;background:transparent;color:inherit;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
 .product-reference-nav button:hover,.product-reference-nav button:focus-visible{background:var(--lime);border-color:var(--lime);color:var(--ink)}
 @media(max-width:720px){.text-link{min-height:44px;padding:12px 13px;font-size:9px}.hero-arrow{min-width:48px;height:34px;padding:0 9px}.hero-actions{gap:18px;flex-wrap:wrap}}
+
+/* FN interaction system — replace decorative arrow cues with purposeful controls. */
+:root{--fn-action-shadow:0 8px 22px rgba(17,25,20,.09)}
+.text-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;gap:10px;padding:0 15px;border:1px solid #aab39f;border-radius:2px;background:transparent;color:var(--ink);text-decoration:none;font-size:9px;font-weight:900;letter-spacing:.11em;transition:background .22s ease,color .22s ease,border-color .22s ease,transform .22s ease,box-shadow .22s ease}
+.text-link:before{content:"";width:6px;height:6px;flex:0 0 6px;background:var(--lime2);border-radius:50%;transition:transform .22s ease}
+.text-link:hover,.text-link:focus-visible{background:var(--ink);border-color:var(--ink);color:#fff;transform:translateY(-2px);box-shadow:var(--fn-action-shadow)}
+.text-link:hover:before,.text-link:focus-visible:before{transform:scale(1.45);background:var(--lime)}
+.hero-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 2px;border-bottom:2px solid var(--lime);text-decoration:none;transition:color .2s ease,border-color .2s ease,transform .2s ease}
+.hero-link:hover,.hero-link:focus-visible{color:var(--lime);transform:translateY(-2px)}
+.product-footer{align-items:center;gap:10px}
+.product-footer span:first-child{display:inline-flex;align-items:center;min-height:32px;padding:0 11px;border:1px solid #b9c1b4;border-radius:2px;background:rgba(255,255,255,.28);color:var(--ink);font-size:8px;font-weight:900;letter-spacing:.11em;transition:background .2s ease,border-color .2s ease,color .2s ease}
+.product-footer span:last-child{display:grid;place-items:center;min-width:27px;height:27px;border-radius:50%;background:#dce2d2;color:#455044;font-size:8px;font-weight:900}
+.product-card:hover .product-footer span:first-child,.product-card:focus-visible .product-footer span:first-child{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+.product-card:hover .product-footer span:last-child,.product-card:focus-visible .product-footer span:last-child{background:var(--ink);color:#fff}
+.product-reference-nav button{min-height:42px;padding:0 16px;border:1px solid #aab39f;border-radius:2px;background:transparent;color:inherit;font-size:9px;font-weight:900;letter-spacing:.11em;text-transform:uppercase;transition:background .2s ease,border-color .2s ease,color .2s ease}
+.product-reference-nav button:hover,.product-reference-nav button:focus-visible{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+.hero-arrow{display:inline-flex;align-items:center;justify-content:center;min-width:54px;height:38px;padding:0 12px;border:1px solid rgba(255,255,255,.42);border-radius:2px;background:rgba(13,18,19,.48);color:#fff;font-size:9px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+.hero-arrow:hover,.hero-arrow:focus-visible{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+.btn{min-height:46px;border-radius:2px;transition:transform .2s ease,box-shadow .2s ease,background .2s ease,color .2s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--fn-action-shadow)}
+.btn:active{transform:translateY(0)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--lime2);outline-offset:3px}
+@media(max-width:720px){
+ .text-link{min-height:44px;padding:0 12px;font-size:8px;max-width:100%}
+ .section-head{align-items:flex-start;flex-direction:column}
+ .section-head>.text-link{align-self:flex-start}
+ .product-footer span:first-child{min-height:34px}
+ .hero-actions{gap:16px;flex-wrap:wrap}
+ .hero-arrow{min-width:48px;height:34px}
+}
+@media(prefers-reduced-motion:reduce){
+ .text-link,.text-link:before,.hero-link,.product-footer span:first-child,.product-footer span:last-child,.btn,.product-reference-nav button{transition:none!important}
+ .text-link:hover,.hero-link:hover,.btn:hover{transform:none}
+}
 </style>
 </head>
 <body>
