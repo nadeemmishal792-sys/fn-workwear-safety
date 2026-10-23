@@ -405,6 +405,25 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--lime2);outline-offs
 @media(max-width:760px){.fn-cinema-visual{height:540px}.fn-cinema-top{left:18px;right:18px;top:18px;font-size:8px}.fn-cinema-caption{left:22px;right:20px;bottom:88px}.fn-cinema-caption h3{font-size:43px}.fn-cinema-caption p{font-size:12px}.fn-cinema-controls{right:17px;bottom:25px}.fn-cinema-controls button{width:39px;height:39px}.fn-cinema-steps{grid-template-columns:repeat(3,minmax(0,1fr))}.fn-cinema-steps button{min-height:70px;padding:12px 10px;border-bottom:1px solid #303838}.fn-cinema-steps button:nth-child(3){border-right:0}}
 @media(max-width:390px){.fn-cinema-visual{height:500px}.fn-cinema-caption h3{font-size:36px}.fn-cinema-steps button span{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.fn-cinema-image,.fn-cinema-steps button,.fn-cinema-controls button{transition:none!important}.fn-cinema-image{transform:none!important}}
+
+/* Interactive 3D production floor */
+.fn-3d-tour{border:1px solid rgba(200,223,54,.18);background:#0c1112}
+.fn-3d-stage{height:clamp(470px,56vw,690px);position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 48%,#27332f 0%,#151e1d 55%,#0a1011 100%)}
+#fnFactoryCanvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
+.fn-3d-vignette{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(7,12,13,.8),transparent 45%,rgba(7,12,13,.12)),linear-gradient(0deg,rgba(7,12,13,.8),transparent 65%);z-index:1}
+.fn-3d-stage .fn-cinema-top{z-index:2}
+.fn-3d-caption{position:absolute;z-index:2;left:clamp(22px,5vw,66px);bottom:clamp(70px,8vw,100px);max-width:560px;pointer-events:none}
+.fn-3d-caption small{color:var(--lime);font-size:9px;letter-spacing:.2em;font-weight:900}
+.fn-3d-caption h3{font:900 clamp(36px,5.8vw,70px)/.98 Manrope;letter-spacing:-.07em;margin:13px 0}
+.fn-3d-caption p{font-size:12px;line-height:1.8;color:#d0d8d0;max-width:470px;margin:0}
+.fn-3d-hud{position:absolute;z-index:2;left:28px;right:28px;top:64px;display:flex;justify-content:space-between;color:#aab7ae;font-size:7px;letter-spacing:.17em;font-weight:800;pointer-events:none}
+.fn-3d-hud i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--lime);box-shadow:0 0 12px var(--lime);margin-right:8px}
+.fn-3d-stage .fn-cinema-controls{z-index:3}
+.fn-3d-stage .fn-cinema-progress{z-index:3}
+.fn-factory-note{font-size:9px;line-height:1.7;color:#87948b;margin-top:14px}
+@media(max-width:760px){.fn-3d-stage{height:560px}.fn-3d-caption{left:20px;right:18px;bottom:88px}.fn-3d-caption h3{font-size:40px}.fn-3d-hud{left:18px;right:18px;top:54px;font-size:6px}.fn-3d-stage .fn-cinema-top{left:18px;right:18px;top:17px}.fn-3d-stage .fn-cinema-controls{right:16px;bottom:24px}}
+@media(prefers-reduced-motion:reduce){.fn-3d-stage *{scroll-behavior:auto}}
+
 </style>
 </head>
 <body>
@@ -599,27 +618,20 @@ document.getElementById('marketSelect').addEventListener('change',renderSize);do
 <div class="wrap">
  <div class="fn-journey-head reveal">
   <div><span class="eyebrow">07 / THE GARMENT JOURNEY</span><h2 class="headline">FROM RAW FABRIC<br>TO <em>READY WORKWEAR.</em></h2></div>
-  <p class="fn-journey-copy">See the six stages of a typical workwear order, from fabric preparation to packed garments. Select any stage or let the journey play automatically.</p>
+  <p class="fn-journey-copy">Move through an interactive 3D production floor. Follow fabric as it is prepared, assembled, detailed, checked, finished and packed.</p>
  </div>
- <div class="fn-cinema" id="fnCinema" aria-label="Six-stage workwear manufacturing journey">
-  <div class="fn-cinema-visual">
-   <img class="fn-cinema-image is-active" id="fnCinemaImage" src="https://bangledhienthi.com/UserUpload/Editor/3.%20GI%C3%81M%20S%C3%81T%20M%C3%94I%20TR%C6%AF%E1%BB%9CNG/B%E1%BB%A5i%20v%E1%BA%A3i/c%E1%BA%AFt%20v%E1%BA%A3i-min.jpg" alt="Fabric layers prepared and cut on a garment production table" fetchpriority="low">
-   <div class="fn-cinema-shade"></div>
-   <div class="fn-cinema-top"><span>THE MAKING PROCESS</span><span id="fnCinemaCount">01 / 06</span></div>
-   <div class="fn-cinema-caption" aria-live="polite">
-    <small id="fnCinemaKicker">01 — PREPARATION</small>
-    <h3 id="fnCinemaTitle">Fabric &amp; cutting</h3>
-    <p id="fnCinemaText">Fabric is checked against the agreed direction, laid out, marked and cut into the panels needed for each garment.</p>
-   </div>
-   <div class="fn-cinema-controls">
-    <button type="button" id="fnCinemaPrev" aria-label="Previous manufacturing stage">←</button>
-    <button type="button" id="fnCinemaPlay" aria-label="Pause automatic journey" aria-pressed="true">Ⅱ</button>
-    <button type="button" id="fnCinemaNext" aria-label="Next manufacturing stage">→</button>
-   </div>
-   <div class="fn-cinema-progress" aria-hidden="true"><span id="fnCinemaProgress"></span></div>
+ <div class="fn-cinema fn-3d-tour" id="fnCinema">
+  <div class="fn-3d-stage" id="fn3dStage">
+   <canvas id="fnFactoryCanvas" aria-label="Animated three-dimensional workwear production floor"></canvas>
+   <div class="fn-3d-vignette"></div>
+   <div class="fn-cinema-top"><span>FN / PRODUCTION FLOOR — 3D EXPERIENCE</span><span id="fnCinemaCount">01 / 06</span></div>
+   <div class="fn-3d-caption" aria-live="polite"><small id="fnCinemaKicker">01 — MATERIAL PREPARATION</small><h3 id="fnCinemaTitle">Fabric &amp; cutting</h3><p id="fnCinemaText">Fabric rolls feed into a precision cutting station. Panels are prepared to the agreed garment specification.</p></div>
+   <div class="fn-3d-hud"><span><i></i> LIVE SCENE RENDER</span><span id="fn3dStatus">CAMERA 01 / 06</span></div>
+   <div class="fn-cinema-controls"><button type="button" id="fnCinemaPrev" aria-label="Previous stage">←</button><button type="button" id="fnCinemaPlay" aria-label="Pause animation" aria-pressed="true">Ⅱ</button><button type="button" id="fnCinemaNext" aria-label="Next stage">→</button></div>
+   <div class="fn-cinema-progress"><span id="fnCinemaProgress"></span></div>
   </div>
-  <div class="fn-cinema-steps" role="group" aria-label="Choose a manufacturing stage">
-   <button type="button" class="is-active" data-stage="0" aria-current="step"><b>01</b><span>Fabric &amp; cutting</span></button>
+  <div class="fn-cinema-steps" role="group" aria-label="Choose production stage">
+   <button class="is-active" type="button" data-stage="0" aria-current="step"><b>01</b><span>Fabric &amp; cutting</span></button>
    <button type="button" data-stage="1"><b>02</b><span>Stitching &amp; construction</span></button>
    <button type="button" data-stage="2"><b>03</b><span>Trims &amp; branding</span></button>
    <button type="button" data-stage="3"><b>04</b><span>Quality inspection</span></button>
@@ -628,7 +640,7 @@ document.getElementById('marketSelect').addEventListener('change',renderSize);do
   </div>
  </div>
  <div class="fn-factory-trust"><div><span class="eyebrow">YOUR REQUIREMENTS COME FIRST</span><h3>Every order starts with <em>your brief.</em></h3><p>Product, fabric, colour, sizing, branding and packing details are discussed and confirmed before an order moves forward.</p></div><a class="btn btn-lime" href="#contact">DISCUSS YOUR PROJECT <span aria-hidden="true">↗</span></a></div>
- <div class="fn-factory-note">These are illustrative industry reference photographs, not footage of FN's own factory or proof of a specific order. The exact production route, facilities, checks and capabilities for your project will be confirmed with FN before commitment.</div>
+ <div class="fn-factory-note">This is an illustrative 3D process visualisation, not a recording of FN's own factory or a representation of confirmed machinery or production capacity. The exact production route and capabilities for each project are confirmed with FN.</div>
 </div></section>
 <section class="section" id="approach"><div class="wrap"><span class="eyebrow">06 / FROM BRIEF TO GARMENT</span><h2 class="headline">A CLEARER WAY<br><em>FORWARD.</em></h2><p class="section-intro">A considered development pathway helps turn a workwear requirement into a clear, actionable brief.</p><div class="process-grid"><article class="process"><b>01 / LISTEN</b><h3>Understand</h3><p>Discuss the wearer, work environment, garment type and intended use.</p></article><article class="process"><b>02 / DEVELOP</b><h3>Shape</h3><p>Align garment direction, material preferences, sizing and practical details.</p></article><article class="process"><b>03 / REFINE</b><h3>Review</h3><p>Confirm the specification, sample expectations and points to evaluate.</p></article><article class="process"><b>04 / COORDINATE</b><h3>Move forward</h3><p>Agree next steps, quality checkpoints and delivery expectations together.</p></article></div></div></section>
 <section class="section contact-band" id="contact"><div class="wrap contact-grid"><div class="contact-info"><span class="eyebrow">LET'S GET TO WORK</span><h2 class="headline">HAVE A BRIEF?<br><em>WE'RE LISTENING.</em></h2><p class="body-copy">FN WORKWEAR &amp; SAFETY welcomes enquiries from international buyers, wholesalers, distributors and businesses seeking workwear and safety apparel. Request a quotation, discuss a sample, explore custom manufacturing or share your design brief.</p><div class="contact-list"><a href="mailto:fnworkwear@gmail.com?subject=International%20workwear%20enquiry"><small>EMAIL — INTERNATIONAL ENQUIRIES</small>fnworkwear@gmail.com </a><a href="https://wa.me/923434296090?text=Hello%20FN%20Workwear%20%26%20Safety%2C%20I%20would%20like%20to%20discuss%20a%20workwear%20or%20custom%20manufacturing%20enquiry." target="_blank" rel="noopener"><small>WHATSAPP — DIRECT CONTACT</small>+92 343 4296090 </a><a href="#home"><small>BASED IN</small>Sialkot, Pakistan</a></div><div class="response-process"><span>WHAT HAPPENS NEXT</span><p><b>01</b> We review your product and project brief.</p><p><b>02</b> We follow up by email or WhatsApp if more details are needed.</p><p><b>03</b> Quotation, sample options and next steps are discussed against your requirements.</p></div></div><form class="form international-form" id="quoteForm">
@@ -878,35 +890,93 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
 (()=>{const btn=document.getElementById('fnJourneyEnquire');if(!btn)return;btn.addEventListener('click',()=>{const product=document.getElementById('fnJourneyProduct')?.value||'Workwear';const fabric=document.getElementById('fnJourneyFabric')?.value||'Discuss with FN';const type=document.getElementById('fnJourneyType')?.value||'Custom development';const select=document.querySelector('#quoteForm select[name="product"]');if(select){const match=[...select.options].find(o=>o.text.toLowerCase().includes(product.toLowerCase()));select.value=match?match.value:product;}const details=document.querySelector('#quoteForm textarea[name="details"]');if(details)details.value='Garment: '+product+'\\nFabric direction: '+fabric+'\\nProject type: '+type+'\\nPlease discuss specification, sizes, branding, sample and quotation.';document.getElementById('contact')?.scrollIntoView({behavior:'smooth'});});})();
 </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r160/three.min.js" defer></script>
 <script>
 (()=> {
- const root=document.getElementById('fnCinema'); if(!root)return;
+ const root=document.getElementById('fnCinema'),canvas=document.getElementById('fnFactoryCanvas');if(!root||!canvas)return;
  const stages=[
-  {image:'https://bangledhienthi.com/UserUpload/Editor/3.%20GI%C3%81M%20S%C3%81T%20M%C3%94I%20TR%C6%AF%E1%BB%9CNG/B%E1%BB%A5i%20v%E1%BA%A3i/c%E1%BA%AFt%20v%E1%BA%A3i-min.jpg',alt:'Fabric layers prepared and cut on a garment production table',kicker:'PREPARATION',title:'Fabric & cutting',text:'Fabric is checked against the agreed direction, laid out, marked and cut into the panels needed for each garment.'},
-  {image:'https://bbsglobal.in/images/factory-pic-2023-1.jpg',alt:'Garment machinist assembling workwear at an industrial sewing machine',kicker:'ASSEMBLY',title:'Stitching & construction',text:'Cut panels are brought together at industrial sewing stations, building the garment piece by piece.'},
-  {image:'https://www.liveapparels.com/images/sampleing.jpg',alt:'Close view of a garment operator stitching fabric on an industrial machine',kicker:'DETAILS',title:'Trims & branding',text:'As specified for the order, details such as labels, closures, pockets, reflective trims and branding are added.'},
-  {image:'https://static.fibre2fashion.com/Newsresource/images/311/99ab50b2-3891-4582-92e8-881e9d602d0b_322753.jpg',alt:'Garment worker examining a finished work shirt for quality',kicker:'CONTROL',title:'Quality inspection',text:'Garments can be reviewed against the approved sample and agreed checkpoints, including measurements, stitching and finish.'},
-  {image:'https://www.megasourcing.com.bd/img/productDevelopment/MSM-PRODUCT%20DEVELOPMENT%20process%20in%20iron%20section.webp',alt:'Finished garments being pressed and prepared at a work table',kicker:'FINISHING',title:'Pressing & finishing',text:'Loose threads are removed, garments are pressed, folded and prepared in the presentation agreed with the buyer.'},
-  {image:'https://tcgarments.com/images/manufactring/Packing/7.jpg',alt:'Garment products arranged in cartons for packing and dispatch',kicker:'HANDOVER',title:'Packing & dispatch',text:'Finished pieces are sorted, packed and labelled to the agreed order requirements, ready for the arranged handover.'}
+  {k:'MATERIAL PREPARATION',title:'Fabric & cutting',text:'Fabric rolls feed into a precision cutting station. Panels are prepared to the agreed garment specification.'},
+  {k:'GARMENT ASSEMBLY',title:'Stitching & construction',text:'Cut panels travel to industrial sewing stations, where seams, pockets and structural details come together.'},
+  {k:'APPLICATION & DETAIL',title:'Trims & branding',text:'Labels, closures, reflective details and agreed branding are applied to the garment.'},
+  {k:'QUALITY CONTROL',title:'Quality inspection',text:'The garment is checked against the agreed sample and specification, including measurements, seams and finish.'},
+  {k:'FINAL PRESENTATION',title:'Pressing & finishing',text:'Garments are pressed, loose threads are removed and each piece is prepared for presentation.'},
+  {k:'ORDER PREPARATION',title:'Packing & dispatch',text:'Finished garments are folded, labelled and packed to the buyer’s agreed order and shipping requirements.'}
  ];
- const img=document.getElementById('fnCinemaImage'), count=document.getElementById('fnCinemaCount'), kicker=document.getElementById('fnCinemaKicker'), title=document.getElementById('fnCinemaTitle'), copy=document.getElementById('fnCinemaText'), progress=document.getElementById('fnCinemaProgress'), tabs=[...root.querySelectorAll('[data-stage]')], play=document.getElementById('fnCinemaPlay');
- const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- const duration=6500; let index=0,playing=!reduced,started=0,elapsed=0,raf=0,last=0;
- function paint(n){index=(n+stages.length)%stages.length;const st=stages[index];img.classList.remove('is-active');window.setTimeout(()=>{img.src=st.image;img.alt=st.alt;requestAnimationFrame(()=>img.classList.add('is-active'));},120);count.textContent=String(index+1).padStart(2,'0')+' / 06';kicker.textContent=String(index+1).padStart(2,'0')+' — '+st.kicker;title.textContent=st.title;copy.textContent=st.text;tabs.forEach((b,i)=>{b.classList.toggle('is-active',i===index);if(i===index)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');});elapsed=0;progress.style.width='0%';}
- function tick(now){if(!playing)return;if(!last)last=now;elapsed+=now-last;last=now;progress.style.width=Math.min(100,elapsed/duration*100)+'%';if(elapsed>=duration){paint(index+1);}raf=requestAnimationFrame(tick);}
- function stop(){playing=false;last=0;cancelAnimationFrame(raf);play.textContent='▶';play.setAttribute('aria-label','Play automatic journey');play.setAttribute('aria-pressed','false');}
- function start(){if(reduced)return;playing=true;last=0;play.textContent='Ⅱ';play.setAttribute('aria-label','Pause automatic journey');play.setAttribute('aria-pressed','true');cancelAnimationFrame(raf);raf=requestAnimationFrame(tick);}
- function choose(n){paint(n);start();}
- tabs.forEach((b)=>b.addEventListener('click',()=>choose(Number(b.dataset.stage))));
- document.getElementById('fnCinemaPrev').addEventListener('click',()=>choose(index-1));
- document.getElementById('fnCinemaNext').addEventListener('click',()=>choose(index+1));
- play.addEventListener('click',()=>playing?stop():start());
- root.addEventListener('mouseenter',()=>{if(playing){elapsed=Math.min(elapsed,duration);stop();}});
- root.addEventListener('mouseleave',()=>{if(!reduced)start();});
- root.addEventListener('focusin',stop);
- root.addEventListener('focusout',e=>{if(!root.contains(e.relatedTarget)&&!reduced)start();});
- document.addEventListener('visibilitychange',()=>document.hidden?stop():(!reduced&&start()));
- paint(0);if(!reduced)start();else{play.disabled=true;play.title='Automatic movement is disabled by your reduced-motion setting';}
+ const title=document.getElementById('fnCinemaTitle'),copy=document.getElementById('fnCinemaText'),kicker=document.getElementById('fnCinemaKicker'),count=document.getElementById('fnCinemaCount'),progress=document.getElementById('fnCinemaProgress'),status=document.getElementById('fn3dStatus'),tabs=[...root.querySelectorAll('[data-stage]')],play=document.getElementById('fnCinemaPlay');
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ let index=0,playing=!reduced,elapsed=0,last=0,raf=0,renderer,scene,camera,materials=[],rollers=[],fabric=[],needles=[],scanLights=[],boxes=[],stationGroups=[];
+ const THREE=window.THREE;
+ function mat(color,rough=.72,metal=0){return new THREE.MeshStandardMaterial({color,roughness:rough,metalness:metal});}
+ function addBox(parent,w,h,d,x,y,z,m){const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);parent.add(o);return o;}
+ function addCylinder(parent,r1,r2,h,x,y,z,m,rotZ=0){const o=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,32),m);o.position.set(x,y,z);o.rotation.z=rotZ;parent.add(o);return o;}
+ function build(){
+  if(!THREE){canvas.insertAdjacentHTML('afterend','<p style="padding:24px;color:#fff">The 3D experience could not load. Please refresh the page or check your connection.</p>');return false;}
+  renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.65));renderer.setSize(canvas.clientWidth,canvas.clientHeight,false);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;
+  scene=new THREE.Scene();scene.fog=new THREE.Fog(0x111918,15,36);
+  camera=new THREE.PerspectiveCamera(38,canvas.clientWidth/canvas.clientHeight,.1,100);camera.position.set(0,6.5,13);
+  scene.add(new THREE.HemisphereLight(0xcbd8d2,0x202723,2.1));
+  const key=new THREE.DirectionalLight(0xfff1d7,3.1);key.position.set(-3,9,7);key.castShadow=true;key.shadow.mapSize.set(1024,1024);scene.add(key);
+  const rim=new THREE.PointLight(0xc8df36,22,16);rim.position.set(0,4,-3);scene.add(rim);
+  const floor=mat(0x1a2421),steel=mat(0x66736d,.35,.7),dark=mat(0x202a27,.42,.55),lime=mat(0xc8df36,.38,.2),cloth=mat(0x354c43,.92),hi=mat(0xd0df39,.5),silver=mat(0xd7ddd7,.28,.72),cardboard=mat(0x9b8059);
+  addBox(scene,34,.25,12,0,-.35,0,floor);
+  const grid=new THREE.GridHelper(34,34,0x63736a,0x35443c);grid.position.y=-.21;scene.add(grid);
+  // A continuous six-zone conveyor line.
+  addBox(scene,32,.35,2,0,.35,0,dark);
+  for(let x=-15.5;x<=15.5;x+=.75){const roller=addCylinder(scene,.12,.12,2,x,.35,0,steel,Math.PI/2);rollers.push(roller);}
+  addBox(scene,32,.08,2.3,0,.57,0,mat(0x303a35));
+  // Fabric rolls at the entry station.
+  for(let z=-.55;z<=.55;z+=1.1){const roll=addCylinder(scene,.34,.34,2.4,-13,.95,z,cloth,Math.PI/2);addCylinder(scene,.12,.12,2.48,-13,.95,z,silver,Math.PI/2);fabric.push(roll);}
+  // Cutting table, gantry and a moving laser head.
+  const cut=new THREE.Group();cut.position.x=-10.5;scene.add(cut);stationGroups.push(cut);
+  addBox(cut,3.8,.35,3.2,0,1.25,0,steel);for(let x of [-1.55,1.55])for(let z of [-1.2,1.2])addBox(cut,.16,1.25,.16,x,.55,z,dark);
+  addBox(cut,3.5,.16,.16,0,2.7,-1.35,steel);addBox(cut,.16,1.55,.16,-1.65,1.95,-1.35,steel);addBox(cut,.16,1.55,.16,1.65,1.95,-1.35,steel);
+  const head=addBox(cut,.45,.35,.42,-1.2,2.48,-1.35,lime);needles.push(head);
+  const laser=addBox(cut,.035,.018,2.4,0,1.48,0,mat(0xc8df36,.2,.1));scanLights.push(laser);
+  // Sewing machine body, arm, needle and foot pedal.
+  const sew=new THREE.Group();sew.position.x=-4.2;scene.add(sew);stationGroups.push(sew);
+  addBox(sew,3.1,.25,2.4,0,1.05,0,dark);addBox(sew,.35,1.65,.55,-.75,1.9,-.25,steel);addBox(sew,1.9,.48,.55,.05,2.55,-.25,silver);addBox(sew,.75,.28,.55,.8,2.25,-.25,steel);addBox(sew,.1,.65,.1,1.05,1.85,-.25,lime);addBox(sew,.8,.12,.5,.2,.6,1.1,dark);
+  // Trims / reflective tape press.
+  const press=new THREE.Group();press.position.x=1.5;scene.add(press);stationGroups.push(press);
+  addBox(press,3.1,.3,2.5,0,1.05,0,dark);for(let x of [-1,1])addBox(press,.18,1.7,.18,x,1.9,-.5,steel);const platen=addBox(press,2.5,.22,1.7,0,2.45,-.5,lime);needles.push(platen);addBox(press,.22,.18,.22,0,2.1,-.5,steel);
+  // Inspection arch with moving scanner light.
+  const inspect=new THREE.Group();inspect.position.x=6.8;scene.add(inspect);stationGroups.push(inspect);
+  addBox(inspect,3.1,.18,2.5,0,1.05,0,dark);for(let x of [-1.25,1.25])addBox(inspect,.13,2.4,.13,x,2.15,-.35,steel);addBox(inspect,2.65,.14,.15,0,3.3,-.35,steel);
+  const scanner=new THREE.PointLight(0xc8df36,18,5);scanner.position.set(-1,2.95,-.35);inspect.add(scanner);scanLights.push(scanner);
+  // Finishing / steam press.
+  const finish=new THREE.Group();finish.position.x=12.3;scene.add(finish);stationGroups.push(finish);
+  addBox(finish,3,.28,2.5,0,1.05,0,dark);addBox(finish,.35,1.5,.35,-.9,1.9,-.3,steel);const iron=addBox(finish,1.6,.22,.8,0,2.55,-.3,silver);needles.push(iron);addCylinder(finish,.12,.12,1.4,1.1,2.05,-.3,lime);
+  // Packing cartons and a pallet at the end.
+  const pack=new THREE.Group();pack.position.x=16.7;scene.add(pack);stationGroups.push(pack);
+  addBox(pack,3,.22,2.6,0,.2,0,dark);
+  for(let i=0;i<3;i++){const b=addBox(pack,1.25,.9,1.05,(i-1)*.9,.85,(i%2)*.2,cardboard);boxes.push(b);addBox(pack,1.27,.04,.035,(i-1)*.9,1.32,(i%2)*.2,mat(0xeadfbe));}
+  // Animated workwear panels moving through the production line.
+  for(let i=0;i<5;i++){const panel=addBox(scene,1.35,.045,1.45,-14+i*1.6,.82,0,cloth);panel.rotation.y=(i%2?.06:-.04);fabric.push(panel);}
+  return true;
+ }
+ function setStage(n){index=(n+6)%6;const s=stages[index];title.textContent=s.title;copy.textContent=s.text;kicker.textContent=String(index+1).padStart(2,'0')+' — '+s.k;count.textContent=String(index+1).padStart(2,'0')+' / 06';status.textContent='CAMERA '+String(index+1).padStart(2,'0')+' / 06';tabs.forEach((b,i)=>{b.classList.toggle('is-active',i===index);if(i===index)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');});elapsed=0;progress.style.width='0%';}
+ function animate(t){raf=requestAnimationFrame(animate);const time=t*.001;if(playing){elapsed+=Math.min(40,t-(last||t));progress.style.width=Math.min(100,elapsed/9000*100)+'%';if(elapsed>9000)setStage(index+1);}last=t;
+  if(!renderer)return;
+  rollers.forEach((r,i)=>r.rotation.x=time*1.8+(i%2)*.1);
+  fabric.forEach((f,i)=>{if(i<2){f.rotation.x=time*.5;}else{f.position.x=-14+((time*.75+i*1.65)%29);f.rotation.y=Math.sin(time+i)*.025;}});
+  if(needles[0])needles[0].position.x=-1.2+Math.sin(time*2.4)*1.15;
+  if(needles[1])needles[1].position.y=2.3+Math.abs(Math.sin(time*3))*.28;
+  if(needles[2])needles[2].position.y=2.45+Math.sin(time*1.7)*.12;
+  if(scanLights[0])scanLights[0].material.opacity=.35+Math.abs(Math.sin(time*3))*.65;
+  if(scanLights[1])scanLights[1].position.x=-1+((time*.7)%2);
+  if(boxes.length)boxes.forEach((b,i)=>b.position.y=.85+Math.sin(time*1.4+i)*.025);
+  const targetX=[-10.5,-4.2,1.5,6.8,12.3,16.7][index];
+  const desired=new THREE.Vector3(targetX,5.3,9.8);
+  camera.position.lerp(desired,.035);camera.lookAt(targetX,1.05,0);
+  renderer.render(scene,camera);
+ }
+ function resize(){if(!renderer)return;const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+ function pause(){playing=false;last=0;play.textContent='▶';play.setAttribute('aria-label','Play automatic production tour');play.setAttribute('aria-pressed','false');}
+ function start(){if(reduced)return;playing=true;last=0;play.textContent='Ⅱ';play.setAttribute('aria-label','Pause automatic production tour');play.setAttribute('aria-pressed','true');}
+ function choose(n){setStage(n);start();}
+ tabs.forEach(b=>b.addEventListener('click',()=>choose(Number(b.dataset.stage))));
+ document.getElementById('fnCinemaPrev').addEventListener('click',()=>choose(index-1));document.getElementById('fnCinemaNext').addEventListener('click',()=>choose(index+1));play.addEventListener('click',()=>playing?pause():start());
+ root.addEventListener('mouseenter',pause);root.addEventListener('mouseleave',()=>{if(!reduced)start();});root.addEventListener('focusin',pause);root.addEventListener('focusout',e=>{if(!root.contains(e.relatedTarget)&&!reduced)start();});document.addEventListener('visibilitychange',()=>document.hidden?pause():(!reduced&&start()));
+ if(build()){setStage(0);window.addEventListener('resize',resize);const observer=new IntersectionObserver(es=>{if(es[0].isIntersecting){raf=requestAnimationFrame(animate);}else{cancelAnimationFrame(raf);}}, {threshold:.02});observer.observe(root);if(reduced)pause();else start();}
 })();
 </script>
 </body></html>
