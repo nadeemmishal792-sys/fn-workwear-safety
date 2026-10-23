@@ -962,7 +962,7 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
  }
  function setStage(n){index=(n+6)%6;const s=stages[index];title.textContent=s.title;copy.textContent=s.text;kicker.textContent=String(index+1).padStart(2,'0')+' — '+s.k;count.textContent=String(index+1).padStart(2,'0')+' / 06';status.textContent='CAMERA '+String(index+1).padStart(2,'0')+' / 06';tabs.forEach((b,i)=>{b.classList.toggle('is-active',i===index);if(i===index)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current');});elapsed=0;progress.style.width='0%';}
  function renderStatic(){if(!renderer||!camera)return;const x=[-10.5,-4.2,1.5,6.8,12.3,16.7][index];camera.position.set(x,5.3,9.8);cameraAim.set(x,1.05,0);cameraTargetAim.set(x,1.05,0);camera.lookAt(cameraAim);renderer.render(scene,camera);}
- function animate(t){raf=requestAnimationFrame(animate);const time=t*.001,dt=last?Math.min((t-last)/1000,.05):0;last=t;
+ function animate(t){raf=requestAnimationFrame(animate);const time=t*.001,dt=last?Math.min((t-last)/1000,.05):.016;last=t;
   if(playing){elapsed+=dt*1000;progress.style.width=Math.min(100,elapsed/9000*100)+'%';if(elapsed>=9000)setStage(index+1);}
   if(!renderer)return;
   rollers.forEach((r,i)=>r.rotation.x=time*1.8+(i%2)*.1);
@@ -977,7 +977,7 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
   boxes.forEach((b,i)=>b.position.y=.85+Math.sin(time*1.4+i)*.025);
   const targetX=[-10.5,-4.2,1.5,6.8,12.3,16.7][index];
   cameraDestination.set(targetX,5.3,9.8);cameraTargetAim.set(targetX,1.05,0);
-  camera.position.lerp(cameraDestination,.045);cameraAim.lerp(cameraTargetAim,.045);camera.lookAt(cameraAim);
+  const ease=1-Math.exp(-4.5*dt);camera.position.lerp(cameraDestination,ease);cameraAim.lerp(cameraTargetAim,ease);camera.lookAt(cameraAim);
   renderer.render(scene,camera);
  }
  function resize(){if(!renderer)return;const w=canvas.clientWidth,h=canvas.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
@@ -988,7 +988,8 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
  tabs.forEach(b=>b.addEventListener('click',()=>choose(Number(b.dataset.stage))));
  document.getElementById('fnCinemaPrev').addEventListener('click',()=>choose(index-1));document.getElementById('fnCinemaNext').addEventListener('click',()=>choose(index+1));play.addEventListener('click',()=>playing?pause():start());
  document.addEventListener('visibilitychange',()=>{if(document.hidden){wasPlayingBeforeHidden=playing;pause();}else if(wasPlayingBeforeHidden){wasPlayingBeforeHidden=false;start();}});
- if(build()){setStage(0);window.addEventListener('resize',()=>{resize();if(reduced)renderStatic();});const observer=new IntersectionObserver(es=>{isVisible=es[0].isIntersecting;if(isVisible){if(reduced)renderStatic();else if(playing&&!raf)raf=requestAnimationFrame(animate);}else{cancelAnimationFrame(raf);raf=0;}}, {threshold:.02});observer.observe(root);if(reduced){pause();renderStatic();}else start();}
+ let built=false;try{built=build();}catch(error){canvas.insertAdjacentHTML('afterend','<p role="status" style="padding:24px;color:#fff">The 3D scene is unavailable on this device. Please refresh or try another browser.</p>');}
+ if(built){setStage(0);window.addEventListener('resize',()=>{resize();if(reduced)renderStatic();});const observer=new IntersectionObserver(es=>{isVisible=es[0].isIntersecting;if(isVisible){if(reduced)renderStatic();else if(playing&&!raf)raf=requestAnimationFrame(animate);}else{cancelAnimationFrame(raf);raf=0;}}, {threshold:.02});observer.observe(root);if(reduced){pause();renderStatic();}else start();}
 })();
 </script>
 </body></html>
