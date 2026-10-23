@@ -4,8 +4,7 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches:
-      - "phase-1/**"
+    branches: [main, "phase-1/**"]
 
 jobs:
   showroom-smoke:
