@@ -24,6 +24,7 @@ try {
   assert.ok(await page.locator('#heroNext').count(), 'hero carousel next control missing');
 
   // The six-stage sequence should advance automatically after its readable display interval.
+  await page.locator('#fnCinema').scrollIntoViewIfNeeded();
   const firstStage = await page.locator('#fnCinemaTitle').innerText();
   await page.waitForTimeout(9300);
   const secondStage = await page.locator('#fnCinemaTitle').innerText();
