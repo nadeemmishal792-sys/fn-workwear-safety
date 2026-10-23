@@ -909,7 +909,7 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
   {k:'FINAL PRESENTATION',title:'Pressing & finishing',text:'Garments are pressed, loose threads are removed and each piece is prepared for presentation.'},
   {k:'ORDER PREPARATION',title:'Packing & dispatch',text:'Finished garments are folded, labelled and packed to the buyer’s agreed order and shipping requirements.'}
  ];
- const title=document.getElementById('fnCinemaTitle'),copy=document.getElementById('fnCinemaText'),kicker=document.getElementById('fnCinemaKicker'),count=document.getElementById('fnCinemaCount'),progress=document.getElementById('fnCinemaProgress'),status=document.getElementById('fn3dStatus'),tabs=[...root.querySelectorAll('[data-stage]')],play=document.getElementById('fnCinemaPlay');
+ const title=document.getElementById('fnCinemaTitle'),copy=document.getElementById('fnCinemaText'),kicker=document.getElementById('fnCinemaKicker'),count=document.getElementById('fnCinemaCount'),progress=document.getElementById('fnCinemaProgress'),status=document.getElementById('fn3dStatus'),tabs=[...root.querySelectorAll('[data-stage]')];
  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
  let index=0,playing=!reduced,elapsed=0,last=0,raf=0,renderer,scene,camera,rollers=[],rolls=[],fabric=[],boxes=[],stationGroups=[];
  let cutHead=null,sewingNeedle=null,pressPlaten=null,finishIron=null,laserMaterial=null,scanner=null,cameraAim=null,cameraTargetAim=null,cameraDestination=null,isVisible=false,wasPlayingBeforeHidden=false;
@@ -982,15 +982,11 @@ if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matc
   renderer.render(scene,camera);
  }
  function resize(){if(!renderer)return;const w=canvas.parentElement.clientWidth,h=canvas.parentElement.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
- function updatePlayButton(){play.textContent=playing?'Ⅱ':'▶';play.setAttribute('aria-label',playing?'Pause automatic production tour':'Play automatic production tour');play.setAttribute('aria-pressed',String(playing));}
- function pause(){playing=false;last=0;cancelAnimationFrame(raf);raf=0;renderStatic();updatePlayButton();}
- function start(){if(reduced||document.hidden)return;playing=true;last=0;updatePlayButton();if(isVisible&&!raf)raf=requestAnimationFrame(animate);}
- function choose(n){setStage(n);if(reduced||!playing)renderStatic();else start();}
- tabs.forEach(b=>b.addEventListener('click',()=>choose(Number(b.dataset.stage))));
- document.getElementById('fnCinemaPrev').addEventListener('click',()=>choose(index-1));document.getElementById('fnCinemaNext').addEventListener('click',()=>choose(index+1));play.addEventListener('click',()=>playing?pause():start());
+ function pause(){playing=false;last=0;cancelAnimationFrame(raf);raf=0;renderStatic();}
+ function start(){if(reduced||document.hidden)return;playing=true;last=0;if(isVisible&&!raf)raf=requestAnimationFrame(animate);}
  document.addEventListener('visibilitychange',()=>{if(document.hidden){wasPlayingBeforeHidden=playing;pause();}else if(wasPlayingBeforeHidden){wasPlayingBeforeHidden=false;start();}});
  let built=false;try{built=build();}catch(error){canvas.insertAdjacentHTML('afterend','<p role="status" style="padding:24px;color:#fff">The 3D scene is unavailable on this device. Please refresh or try another browser.</p>');}
- if(built){setStage(0);window.addEventListener('resize',()=>{resize();if(reduced)renderStatic();});const observer=new IntersectionObserver(es=>{isVisible=es[0].isIntersecting;if(isVisible){if(reduced)renderStatic();else if(playing&&!raf)raf=requestAnimationFrame(animate);}else{cancelAnimationFrame(raf);raf=0;}}, {threshold:.02});observer.observe(root);if(reduced){pause();renderStatic();}else start();}
+ setStage(0);if(built){const fit=()=>{resize();if(reduced)renderStatic();};window.addEventListener('resize',fit);if('ResizeObserver' in window)new ResizeObserver(fit).observe(canvas.parentElement);const observer=new IntersectionObserver(es=>{isVisible=es[0].isIntersecting;if(isVisible){if(reduced)renderStatic();else if(playing&&!raf)raf=requestAnimationFrame(animate);}else{cancelAnimationFrame(raf);raf=0;}}, {threshold:0});observer.observe(root);if(reduced){pause();renderStatic();}else start();}else{const stage=document.getElementById('fn3dStage');stage.classList.add('is-fallback');if(!reduced)setInterval(()=>setStage(index+1),9000);}
 })();
 </script>
 
