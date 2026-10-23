@@ -39,6 +39,7 @@ jobs:
         run: |
           mkdir -p artifacts
           node tests/product-viewer-browser.mjs
+          node tests/site-health-browser.mjs
       - name: Upload desktop and mobile screenshots
         if: always()
         uses: actions/upload-artifact@v4
