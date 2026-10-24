@@ -17,12 +17,12 @@ cards.forEach((card,index)=>{
  back.querySelector('p').textContent=desc;
  back.querySelector('.fn-motion-action').textContent=isLink?'Explore this range ↗':'View front ↻';
  inner.append(front,back);card.append(inner);
- card.classList.add('fn-motion-card');card.dataset.fnMotionReady='true';
+ card.classList.add('fn-motion-card');card.classList.add('visible');card.classList.remove('reveal');card.dataset.fnMotionReady='true';
  card.style.setProperty('--fn-card-index',index);
  if(!isLink){card.tabIndex=0;card.setAttribute('role','button');card.setAttribute('aria-label',title+' card. Activate to flip.');}
  card.setAttribute('aria-expanded','false');
  const flip=()=>{const active=card.classList.toggle('is-flipped');card.setAttribute('aria-expanded',String(active));};
- if(!isLink){card.addEventListener('click',e=>{if(e.target.closest('a,button'))return;flip()});card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip()}})}
+ if(!isLink){card.addEventListener('click',e=>{if(e.target.closest('a,button'))return;flip()});card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();e.stopImmediatePropagation();flip()}})}
  else if(window.matchMedia('(hover: none)').matches){card.addEventListener('click',e=>{if(!card.classList.contains('is-flipped')){e.preventDefault();flip()}else{card.classList.remove('is-flipped');card.setAttribute('aria-expanded','false')}},{passive:false})}
  if(!reduce&&window.matchMedia('(hover:hover) and (pointer:fine)').matches){
   card.addEventListener('pointermove',e=>{const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;card.style.setProperty('--fn-tilt-x',(-y*3.2).toFixed(2)+'deg');card.style.setProperty('--fn-tilt-y',(x*3.2).toFixed(2)+'deg')});
