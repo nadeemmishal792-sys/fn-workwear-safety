@@ -29,7 +29,7 @@ section[id]{scroll-margin-top:100px}
 .process.fn-motion-card{min-height:205px}
 .process .fn-motion-front{min-height:205px;padding:26px 23px 20px 0}
 .process .fn-motion-back{min-height:205px}
-.fn-motion-card.is-flipped{z-index:3}.fn-motion-card:focus-visible{outline:2px solid var(--lime2);outline-offset:4px}
+.fn-motion-card.is-flipped{z-index:3} .fn-motion-card.is-flipped{z-index:3}.fn-motion-card:focus-visible{outline:2px solid var(--lime2);outline-offset:4px}
 .fn-motion-card img{transform:translateZ(0);backface-visibility:hidden}
 .fn-motion-card .product-image{overflow:hidden}
 .fn-motion-card .industry-content{z-index:2}
@@ -49,7 +49,7 @@ section[id]{scroll-margin-top:100px}
  .product-card.fn-motion-card{min-height:250px}
  .industry-card.fn-motion-card,.industry-card .fn-motion-front,.industry-card .fn-motion-back{min-height:275px}
  .process.fn-motion-card,.process .fn-motion-front,.process .fn-motion-back{min-height:175px}
- .fn-motion-back{padding:16px;gap:10px}.fn-motion-card{touch-action:pan-y}
+ .fn-motion-back{padding:16px;gap:10px}.fn-motion-card{touch-action:pan-y}.fn-motion-card{touch-action:pan-y}
  .fn-motion-back h3{font-size:18px}
  .fn-motion-back p{font-size:9px}
 }
